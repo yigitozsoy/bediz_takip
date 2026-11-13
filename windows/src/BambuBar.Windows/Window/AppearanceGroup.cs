@@ -9,7 +9,7 @@ using BambuBar.TrayPanel;
 namespace BambuBar.AppWindow;
 
 /// <summary>
-/// Beta Monitor's Settings → Appearance: Gamma Player's theme variants (or Windows' light/dark, or Bambu Bar's classic
+/// beta's Settings → Appearance: Gamma Player's theme variants (or Windows' light/dark, or Bambu Bar's classic
 /// glass) and the accent, as Gamma's preset swatches or a #RRGGBB of the person's own. A change restyles the open
 /// windows at once (<see cref="GammaTheme"/> → <see cref="AppTheme.Changed"/>).
 /// </summary>

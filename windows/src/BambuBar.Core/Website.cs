@@ -1,6 +1,6 @@
 namespace BambuBar.Core;
 
-/// <summary>Beta Monitor's links: its GitHub repository (<see cref="Brand.Repository"/>), plus the upstream project it
+/// <summary>beta's links: its GitHub repository (<see cref="Brand.Repository"/>), plus the upstream project it
 /// is built on. No tracking parameters.</summary>
 public static class Website
 {

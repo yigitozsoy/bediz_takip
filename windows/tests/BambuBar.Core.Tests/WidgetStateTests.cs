@@ -95,7 +95,7 @@ public sealed class WidgetStateTests : IDisposable
     [Theory]
     [InlineData(PrinterSnapshot.LinkState.Offline, "Offline", "Offline", "Waiting for the printer")]
     [InlineData(PrinterSnapshot.LinkState.Unauthorized, "Access code rejected", "Access code rejected", "Enter the access code again in the app")]
-    [InlineData(PrinterSnapshot.LinkState.Unconfigured, "Set up Beta Monitor", "Set up Beta Monitor", "Open the app to connect your printer")]
+    [InlineData(PrinterSnapshot.LinkState.Unconfigured, "Set up beta", "Set up beta", "Open the app to connect your printer")]
     [InlineData(PrinterSnapshot.LinkState.Connecting, "Connecting…", "Connecting…", "Waiting for the printer")]
     public void NotLive(PrinterSnapshot.LinkState link, string caption, string headline, string line)
     {

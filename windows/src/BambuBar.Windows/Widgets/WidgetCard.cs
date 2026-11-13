@@ -71,7 +71,7 @@ public sealed class WidgetCard : FrameworkElement
         var card = CardSize(Size);
         var outline = new RectangleGeometry(new Rect(card), 14, 14);
         // The card (always dark, ledger O6): the skins' gradient, a white hairline, both lighter on hover.
-        // Beta Monitor: the theme's card when it has one (the same WidgetStyle the skins get).
+        // beta: the theme's card when it has one (the same WidgetStyle the skins get).
         var fill = WidgetStyle.Current is { } style
             ? new LinearGradientBrush(Hex(_hover ? style.CardHoverTop : style.CardTop), Hex(_hover ? style.CardHoverBottom : style.CardBottom), 90)
             : new LinearGradientBrush(_hover ? Rgb(0x31, 0x33, 0x37) : Rgb(0x29, 0x2B, 0x2E), _hover ? Rgb(0x19, 0x1B, 0x1E) : Rgb(0x14, 0x17, 0x19), 90);

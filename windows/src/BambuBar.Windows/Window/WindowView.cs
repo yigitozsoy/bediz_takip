@@ -229,7 +229,7 @@ public sealed class WindowView : Border, IDisposable
     private Grid TitleStrip()
     {
         var grid = Ui.Columns("Auto", "*", "Auto");
-        // Beta Monitor: as Gamma Player's title bar, the logo's letter alone (Georgia's Β) in the theme's text colour;
+        // beta: as Gamma Player's title bar, the logo's letter alone (Georgia's Β) in the theme's text colour;
         // the classic look keeps the icon as the taskbar and Start show it.
         FrameworkElement mark;
         if (GammaTheme.Active)
@@ -446,7 +446,7 @@ public sealed class WindowView : Border, IDisposable
         return Ui.ReadAsOne(grid, $"{name.Text}, {line}");
     }
 
-    /// <summary>Beta Monitor on GitHub, where "Support this project" was.</summary>
+    /// <summary>beta on GitHub, where "Support this project" was.</summary>
     private void FillSupporter() =>
         _supporter.Show("github", () =>
         {
@@ -582,7 +582,7 @@ public sealed class WindowView : Border, IDisposable
         /// <summary>The page's icon, white on a rounded tile of its colour lit from above.</summary>
         private static Border Tile(AppPage page)
         {
-            // Beta Monitor's Gamma look: a plain icon in the text colour, as in Gamma's sidebar.
+            // beta's Gamma look: a plain icon in the text colour, as in Gamma's sidebar.
             if (GammaTheme.Active)
                 return new Border
                 {

@@ -141,6 +141,9 @@ public sealed class PrinterModelView : Grid
         lock (Views) Views.Add(new WeakReference<PrinterModelView>(this));
     }
 
+    /// <summary>The drawing only: 3D is off, or beta's Gamma theme shows the model's badge instead.</summary>
+    private static bool Flat => Renderer3D.IsOff || GammaTheme.Active;
+
     /// <summary>The 3D model is on screen (not the drawing).</summary>
     public bool IsLive => _ready;
 
@@ -156,7 +159,7 @@ public sealed class PrinterModelView : Grid
         var dimmedChanged = _state?.Dimmed != scene.Dimmed;
         // The device and the model take a moment the first time: get them ready while nothing else is happening, so
         // the view is quick when it first comes into sight.
-        if (shapeChanged && !Renderer3D.IsOff) Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, () => Warm(scene.Shape));
+        if (shapeChanged && !Flat) Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, () => Warm(scene.Shape));
         _state = scene;
         _animated = animated;
         if (!_ready) ArtImage.Show(_art, scene);
@@ -263,7 +266,7 @@ public sealed class PrinterModelView : Grid
     private void Check()
     {
         var onScreen = IsOnScreen;
-        if (onScreen && _viewport is null && _state is { } state && !Renderer3D.IsOff) CreateViewport(state.Shape);
+        if (onScreen && _viewport is null && _state is { } state && !Flat) CreateViewport(state.Shape);
         var changed = onScreen != _onScreen;
         _onScreen = onScreen;
         if (changed && !onScreen)
@@ -377,7 +380,7 @@ public sealed class PrinterModelView : Grid
 
     private static void Warm(PrinterShape shape)
     {
-        if (Renderer3D.IsOff || PrinterScene.Model(shape) is null) return;
+        if (Flat || PrinterScene.Model(shape) is null) return;
         _ = Renderer3D.Effects;
     }
 

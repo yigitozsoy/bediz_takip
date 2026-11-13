@@ -5,7 +5,7 @@ using BambuBar.Core.App;
 
 namespace BambuBar.Notifications;
 
-/// <summary>Beta Monitor's chimes (<see cref="Chime"/>), made once per kind and played without waiting.</summary>
+/// <summary>beta's chimes (<see cref="Chime"/>), made once per kind and played without waiting.</summary>
 public sealed class SoundEffects : ISoundPlayer
 {
     private readonly ConcurrentDictionary<PrintEvent, byte[]> _waves = new();

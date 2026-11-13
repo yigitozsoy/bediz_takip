@@ -71,13 +71,24 @@ public sealed record WidgetState
     /// <summary>False when Windows' animation effects are off: skins skip every tween.</summary>
     public bool Motion { get; init; } = true;
     public StringsView Strings { get; init; } = new();
-    /// <summary>Beta Monitor: the app's theme for the card (accent, card, text), so the widgets match it; null keeps the
+    /// <summary>beta: the app's theme for the card (accent, card, text), so the widgets match it; null keeps the
     /// skin's own look.</summary>
     public StyleView? Style { get; init; } = WidgetStyle.Current;
 
     /// <summary>Colours as RRGGBB or RRGGBBAA hex, as the skins write them.</summary>
     public sealed record StyleView(string Accent, string CardTop, string CardBottom, string CardHoverTop, string CardHoverBottom,
-        double Border, string Text, string Sec, string Tile, string Track);
+        double Border, string Text, string Sec, string Tile, string Track)
+    {
+        /// <summary>The theme's state colours (RRGGBB); null keeps the skin's own.</summary>
+        public string? Preparing { get; init; }
+        public string? Paused { get; init; }
+        public string? Failed { get; init; }
+        public string? Finished { get; init; }
+        public string? Idle { get; init; }
+        public string? Nozzle { get; init; }
+        public string? Bed { get; init; }
+        public string? Chamber { get; init; }
+    }
 
     public sealed record Temp(string Label, string Value, string? Target, string Color, string Kind);
     public sealed record AmsHeader(string Title, string? Humidity);
@@ -109,25 +120,27 @@ public sealed record WidgetState
     };
 }
 
-/// <summary>Beta Monitor: the widgets' look, set by the app from its theme (Gamma variant and accent).</summary>
+/// <summary>beta: the widgets' look, set by the app from its theme (Gamma variant and accent).</summary>
 public static class WidgetStyle
 {
     public static WidgetState.StyleView? Current { get; set; }
 }
 
-/// <summary>The Mac's widget palette (Palette in Formatting.swift) as hex; the accent follows Beta Monitor's theme.</summary>
+/// <summary>The Mac's widget palette (Palette in Formatting.swift) as hex; the accent follows beta's theme.</summary>
 public static class WidgetPalette
 {
     public static string Accent => WidgetStyle.Current is { } style ? "#" + style.Accent : "#21CC6B";
-    public const string Preparing = "#5CA8FF";
-    public const string Paused = "#FFB83D";
-    public const string Failed = "#FF5C5C";
-    public const string Finished = "#6BDB9E";
-    public const string Idle = "#9EA8B3";
+    public static string Preparing => Styled(WidgetStyle.Current?.Preparing, "#5CA8FF");
+    public static string Paused => Styled(WidgetStyle.Current?.Paused, "#FFB83D");
+    public static string Failed => Styled(WidgetStyle.Current?.Failed, "#FF5C5C");
+    public static string Finished => Styled(WidgetStyle.Current?.Finished, "#6BDB9E");
+    public static string Idle => Styled(WidgetStyle.Current?.Idle, "#9EA8B3");
     public const string Secondary = "#8E8E93";
-    public const string Nozzle = "#FF7A4D";
-    public const string Bed = "#FFB84D";
-    public const string Chamber = "#8CB3FF";
+    public static string Nozzle => Styled(WidgetStyle.Current?.Nozzle, "#FF7A4D");
+    public static string Bed => Styled(WidgetStyle.Current?.Bed, "#FFB84D");
+    public static string Chamber => Styled(WidgetStyle.Current?.Chamber, "#8CB3FF");
+
+    private static string Styled(string? themed, string fallback) => themed is { Length: 6 } ? "#" + themed : fallback;
 
     public static string For(JobState state) => state switch
     {
@@ -298,6 +311,7 @@ public sealed class WidgetStateWriter(string folder, Func<bool>? motion = null) 
                 Spools = (unit?.Spools ?? []).Select(sp => sp.IsLoaded ? sp.Color : null).ToList(),
                 LightOn = status?.ChamberLightOn ?? false,
                 Dimmed = status is null,
+                Model = snapshot.Model,
             };
             art = PrinterArt.WritePng(scene, ArtWidth, ArtHeight, artFolder);
             if (scene.LightOn && !scene.Dimmed) artUnlit = PrinterArt.WritePng(scene with { LightOn = false }, ArtWidth, ArtHeight, artFolder);
@@ -343,7 +357,8 @@ public sealed class WidgetStateWriter(string folder, Func<bool>? motion = null) 
     {
         if (status?.State == JobState.Paused) return WidgetPalette.Paused;
         if (status?.State == JobState.Failed) return status.Canceled ? WidgetPalette.Secondary : WidgetPalette.Failed;
-        if (status?.ActiveSpool is { } spool && PrinterArt.Color(spool.Color) is { } c)
+        // beta: with the app's theme the bar keeps its accent, not the filament's colour.
+        if (WidgetStyle.Current is null && status?.ActiveSpool is { } spool && PrinterArt.Color(spool.Color) is { } c)
         {
             var l = 0.299 * c.R + 0.587 * c.G + 0.114 * c.B;
             if (l is < 0.88 and > 0.12) return Hex(spool.Color);

@@ -83,7 +83,7 @@ public static class Ramp
     public const double Hero = 34;
 }
 
-/// <summary>Sizes, gaps and corner radii (Beta Monitor's Gamma look rounds cards a little less and menus a little more,
+/// <summary>Sizes, gaps and corner radii (beta's Gamma look rounds cards a little less and menus a little more,
 /// and its filled buttons are capsules: see <see cref="ChromeButton"/>). Windows 11 rounds overlays at 8 and controls at 4; the Mac's larger, softer
 /// radii (20 for the job card, 14 for tiles) are scaled toward those so the panel sits with the rest of Windows.</summary>
 public static class Metrics

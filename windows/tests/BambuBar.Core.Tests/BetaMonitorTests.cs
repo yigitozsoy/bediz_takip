@@ -5,7 +5,7 @@ using BambuBar.Core.Model;
 
 namespace BambuBar.Core.Tests;
 
-/// <summary>Beta Monitor's additions: the Discord/Telegram relay, the chimes and the history totals.</summary>
+/// <summary>beta's additions: the Discord/Telegram relay, the chimes and the history totals.</summary>
 public class BetaMonitorTests
 {
     private const string Webhook = "https://discord.com/api/webhooks/123456789/abcdefghijklmnop";

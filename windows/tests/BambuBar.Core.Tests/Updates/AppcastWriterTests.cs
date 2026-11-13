@@ -3,7 +3,7 @@ using BambuBar.Core.Updates;
 
 namespace BambuBar.Core.Tests.Updates;
 
-/// <summary>Beta Monitor's release tooling: the appcast it writes is one the app reads, picks and verifies.</summary>
+/// <summary>beta's release tooling: the appcast it writes is one the app reads, picks and verifies.</summary>
 public class AppcastWriterTests
 {
     [Fact]
@@ -15,8 +15,8 @@ public class AppcastWriterTests
         var folder = Directory.CreateTempSubdirectory("betamonitor-appcast-").FullName;
         try
         {
-            var x64 = Path.Combine(folder, "BetaMonitor-3.1.0-windows-x64.exe");
-            var arm = Path.Combine(folder, "BetaMonitor-3.1.0-windows-arm64.exe");
+            var x64 = Path.Combine(folder, "beta-3.1.0-windows-x64.exe");
+            var arm = Path.Combine(folder, "beta-3.1.0-windows-arm64.exe");
             File.WriteAllBytes(x64, Encoding.UTF8.GetBytes("x64 installer"));
             File.WriteAllBytes(arm, Encoding.UTF8.GetBytes("arm64 installer, a bit longer"));
 
@@ -28,7 +28,7 @@ public class AppcastWriterTests
 
             var item = appcast.Latest(UpdatePlatform.WindowsArm64, new Version(10, 0, 26100))!;
             Assert.Equal("3.1.0", item.DisplayVersion);
-            Assert.Equal("https://github.com/o/r/releases/download/v3.1.0/BetaMonitor-3.1.0-windows-arm64.exe", item.Url!.AbsoluteUri);
+            Assert.Equal("https://github.com/o/r/releases/download/v3.1.0/beta-3.1.0-windows-arm64.exe", item.Url!.AbsoluteUri);
             Assert.Equal(new FileInfo(arm).Length, item.Length);
             var signature = new UpdateSignature(publicKey);
             Assert.True(await signature.VerifyFileAsync(arm, item.Length!.Value, item.EdSignature!, ct));

@@ -101,7 +101,7 @@ public sealed class WindowServices
     public Action? InstallUpdate { get; init; }
     /// <summary>Posts a sample notification (the Notifications page's test button).</summary>
     public Action? TestNotification { get; init; }
-    /// <summary>Beta Monitor: sounds, Discord and Telegram (the Notifications page's groups); null hides them.</summary>
+    /// <summary>beta: sounds, Discord and Telegram (the Notifications page's groups); null hides them.</summary>
     public Core.App.RelayNotifier? Relay { get; init; }
 }
 

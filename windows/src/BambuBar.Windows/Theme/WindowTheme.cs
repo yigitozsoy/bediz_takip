@@ -34,7 +34,7 @@ public static class WindowTheme
         static Color C(uint argb) => Color.FromArgb((byte)(argb >> 24), (byte)(argb >> 16), (byte)(argb >> 8), (byte)argb);
         if (GammaTheme.Active && variant != ThemeVariant.HighContrast)
         {
-            // Beta Monitor's Gamma look: one flat background, Gamma's hover/selected overlays and input colours.
+            // beta's Gamma look: one flat background, Gamma's hover/selected overlays and input colours.
             var dark = variant == ThemeVariant.Dark;
             var c = GammaTheme.For(dark);
             Put(WindowKeys.WindowBackground, c.Bg);

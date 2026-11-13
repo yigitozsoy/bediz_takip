@@ -1,7 +1,7 @@
 namespace BambuBar.Core.App;
 
 /// <summary>
-/// Beta Monitor's sounds, made in code (no sound files to license): short soft bell tones, a sine with a quiet octave
+/// beta's sounds, made in code (no sound files to license): short soft bell tones, a sine with a quiet octave
 /// and an exponential fade. A finished print rises, a failed one falls, a pause asks twice. 16-bit mono WAV.
 /// </summary>
 public static class Chime

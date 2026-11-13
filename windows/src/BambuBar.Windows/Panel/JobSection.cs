@@ -188,6 +188,12 @@ internal sealed class JobSection : PanelSection
     {
         if (_glow == color && _stage.Fill is not null) return;
         _glow = color;
+        // beta: the Gamma theme is flat; the badge needs no halo.
+        if (GammaTheme.Active)
+        {
+            _stage.Fill = Brushes.Transparent;
+            return;
+        }
         var brush = new RadialGradientBrush(new GradientStopCollection
         {
             new(Palette.WithAlpha(color, Ctx.Dark ? 0.34 : 0.26), 0), new(Palette.WithAlpha(color, Ctx.Dark ? 0.12 : 0.08), 0.55), new(Palette.WithAlpha(color, 0), 1),
@@ -228,7 +234,8 @@ internal sealed class JobSection : PanelSection
         if (s.State == JobState.Paused) return Palette.Paused;
         if (s.State == JobState.Failed) return s.Canceled ? Palette.Idle : Palette.Failed;
         if (s.State == JobState.Finished) return Palette.Finished;
-        if (s.ActiveSpool is { } spool && Palette.FromBambu(spool.Color) is { } color)
+        // beta: under the Gamma theme the bar keeps the accent, not the filament's colour.
+        if (!GammaTheme.Active && s.ActiveSpool is { } spool && Palette.FromBambu(spool.Color) is { } color)
         {
             var l = Palette.Luminance(spool.Color);
             if (l is <= 0.88 and >= 0.12) return Color.FromRgb(color.R, color.G, color.B);

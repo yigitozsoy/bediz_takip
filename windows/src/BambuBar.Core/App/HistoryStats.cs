@@ -2,7 +2,7 @@ using BambuBar.Core.Model;
 
 namespace BambuBar.Core.App;
 
-/// <summary>Beta Monitor's History page: totals over the prints the app saw end (running ones don't count yet).</summary>
+/// <summary>beta's History page: totals over the prints the app saw end (running ones don't count yet).</summary>
 public sealed record HistoryStats
 {
     public int Total { get; init; }

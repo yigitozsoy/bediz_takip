@@ -1,5 +1,5 @@
-"""Draws Beta Monitor's icon exactly in Gamma Player's style: Gamma's is a dark serif capital gamma (Γ, Georgia) on
-a light-gray rounded square that darkens toward the bottom; Beta Monitor's is the capital beta (Β) the same way.
+"""Draws beta's icon exactly in Gamma Player's style: Gamma's is a dark serif capital gamma (Γ, Georgia) on
+a light-gray rounded square that darkens toward the bottom; beta's is the capital beta (Β) the same way.
 Also a white letter on transparent, like Gamma's assets/logo.png, for places that tint it.
 
 python windows/branding/make-icon.py  ->  Assets/AppIcon.png (256), Assets/BetaMonitor.ico (16-256),

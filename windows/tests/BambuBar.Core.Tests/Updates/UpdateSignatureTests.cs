@@ -71,7 +71,7 @@ public class UpdateSignatureTests
     [Fact]
     public void ReleaseKeyIsBetaMonitorsOwn()
     {
-        // Bambu Bar's key signs Bambu Bar's releases; Beta Monitor must never trust it.
+        // Bambu Bar's key signs Bambu Bar's releases; beta must never trust it.
         var plist = File.ReadAllText(Path.Combine(Repo.Root, "Resources", "Sparkle-Info.plist"));
         Assert.DoesNotContain($"<string>{UpdateSignature.SparklePublicKey}</string>", plist);
         _ = new UpdateSignature();

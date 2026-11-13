@@ -36,7 +36,7 @@ internal sealed class NotificationsPage(WindowContext ctx) : Page(ctx)
                 _banner.Host, group,
             },
         };
-        // Beta Monitor: sounds, Discord and Telegram, for the same events as the switches above.
+        // beta: sounds, Discord and Telegram, for the same events as the switches above.
         if (Ctx.Services.Relay is { } relay)
         {
             if (relay.CanPlaySounds) page.Children.Add(Sounds(relay));
@@ -85,7 +85,7 @@ internal sealed class NotificationsPage(WindowContext ctx) : Page(ctx)
         {
             if (!Save()) return;
             Say(status, Loc.T("Sending…"));
-            var error = await relay.SendDiscordAsync(PrintEvent.Test, Loc.T("Notifications are on"), Loc.T("This is how Beta Monitor tells you a print finished, failed or needs you."));
+            var error = await relay.SendDiscordAsync(PrintEvent.Test, Loc.T("Notifications are on"), Loc.T("This is how beta tells you a print finished, failed or needs you."));
             Say(status, error is null ? Loc.T("Sent. Check your Discord channel.") : Loc.F("Couldn't send: %@", error));
         }
         body.Children.Add(W.Row(Loc.T("Webhook URL"), url));
@@ -126,7 +126,7 @@ internal sealed class NotificationsPage(WindowContext ctx) : Page(ctx)
         {
             if (!Save()) { if (status.Text == Loc.T("Saved.")) Say(status, Loc.T("Enter both the bot token and the chat ID.")); return; }
             Say(status, Loc.T("Sending…"));
-            var error = await relay.SendTelegramAsync(Loc.T("Notifications are on"), Loc.T("This is how Beta Monitor tells you a print finished, failed or needs you."));
+            var error = await relay.SendTelegramAsync(Loc.T("Notifications are on"), Loc.T("This is how beta tells you a print finished, failed or needs you."));
             Say(status, error is null ? Loc.T("Sent. Check Telegram.") : Loc.F("Couldn't send: %@", error));
         }
         body.Children.Add(W.Row(Loc.T("Bot token"), token));

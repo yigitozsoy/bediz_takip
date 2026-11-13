@@ -6759,7 +6759,7 @@
       }
     },
     "Accent color": {
-      "comment": "Windows: Beta Monitor, Settings → Appearance, the accent swatches",
+      "comment": "Windows: beta, Settings → Appearance, the accent swatches",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -8448,7 +8448,7 @@
       }
     },
     "And %@ older prints, counted above.": {
-      "comment": "Windows: Beta Monitor, History: more prints than the list shows; %@ is a number",
+      "comment": "Windows: beta, History: more prints than the list shows; %@ is a number",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -8460,7 +8460,7 @@
       }
     },
     "Appearance": {
-      "comment": "Windows: Beta Monitor, Settings group: theme and accent",
+      "comment": "Windows: beta, Settings group: theme and accent",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -8472,7 +8472,7 @@
       }
     },
     "Apply": {
-      "comment": "Windows: Beta Monitor, Settings → Appearance, applies the custom color",
+      "comment": "Windows: beta, Settings → Appearance, applies the custom color",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -13172,7 +13172,7 @@
       }
     },
     "Bot token": {
-      "comment": "Windows: Beta Monitor, Telegram bot token",
+      "comment": "Windows: beta, Telegram bot token",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -16170,7 +16170,7 @@
       }
     },
     "Chat ID": {
-      "comment": "Windows: Beta Monitor, Telegram chat id",
+      "comment": "Windows: beta, Telegram chat id",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -18736,7 +18736,7 @@
       }
     },
     "Classic": {
-      "comment": "Windows: Beta Monitor, theme: Bambu Bar's original look (the name follows in parentheses)",
+      "comment": "Windows: beta, theme: Bambu Bar's original look (the name follows in parentheses)",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -19704,7 +19704,7 @@
       }
     },
     "Connected. Notifications also go to this channel.": {
-      "comment": "Windows: Beta Monitor, Discord status",
+      "comment": "Windows: beta, Discord status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -19716,7 +19716,7 @@
       }
     },
     "Connected. Notifications also go to this chat.": {
-      "comment": "Windows: Beta Monitor, Telegram status",
+      "comment": "Windows: beta, Telegram status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -21004,7 +21004,7 @@
       }
     },
     "Couldn't reach the server.": {
-      "comment": "Windows: Beta Monitor, Error",
+      "comment": "Windows: beta, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -21016,7 +21016,7 @@
       }
     },
     "Couldn't send: %@": {
-      "comment": "Windows: Beta Monitor, Status; %@ is the reason",
+      "comment": "Windows: beta, Status; %@ is the reason",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -21346,7 +21346,7 @@
       }
     },
     "Custom color (#RRGGBB)": {
-      "comment": "Windows: Beta Monitor, Settings → Appearance, a hex accent",
+      "comment": "Windows: beta, Settings → Appearance, a hex accent",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -23912,14 +23912,14 @@
         }
       }
     },
-    "Ended while Beta Monitor was closed": {
-      "comment": "Windows: Beta Monitor, History: prints whose end wasn't seen",
+    "Ended while beta was closed": {
+      "comment": "Windows: beta, History: prints whose end wasn't seen",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Beta Monitor kapalıyken bitti"
+            "value": "beta kapalıyken bitti"
           }
         }
       }
@@ -24138,7 +24138,7 @@
       }
     },
     "Enter both the bot token and the chat ID.": {
-      "comment": "Windows: Beta Monitor, Telegram status",
+      "comment": "Windows: beta, Telegram status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -24787,14 +24787,14 @@
         }
       }
     },
-    "Every print Beta Monitor saw end, and how it went.": {
-      "comment": "Windows: Beta Monitor, History page subtitle",
+    "Every print beta saw end, and how it went.": {
+      "comment": "Windows: beta, History page subtitle",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Beta Monitor'ün gördüğü her baskı ve nasıl bittiği."
+            "value": "beta'nın gördüğü her baskı ve nasıl bittiği."
           }
         }
       }
@@ -25757,7 +25757,7 @@
       }
     },
     "Find": {
-      "comment": "Windows: Beta Monitor, Button: find the Telegram chat id",
+      "comment": "Windows: beta, Button: find the Telegram chat id",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -27491,7 +27491,7 @@
       }
     },
     "Found your chat. Press Save or Send Test.": {
-      "comment": "Windows: Beta Monitor, Telegram status",
+      "comment": "Windows: beta, Telegram status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -27609,7 +27609,7 @@
       }
     },
     "Free · MIT License": {
-      "comment": "Windows: Beta Monitor, About page, the license row",
+      "comment": "Windows: beta, About page, the license row",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -29749,7 +29749,7 @@
       }
     },
     "History": {
-      "comment": "Windows: Beta Monitor, Sidebar page: print history",
+      "comment": "Windows: beta, Sidebar page: print history",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -30826,7 +30826,7 @@
       }
     },
     "In Discord: Server Settings → Integrations → Webhooks → New Webhook, then Copy Webhook URL. It's kept in Windows Credential Manager.": {
-      "comment": "Windows: Beta Monitor, Discord help",
+      "comment": "Windows: beta, Discord help",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -32540,7 +32540,7 @@
       }
     },
     "Last 7 days": {
-      "comment": "Windows: Beta Monitor, History stat: prints in the last week",
+      "comment": "Windows: beta, History stat: prints in the last week",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -33940,7 +33940,7 @@
       }
     },
     "Listen": {
-      "comment": "Windows: Beta Monitor, Notifications: sound preview buttons",
+      "comment": "Windows: beta, Notifications: sound preview buttons",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -34378,7 +34378,7 @@
       }
     },
     "Longest print": {
-      "comment": "Windows: Beta Monitor, History row",
+      "comment": "Windows: beta, History row",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -34709,7 +34709,7 @@
       }
     },
     "Looking…": {
-      "comment": "Windows: Beta Monitor, Status while looking for the chat id",
+      "comment": "Windows: beta, Status while looking for the chat id",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -34938,7 +34938,7 @@
       "shouldTranslate": false
     },
     "Make a bot with @BotFather and paste its token. Send your bot any message, then press Find to fill in the chat ID.": {
-      "comment": "Windows: Beta Monitor, Telegram help",
+      "comment": "Windows: beta, Telegram help",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -35268,7 +35268,7 @@
       }
     },
     "Materials": {
-      "comment": "Windows: Beta Monitor, History row: filament materials used",
+      "comment": "Windows: beta, History row: filament materials used",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -37199,7 +37199,7 @@
       }
     },
     "No messages yet. Send your bot a message in Telegram, then try again.": {
-      "comment": "Windows: Beta Monitor, Telegram status",
+      "comment": "Windows: beta, Telegram status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -37635,7 +37635,7 @@
       }
     },
     "No prints yet": {
-      "comment": "Windows: Beta Monitor, History page, empty",
+      "comment": "Windows: beta, History page, empty",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -45098,7 +45098,7 @@
       }
     },
     "Play a sound with each notification": {
-      "comment": "Windows: Beta Monitor, Notifications: sound switch",
+      "comment": "Windows: beta, Notifications: sound switch",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -45859,7 +45859,7 @@
       }
     },
     "Print History": {
-      "comment": "Windows: Beta Monitor, History page title",
+      "comment": "Windows: beta, History page title",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -46825,7 +46825,7 @@
       }
     },
     "Print time": {
-      "comment": "Windows: Beta Monitor, History stat: total time spent printing",
+      "comment": "Windows: beta, History stat: total time spent printing",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -46836,14 +46836,14 @@
         }
       }
     },
-    "Beta Monitor on GitHub": {
-      "comment": "Windows: Beta Monitor, About page link to the repository",
+    "beta on GitHub": {
+      "comment": "Windows: beta, About page link to the repository",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "GitHub'da Beta Monitor"
+            "value": "GitHub'da beta"
           }
         }
       }
@@ -48125,7 +48125,7 @@
       }
     },
     "Prints": {
-      "comment": "Windows: Beta Monitor, History stat: number of prints",
+      "comment": "Windows: beta, History stat: number of prints",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -48248,14 +48248,14 @@
         }
       }
     },
-    "Prints show up here once Beta Monitor sees one end.": {
-      "comment": "Windows: Beta Monitor, History page, empty",
+    "Prints show up here once beta sees one end.": {
+      "comment": "Windows: beta, History page, empty",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Beta Monitor bir baskının bittiğini gördüğünde burada görünür."
+            "value": "beta bir baskının bittiğini gördüğünde burada görünür."
           }
         }
       }
@@ -49219,7 +49219,7 @@
       }
     },
     "Recent prints": {
-      "comment": "Windows: Beta Monitor, History group: the list of prints",
+      "comment": "Windows: beta, History group: the list of prints",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -49868,7 +49868,7 @@
       }
     },
     "Removed.": {
-      "comment": "Windows: Beta Monitor, Status after clearing",
+      "comment": "Windows: beta, Status after clearing",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51153,7 +51153,7 @@
       }
     },
     "Same as Windows": {
-      "comment": "Windows: Beta Monitor, theme that follows Windows' light/dark",
+      "comment": "Windows: beta, theme that follows Windows' light/dark",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51377,7 +51377,7 @@
       }
     },
     "Saved.": {
-      "comment": "Windows: Beta Monitor, Status after saving",
+      "comment": "Windows: beta, Status after saving",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51708,7 +51708,7 @@
       }
     },
     "Send Test": {
-      "comment": "Windows: Beta Monitor, Button: send a test message",
+      "comment": "Windows: beta, Button: send a test message",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51826,7 +51826,7 @@
       }
     },
     "Sending…": {
-      "comment": "Windows: Beta Monitor, Status while sending",
+      "comment": "Windows: beta, Status while sending",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51838,7 +51838,7 @@
       }
     },
     "Sent. Check Telegram.": {
-      "comment": "Windows: Beta Monitor, Status",
+      "comment": "Windows: beta, Status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51850,7 +51850,7 @@
       }
     },
     "Sent. Check your Discord channel.": {
-      "comment": "Windows: Beta Monitor, Status",
+      "comment": "Windows: beta, Status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -55473,7 +55473,7 @@
       }
     },
     "Sounds": {
-      "comment": "Windows: Beta Monitor, Notifications group: sound effects",
+      "comment": "Windows: beta, Notifications group: sound effects",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -57508,7 +57508,7 @@
       }
     },
     "Success rate": {
-      "comment": "Windows: Beta Monitor, History stat",
+      "comment": "Windows: beta, History stat",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -57520,7 +57520,7 @@
       }
     },
     "Summary": {
-      "comment": "Windows: Beta Monitor, History group: how prints ended",
+      "comment": "Windows: beta, History group: how prints ended",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -58805,7 +58805,7 @@
       }
     },
     "The Discord webhook address isn't valid.": {
-      "comment": "Windows: Beta Monitor, Error",
+      "comment": "Windows: beta, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -58817,7 +58817,7 @@
       }
     },
     "The Telegram bot token isn't valid.": {
-      "comment": "Windows: Beta Monitor, Error",
+      "comment": "Windows: beta, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -58829,7 +58829,7 @@
       }
     },
     "The Telegram chat ID isn't valid.": {
-      "comment": "Windows: Beta Monitor, Error",
+      "comment": "Windows: beta, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -63515,7 +63515,7 @@
       }
     },
     "The server didn't answer in time.": {
-      "comment": "Windows: Beta Monitor, Error",
+      "comment": "Windows: beta, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -63847,7 +63847,7 @@
       }
     },
     "Theme": {
-      "comment": "Windows: Beta Monitor, Settings → Appearance, the theme picker",
+      "comment": "Windows: beta, Settings → Appearance, the theme picker",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -63859,7 +63859,7 @@
       }
     },
     "Themes and accent colors come from Gamma Player. The classic look brings back the original glass and green.": {
-      "comment": "Windows: Beta Monitor, Settings → Appearance note",
+      "comment": "Windows: beta, Settings → Appearance note",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -64402,14 +64402,14 @@
         }
       }
     },
-    "This is how Beta Monitor tells you a print finished, failed or needs you.": {
-      "comment": "Windows: Beta Monitor, Test message body",
+    "This is how beta tells you a print finished, failed or needs you.": {
+      "comment": "Windows: beta, Test message body",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Beta Monitor bir baskı bittiğinde, başarısız olduğunda ya da sana ihtiyaç duyduğunda böyle haber verir."
+            "value": "beta bir baskı bittiğinde, başarısız olduğunda ya da sana ihtiyaç duyduğunda böyle haber verir."
           }
         }
       }
@@ -66751,14 +66751,14 @@
         }
       }
     },
-    "Update checks read the latest Beta Monitor release on GitHub and send no printer data. Updates install only when they carry Beta Monitor's signature. Manage automatic updates in Settings → Updates.": {
-      "comment": "Windows: Beta Monitor, About page, privacy",
+    "Update checks read the latest beta release on GitHub and send no printer data. Updates install only when they carry beta's signature. Manage automatic updates in Settings → Updates.": {
+      "comment": "Windows: beta, About page, privacy",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Güncelleme denetimi GitHub'daki en son Beta Monitor sürümünü okur ve yazıcı verisi göndermez. Güncellemeler yalnızca Beta Monitor imzasını taşıdıklarında kurulur. Otomatik güncellemeleri Ayarlar → Güncellemeler'den yönetebilirsin."
+            "value": "Güncelleme denetimi GitHub'daki en son beta sürümünü okur ve yazıcı verisi göndermez. Güncellemeler yalnızca beta imzasını taşıdıklarında kurulur. Otomatik güncellemeleri Ayarlar → Güncellemeler'den yönetebilirsin."
           }
         }
       }
@@ -68904,7 +68904,7 @@
       }
     },
     "Webhook URL": {
-      "comment": "Windows: Beta Monitor, Discord webhook address",
+      "comment": "Windows: beta, Discord webhook address",
       "extractionState": "manual",
       "localizations": {
         "tr": {

@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 
 namespace BambuBar.Core.App;
 
-/// <summary>Plays Beta Monitor's sound for an event (the Windows app's synthesized chimes).</summary>
+/// <summary>Plays beta's sound for an event (the Windows app's synthesized chimes).</summary>
 public interface ISoundPlayer
 {
     void Play(PrintEvent kind);
 }
 
 /// <summary>
-/// Beta Monitor: every print notification goes to the system notifier as before, and also plays a sound and goes to
+/// beta: every print notification goes to the system notifier as before, and also plays a sound and goes to
 /// Discord (a channel webhook) and Telegram (a bot's chat) when they're set up. The webhook URL and the bot token are
 /// secrets, kept with the access codes (Credential Manager in the app), never in settings.json. Remote sends run on
 /// a worker and never hold up the store; a failure is kept in <see cref="LastError"/> for the Notifications page.

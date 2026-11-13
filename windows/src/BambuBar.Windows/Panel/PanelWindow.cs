@@ -133,7 +133,7 @@ public sealed class PanelWindow : Window
             Show();
             var until = DateTime.UtcNow + TimeSpan.FromSeconds(5);
             do await Dispatcher.Yield(DispatcherPriority.ContextIdle);
-            while (DateTime.UtcNow < until && !_quitting && IsVisible && !Model3D.Renderer3D.IsOff && !ModelsLive(_view));
+            while (DateTime.UtcNow < until && !_quitting && IsVisible && !Model3D.Renderer3D.IsOff && !GammaTheme.Active && !ModelsLive(_view));
         }
         finally
         {

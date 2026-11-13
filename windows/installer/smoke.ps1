@@ -1,6 +1,6 @@
-# Installs Beta Monitor silently on a Windows runner, checks what landed, runs the installed app's --snapshot (FFmpeg,
+# Installs beta silently on a Windows runner, checks what landed, runs the installed app's --snapshot (FFmpeg,
 # assets and the panels from the install location), uninstalls silently and checks that only the user's data is left.
-#   pwsh windows/installer/smoke.ps1 -Installer build/installer/BetaMonitor-<ver>-windows-x64.exe -Out build/install-smoke
+#   pwsh windows/installer/smoke.ps1 -Installer build/installer/beta-<ver>-windows-x64.exe -Out build/install-smoke
 # TODO (P5.1): the silent update path: install over a running copy (started with --background and one widget) and
 # check it is stopped, replaced and started again with --background, with its Rainmeter.
 param([Parameter(Mandatory)] [string] $Installer, [Parameter(Mandatory)] [string] $Out)
@@ -10,13 +10,13 @@ $app = Join-Path $env:LOCALAPPDATA 'Programs\BetaMonitor'
 $classes = 'HKCU:\Software\Classes'
 $run = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
 $uninstallKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\{40AB2714-4329-4530-81BD-5ECDC7D268D0}_is1'
-$shortcut = Join-Path ([Environment]::GetFolderPath('Programs')) 'Beta Monitor.lnk'
+$shortcut = Join-Path ([Environment]::GetFolderPath('Programs')) 'beta.lnk'
 $userData = Join-Path $env:APPDATA 'BetaMonitor'
 
 # 1. Install.
 $setup = Start-Process $Installer -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', "/LOG=$(Join-Path $Out 'install.log')" -Wait -PassThru
 if ($setup.ExitCode -ne 0) { throw "Setup exited with $($setup.ExitCode)" }
-$expected = 'BetaMonitor.exe', 'AppIcon.png', 'LICENSE.txt', 'THIRD-PARTY-NOTICES.txt', 'unins000.exe',
+$expected = 'beta.exe', 'AppIcon.png', 'LICENSE.txt', 'THIRD-PARTY-NOTICES.txt', 'unins000.exe',
   'Assets\Localizable.xcstrings', 'ffmpeg\avcodec-63.dll', 'ffmpeg\LICENSE.txt', 'ffmpeg\SOURCE.txt',
   'Rainmeter\Rainmeter.exe', 'Rainmeter\Rainmeter.dll', 'Rainmeter\Languages\1033.rmlang',
   'Skins\version.txt', 'Skins\BambuBar\Small\Small.ini', 'Skins\BambuBar\@Resources\Scripts\widget.lua'
@@ -26,14 +26,14 @@ foreach ($key in "$classes\betamonitor\shell\open\command", "$classes\AppUserMod
   if (-not (Test-Path $key)) { throw "Missing registry key $key" }
 }
 $command = (Get-ItemProperty "$classes\betamonitor\shell\open\command").'(default)'
-if ($command -ne "`"$app\BetaMonitor.exe`" `"%1`"") { throw "betamonitor:// opens '$command'" }
+if ($command -ne "`"$app\beta.exe`" `"%1`"") { throw "betamonitor:// opens '$command'" }
 if (-not (Test-Path $shortcut)) { throw "No Start menu shortcut at $shortcut" }
 $size = (Get-ChildItem $app -Recurse -File | Measure-Object Length -Sum).Sum
 "Installed to $app ($([math]::Round($size / 1MB, 1)) MB); installer $([math]::Round((Get-Item $Installer).Length / 1MB, 1)) MB"
 
 # 2. The installed app finds its FFmpeg and assets.
 $snapshots = Join-Path $Out 'snapshots'
-$p = Start-Process (Join-Path $app 'BetaMonitor.exe') -ArgumentList '--snapshot', $snapshots -Wait -PassThru
+$p = Start-Process (Join-Path $app 'beta.exe') -ArgumentList '--snapshot', $snapshots -Wait -PassThru
 if ($p.ExitCode -ne 0) { throw "Installed snapshot exited with $($p.ExitCode)" }
 foreach ($errors in 'camera-errors.txt', 'panel-errors.txt', 'window-errors.txt') {
   $path = Join-Path $snapshots $errors
@@ -42,7 +42,7 @@ foreach ($errors in 'camera-errors.txt', 'panel-errors.txt', 'window-errors.txt'
 
 # 3. What the app adds while it runs (sign-in entry, settings), as if it had: the uninstaller must remove the first and
 #    keep the second.
-Set-ItemProperty $run -Name 'Beta Monitor' -Value "`"$app\BetaMonitor.exe`" --background"
+Set-ItemProperty $run -Name 'beta' -Value "`"$app\beta.exe`" --background"
 New-Item -ItemType Directory -Force $userData | Out-Null
 '{}' | Set-Content (Join-Path $userData 'settings.json')
 
@@ -59,7 +59,7 @@ if (Test-Path $uninstallLog) { Get-Content $uninstallLog | Select-Object -Last 3
 $left = @()
 if (Test-Path $app) { $left += "$app ($(@(Get-ChildItem $app -Recurse).Count) entries)" }
 foreach ($key in "$classes\betamonitor", "$classes\AppUserModelId\BetaMonitor.App", $uninstallKey) { if (Test-Path $key) { $left += $key } }
-if ((Get-ItemProperty $run -ErrorAction SilentlyContinue).'Beta Monitor') { $left += "$run\Beta Monitor" }
+if ((Get-ItemProperty $run -ErrorAction SilentlyContinue).'beta') { $left += "$run\beta" }
 if (Test-Path $shortcut) { $left += $shortcut }
 if ($left) { throw "Left after uninstall: $($left -join '; ')" }
 if (-not (Test-Path (Join-Path $userData 'settings.json'))) { throw 'The uninstaller removed the settings' }

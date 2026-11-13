@@ -44,7 +44,7 @@ public static class Snapshot
     public static int Run(string folder)
     {
         Directory.CreateDirectory(folder);
-        // Beta Monitor: the default theme, or the one BETAMONITOR_THEME / BETAMONITOR_ACCENT name (to check a variant).
+        // beta: the default theme, or the one BETAMONITOR_THEME / BETAMONITOR_ACCENT name (to check a variant).
         var theme = new AppSettings(null);
         if (Environment.GetEnvironmentVariable("BETAMONITOR_THEME") is { Length: > 0 } variant) theme.Set(GammaTheme.ThemeKey, variant);
         if (Environment.GetEnvironmentVariable("BETAMONITOR_ACCENT") is { Length: > 0 } accent) theme.Set(GammaTheme.AccentKey, accent);

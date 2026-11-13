@@ -27,7 +27,14 @@ public static class PrinterArt
         public bool LightOn { get; init; } = true;
         /// <summary>Offline: the light off, then washed out (saturation 0.1, opacity 0.55) as the Mac's widgets show it.</summary>
         public bool Dimmed { get; init; }
+        /// <summary>beta: the model's name or code ("A1", "N7"), for <see cref="Badge"/>.</summary>
+        public string? Model { get; init; }
     }
+
+    /// <summary>beta: when set (the Gamma theme), draws the scene in place of the printer art: a badge with the
+    /// model's name. <see cref="BadgeKey"/> names its look, so written files change with it.</summary>
+    public static Func<Scene, int, int, Rgba?>? Badge { get; set; }
+    public static string BadgeKey { get; set; } = "";
 
     /// <summary>Bambu-ish green, the part's colour when the active filament is unknown (Palette.accent).</summary>
     private static readonly (double R, double G, double B) Accent = (0.13, 0.80, 0.42);
@@ -113,7 +120,7 @@ public static class PrinterArt
 
     /// <summary>The scene scaled to fit <paramref name="width"/> × <paramref name="height"/>, centred.</summary>
     public static Rgba? Render(Scene scene, int width, int height) =>
-        Compose(scene) is { } full ? Resample.Fit(full, width, height) : null;
+        Badge?.Invoke(scene, width, height) ?? (Compose(scene) is { } full ? Resample.Fit(full, width, height) : null);
 
     /// <summary>
     /// Writes the scene as <c>art-&lt;hash&gt;.png</c> in <paramref name="folder"/> (Rainmeter may cache images by
@@ -122,7 +129,8 @@ public static class PrinterArt
     public static string? WritePng(Scene scene, int width, int height, string folder)
     {
         var key = string.Join('|', scene.Shape, scene.State, Math.Round(ShownFraction(scene.State, scene.Progress), 3),
-            scene.Filament, string.Join(',', scene.Spools), scene.LightOn, scene.Dimmed, width, height, Version);
+            scene.Filament, string.Join(',', scene.Spools), scene.LightOn, scene.Dimmed, width, height, Version,
+            Badge is null ? "" : $"{scene.Model}|{BadgeKey}");
         var name = $"art-{Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(key)))[..16]}.png";
         var path = Path.Combine(folder, name);
         if (File.Exists(path)) return name;

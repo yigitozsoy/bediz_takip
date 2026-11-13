@@ -12,22 +12,28 @@ namespace BambuBar.Theme;
 /// </summary>
 public static class Palette
 {
-    /// <summary>The accent: the one picked in Settings (Beta Monitor's Gamma theme), or Bambu Bar's green in the classic
+    /// <summary>The accent: the one picked in Settings (beta's Gamma theme), or Bambu Bar's green in the classic
     /// look (0.13, 0.80, 0.42).</summary>
     public static Color Accent => GammaTheme.Accent;
     /// <summary>Prominent buttons: the accent, deeper (Bambu Bar's (0.00, 0.60, 0.29) in the classic look).</summary>
     public static Color AccentDeep => GammaTheme.Active ? GammaTheme.AccentDeep : Color.FromRgb(0x00, 0x99, 0x4A);
-    public static readonly Color Preparing = Color.FromRgb(0x5C, 0xA8, 0xFF);
-    public static readonly Color Paused = Color.FromRgb(0xFF, 0xB8, 0x3D);
-    public static readonly Color Failed = Color.FromRgb(0xFF, 0x5C, 0x5C);
-    public static readonly Color Finished = Color.FromRgb(0x6B, 0xDB, 0x9E);
+    // beta: under the Gamma theme the state colours stay calm, as Gamma has one accent and greys: printing, preparing
+    // and finished take the accent, a pause and an error a muted amber and red, the temperatures grey. The classic
+    // look keeps Bambu Bar's bright ones.
+    private static bool Calm => GammaTheme.Active;
+    public static Color Preparing => Calm ? Accent : Color.FromRgb(0x5C, 0xA8, 0xFF);
+    public static Color Paused => Calm ? Color.FromRgb(0xD8, 0xA6, 0x57) : Color.FromRgb(0xFF, 0xB8, 0x3D);
+    public static Color Failed => Calm ? Color.FromRgb(0xE0, 0x6B, 0x6B) : Color.FromRgb(0xFF, 0x5C, 0x5C);
+    public static Color Finished => Calm ? Accent : Color.FromRgb(0x6B, 0xDB, 0x9E);
     /// <summary>(0.62, 0.66, 0.70): an idle printer, a canceled job.</summary>
-    public static readonly Color Idle = Color.FromRgb(0x9E, 0xA8, 0xB3);
-    public static readonly Color Nozzle = Color.FromRgb(0xFF, 0x7A, 0x4D);
-    public static readonly Color Bed = Color.FromRgb(0xFF, 0xB8, 0x4D);
-    public static readonly Color Chamber = Color.FromRgb(0x8C, 0xB3, 0xFF);
+    public static Color Idle => Calm ? Color.FromRgb(0x8C, 0x8C, 0x8C) : Color.FromRgb(0x9E, 0xA8, 0xB3);
+    public static Color Nozzle => Calm ? Neutral : Color.FromRgb(0xFF, 0x7A, 0x4D);
+    public static Color Bed => Calm ? Neutral : Color.FromRgb(0xFF, 0xB8, 0x4D);
+    public static Color Chamber => Calm ? Neutral : Color.FromRgb(0x8C, 0xB3, 0xFF);
     /// <summary>SwiftUI's yellow, for the chamber light when it's on.</summary>
-    public static readonly Color Lamp = Color.FromRgb(0xFF, 0xCC, 0x00);
+    public static Color Lamp => Calm ? Color.FromRgb(0xE8, 0xC4, 0x68) : Color.FromRgb(0xFF, 0xCC, 0x00);
+    /// <summary>A grey that reads on Gamma's light and dark variants alike.</summary>
+    private static readonly Color Neutral = Color.FromRgb(0x9A, 0x9A, 0x9A);
 
     public static Color For(JobState state) => state switch
     {

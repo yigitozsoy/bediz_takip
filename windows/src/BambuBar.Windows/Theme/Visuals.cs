@@ -319,10 +319,18 @@ public static class ArtImage
     public static BitmapSource? For(PrinterArt.Scene scene, double width, double height)
     {
         var key = string.Join('|', scene.Shape, scene.State, Math.Round(PrinterArt.ShownFraction(scene.State, scene.Progress), 2),
-            scene.Filament, string.Join(',', scene.Spools), scene.LightOn, scene.Dimmed, width, height);
+            scene.Filament, string.Join(',', scene.Spools), scene.LightOn, scene.Dimmed, width, height,
+            GammaTheme.Active ? $"{scene.Model}|{GammaTheme.Stamp}|{AppTheme.Current}" : "");
         if (Cache.TryGetValue(key, out var hit)) return hit;
         if (Cache.Count > 48) Cache.Clear();
         BitmapSource? bitmap = null;
+        // beta: the Gamma theme shows the model's badge, in the window's light or dark variant.
+        if (GammaTheme.Active)
+        {
+            bitmap = ModelBadge.Bitmap(scene, (int)(width * Scale), (int)(height * Scale), 96 * Scale);
+            Cache[key] = bitmap;
+            return bitmap;
+        }
         try
         {
             if (PrinterArt.Render(scene with { Progress = Math.Round(scene.Progress, 2) }, (int)(width * Scale), (int)(height * Scale)) is { } rgba)
@@ -381,6 +389,7 @@ public static class ArtImage
             Spools = (unit?.Spools ?? []).Select(s => s.IsLoaded ? s.Color : null).ToList(),
             LightOn = lightOn,
             Dimmed = dimmed,
+            Model = model,
         };
     }
 

@@ -5,7 +5,7 @@ using BambuBar.Core.App;
 namespace BambuBar.Theme;
 
 /// <summary>
-/// Beta Monitor's look, taken from Gamma Player (gammaplayer/theme.py): AMOLED black and nine other variants, flat
+/// beta's look, taken from Gamma Player (gammaplayer/theme.py): AMOLED black and nine other variants, flat
 /// surfaces instead of glass, and an accent the person picks (a named one or their own #RRGGBB). "classic" keeps Bambu
 /// Bar's Fluent glass and Mica; "system" follows Windows' light/dark with the AMOLED and White variants.
 /// <para>Read once at startup (<see cref="Load"/>); <see cref="SetVariant"/> and <see cref="SetAccent"/> save and
@@ -149,6 +149,8 @@ public static class GammaTheme
         VariantId = variant is System or Classic || Variants.Any(v => v.Id == variant) ? variant : DefaultVariant;
         var accent = settings.Get<string>(AccentKey) ?? DefaultAccent;
         AccentId = ParseAccent(accent) is null ? DefaultAccent : accent.ToLowerInvariant();
+        // The model badges' letters, drawn here on the UI thread for the widgets' writer to use on its own.
+        ModelBadge.Prepare();
         PublishWidgetStyle();
     }
 
@@ -161,14 +163,23 @@ public static class GammaTheme
         if (!Active)
         {
             Core.Widgets.WidgetStyle.Current = null;
+            Core.Imaging.PrinterArt.Badge = null;
             return;
         }
+        // The widgets show the model's badge on their dark card.
+        Core.Imaging.PrinterArt.Badge = (scene, width, height) => ModelBadge.Render(scene, width, height, dark: true);
+        Core.Imaging.PrinterArt.BadgeKey = $"{VariantId}|{AccentId}";
         var p = For(dark: true);
         Core.Widgets.WidgetStyle.Current = new Core.Widgets.WidgetState.StyleView(
             Accent: Rgb(Accent),
             CardTop: Rgb(SpoolArt.Mix(p.Bg, p.Card, 0.7)), CardBottom: Rgb(p.Bg),
             CardHoverTop: Rgb(p.Card), CardHoverBottom: Rgb(SpoolArt.Mix(p.Bg, p.Card, 0.35)),
-            Border: 0.07, Text: Rgba(p.Text), Sec: Rgba(p.Text2), Tile: Rgba(p.Surface), Track: Rgba(p.SurfaceHover));
+            Border: 0.07, Text: Rgba(p.Text), Sec: Rgba(p.Text2), Tile: Rgba(p.Surface), Track: Rgba(p.SurfaceHover))
+        {
+            Preparing = Rgb(BambuBar.Theme.Palette.Preparing), Paused = Rgb(BambuBar.Theme.Palette.Paused), Failed = Rgb(BambuBar.Theme.Palette.Failed),
+            Finished = Rgb(BambuBar.Theme.Palette.Finished), Idle = Rgb(BambuBar.Theme.Palette.Idle), Nozzle = Rgb(BambuBar.Theme.Palette.Nozzle), Bed = Rgb(BambuBar.Theme.Palette.Bed),
+            Chamber = Rgb(BambuBar.Theme.Palette.Chamber),
+        };
     }
 
     public static void SetVariant(string id)

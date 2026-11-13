@@ -3,4 +3,4 @@
 ; SyntaxVersion=2 (https://www.rainmeter.net/changes-5.0/).
 
 [Variables]
-BambuBarExe=[%LOCALAPPDATA]\Programs\BetaMonitor\BetaMonitor.exe
+BambuBarExe=[%LOCALAPPDATA]\Programs\BetaMonitor\beta.exe

@@ -65,7 +65,7 @@ public partial class App : Application
 
         var folder = AppSettings.DefaultFolder;
         _settings = new AppSettings(ephemeral ? null : Path.Combine(folder, "settings.json"));
-        // Beta Monitor's theme and accent, before any window is built.
+        // beta's theme and accent, before any window is built.
         GammaTheme.Load(_settings);
         // The language picked in Settings, else the first of Windows' languages the catalog has.
         // Only the language shown (and English): a language change restarts the app.
@@ -85,7 +85,7 @@ public partial class App : Application
             AppIdentity.Register();
             notifier = _notifier = new ToastNotifier();
         }
-        // Beta Monitor: every notification also plays a chime and goes to Discord / Telegram when they're set up.
+        // beta: every notification also plays a chime and goes to Discord / Telegram when they're set up.
         ISecretStore secrets = ephemeral ? new MemorySecretStore() : new CredentialStore();
         notifier = _notifier = _relay = new RelayNotifier(notifier, _settings, secrets, new SoundEffects());
         _store = new PrinterStore(new PrinterStore.Services
@@ -114,8 +114,8 @@ public partial class App : Application
 
         if (!ephemeral)
         {
-            // Updates: Beta Monitor's appcast on its GitHub releases, checked daily for everyone (no supporter license),
-            // Ed25519-verified with Beta Monitor's own key before the installer runs.
+            // Updates: beta's appcast on its GitHub releases, checked daily for everyone (no supporter license),
+            // Ed25519-verified with beta's own key before the installer runs.
             _updates = new UpdateChecker(() => true, _settings, new UpdateFeed(),
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Brand.Folder, "Updates"));
             _updates.PropertyChanged += (_, _) => Dispatcher.BeginInvoke(ShowUpdateOffer);

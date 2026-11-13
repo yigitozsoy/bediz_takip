@@ -126,7 +126,7 @@ public static class ThemeResources
     }
 
     /// <summary>
-    /// Beta Monitor's Gamma Player look: flat surfaces on the variant's background (AMOLED black by default), no strokes
+    /// beta's Gamma Player look: flat surfaces on the variant's background (AMOLED black by default), no strokes
     /// or gradients, Gamma's text greys, and the picked accent as a solid fill.
     /// </summary>
     private static void Gamma(ResourceDictionary d, bool dark)
