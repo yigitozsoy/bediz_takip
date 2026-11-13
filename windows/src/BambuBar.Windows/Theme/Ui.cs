@@ -118,6 +118,20 @@ public static class Ui
 
     public static void SetPill(Border pill, Ellipse dot, TextBlock label, Color color, string text, bool dark)
     {
+        // beta: under the Gamma theme a YouTube-style chip: a flat neutral fill, the state only in the dot.
+        if (GammaTheme.Active)
+        {
+            var g = GammaTheme.For(dark);
+            pill.Background = Palette.Brush(SpoolArt.Mix(g.Card, g.Text, dark ? 0.08 : 0.11));
+            pill.BorderBrush = null;
+            pill.BorderThickness = new Thickness(0);
+            dot.Fill = Palette.Brush(color);
+            if (dot.Parent is Grid { Children: [Ellipse ring, ..] }) ring.Fill = null;
+            label.Foreground = Palette.Brush(g.Text);
+            label.FontWeight = FontWeights.Medium;
+            label.Text = text;
+            return;
+        }
         TintCapsule(pill, color, dark);
         dot.Fill = Palette.Brush(color);
         if (dot.Parent is Grid { Children: [Ellipse halo, ..] }) halo.Fill = Palette.Brush(Palette.WithAlpha(color, dark ? 0.30 : 0.22));

@@ -145,6 +145,31 @@ public static class Icons
         return Boxed(canvas, size);
     }
 
+    /// <summary>beta: a 3D printer in line art, after Bambu Lab's enclosed ones: the case, the AMS on top, the
+    /// gantry with its toolhead and the build plate. In the theme colour <paramref name="brushKey"/>.</summary>
+    public static FrameworkElement Printer3D(double size, string brushKey)
+    {
+        var canvas = new Canvas { Width = 16, Height = 16 };
+        void Add(string data, bool fill)
+        {
+            var path = new Path
+            {
+                Data = Geometry.Parse(data), StrokeThickness = 1.3, StrokeStartLineCap = PenLineCap.Round,
+                StrokeEndLineCap = PenLineCap.Round, StrokeLineJoin = PenLineJoin.Round,
+            };
+            path.SetResourceReference(fill ? Shape.FillProperty : Shape.StrokeProperty, brushKey);
+            canvas.Children.Add(path);
+        }
+        // The AMS: a rounded box on the case's roof.
+        Add("M4.6,1.2 L11.4,1.2 A1,1 0 0 1 12.4,2.2 L12.4,4.2 L3.6,4.2 L3.6,2.2 A1,1 0 0 1 4.6,1.2 Z", false);
+        // The case.
+        Add("M3.4,4.2 L12.6,4.2 A1.4,1.4 0 0 1 14,5.6 L14,13.6 A1.4,1.4 0 0 1 12.6,15 L3.4,15 A1.4,1.4 0 0 1 2,13.6 L2,5.6 A1.4,1.4 0 0 1 3.4,4.2 Z", false);
+        // Gantry, toolhead and plate.
+        Add("M4.2,7.2 L11.8,7.2 M4.6,12.6 L11.4,12.6", false);
+        Add("M7,7.2 L9,7.2 L9,8.6 L8.4,9.4 L7.6,9.4 L7,8.6 Z", true);
+        return Boxed(canvas, size);
+    }
+
     private static FrameworkElement Boxed(Canvas canvas, double size) => new SilentViewbox
     {
         Width = size, Height = size, Child = canvas, Stretch = Stretch.Uniform, VerticalAlignment = VerticalAlignment.Center,

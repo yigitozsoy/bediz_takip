@@ -45,7 +45,9 @@ public static class WindowTheme
             Put(WindowKeys.NavPressed, c.Pressed);
             Put(WindowKeys.FieldFill, c.InputBg);
             Put(WindowKeys.FieldFocused, c.InputBg);
-            Put(WindowKeys.StrongStroke, c.InputBorder);
+            // Switches and radio rings at rest, as Gamma's check boxes: an edge in the secondary text colour (the
+            // input border vanished on a card).
+            Put(WindowKeys.StrongStroke, c.Text2);
             Put(WindowKeys.OffFill, Colors.Transparent);
             return d;
         }

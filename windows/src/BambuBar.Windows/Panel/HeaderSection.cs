@@ -27,6 +27,7 @@ internal sealed class HeaderSection : PanelSection, IDisposable
     private readonly FrameworkElement _linkRow;
     private readonly Ellipse _linkDot;
     private readonly TextBlock _linkLine;
+    private readonly WifiBars _wifi;
     private readonly ChromeToggle _allToggle;
     private readonly ChromeButton _refresh;
     private readonly RotateTransform _spin = new();
@@ -55,9 +56,10 @@ internal sealed class HeaderSection : PanelSection, IDisposable
         _summary = Ui.Text("", Ramp.Footnote, null, ThemeKeys.TextSecondary);
         _linkDot = new Ellipse { Width = 6, Height = 6, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 1, 5, 0) };
         _linkLine = Ui.Text("", Ramp.Footnote, null, ThemeKeys.TextSecondary);
+        _wifi = new WifiBars { Margin = new Thickness(6, 1, 0, 0), VerticalAlignment = VerticalAlignment.Center, Visibility = Visibility.Collapsed };
         var linkGrid = Ui.Columns("Auto", "*");
         linkGrid.Children.Add(Ui.At(_linkDot, 0));
-        linkGrid.Children.Add(Ui.At(_linkLine, 1));
+        linkGrid.Children.Add(Ui.At(new StackPanel { Orientation = Orientation.Horizontal, Children = { _linkLine, _wifi } }, 1));
         _linkRow = linkGrid;
 
         var titles = new Stack { Spacing = 1, VerticalAlignment = VerticalAlignment.Center, Children = { _allTitle, _picker, _plainTitle, _summary, _linkRow } };
@@ -127,7 +129,17 @@ internal sealed class HeaderSection : PanelSection, IDisposable
         _pickerName.Text = Store.PrinterName;
         AutomationProperties.SetName(_picker, Store.PrinterName);
         _plainTitle.Text = configured ? Store.PrinterName : Brand.Name;
-        _linkLine.Text = PanelText.LinkLine(Store);
+        // beta: Wi-Fi strength as an icon whose arcs fill with the signal; the words stay its tooltip and the line's
+        // name for screen readers.
+        var signal = Store.Current is { Phase: PrinterConnection.Phase.Online, Status.WifiSignal: { } dbm } && dbm != -90 ? dbm : (int?)null;
+        _linkLine.Text = PanelText.LinkLine(Store, wifiWords: signal is null);
+        AutomationProperties.SetName(_linkLine, PanelText.LinkLine(Store));
+        _wifi.Visibility = Show(signal is not null);
+        if (signal is { } level)
+        {
+            _wifi.Level = WifiBars.For(level);
+            Ui.Tip(_wifi, PanelText.WiFi(level));
+        }
         _linkDot.Fill = Store.Current?.Phase switch
         {
             PrinterConnection.Phase.Online => Palette.Brush(Palette.Accent),

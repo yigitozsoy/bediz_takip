@@ -31,13 +31,17 @@ public static class PanelText
         return minutes < 1 ? Loc.T("Just now") : Loc.F("%@ ago", Format.Duration(minutes));
     }
 
-    /// <summary>The panel's header line: model, then Wi-Fi or the link state.</summary>
-    public static string LinkLine(PrinterStore store)
+    /// <summary>The panel's header line: model, then Wi-Fi or the link state. Without <paramref name="wifiWords"/>
+    /// a Wi-Fi strength is left out (beta draws it as <see cref="Theme.WifiBars"/>); Ethernet stays a word.</summary>
+    public static string LinkLine(PrinterStore store, bool wifiWords = true)
     {
         if (store.Current is not { } current) return Loc.T("No printer set up");
         var parts = new List<string> { current.Config.ModelName };
         if (current.Phase is PrinterConnection.Phase.Online)
-            parts.Add(current.Status?.WifiSignal is { } wifi ? WiFi(wifi) : Loc.T("Connected"));
+        {
+            if (current.Status?.WifiSignal is not { } wifi) parts.Add(Loc.T("Connected"));
+            else if (wifiWords || wifi == -90) parts.Add(WiFi(wifi));
+        }
         else parts.Add(current.LinkSummary);
         return string.Join(" · ", parts);
     }

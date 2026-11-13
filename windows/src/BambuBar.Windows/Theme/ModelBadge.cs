@@ -81,7 +81,7 @@ public static class ModelBadge
         if (Ensure(main) is not { } big) return null;
         var small = sub is null ? null : Ensure(sub);
         var p = GammaTheme.For(dark);
-        var tile = SpoolArt.Mix(p.Card, p.Text, dark ? 0.07 : 0.06);
+        var tile = SpoolArt.Mix(p.Card, p.Text, dark ? 0.07 : 0.10);
         var ink = p.Text;
         var faint = p.Text2;
         var opacity = scene.Dimmed ? 0.55 : 1.0;

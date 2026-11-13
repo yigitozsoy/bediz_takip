@@ -15,8 +15,8 @@ public static class GammaTheme
 {
     public const string ThemeKey = "betaMonitorTheme";
     public const string AccentKey = "betaMonitorAccent";
-    public const string DefaultVariant = "amoled";
-    public const string DefaultAccent = "blue";
+    public const string DefaultVariant = "bambu";
+    public const string DefaultAccent = "bambu";
     public const string System = "system";
     public const string Classic = "classic";
 
@@ -54,6 +54,14 @@ public static class GammaTheme
     /// <summary>Gamma's VARIANTS, in its order.</summary>
     public static IReadOnlyList<Variant> Variants { get; } =
     [
+        // beta's default: the silver of Bambu Lab's printers (the H2D's shell, #9e9e9e, and its lit edge, #d2d2ce),
+        // in Gamma's shapes.
+        new("bambu", "Bambu grisi", "Bambu gray", false, LightBase with
+        {
+            Bg = Hex("#9e9e9e"), Bg2 = Hex("#a6a6a6"), Surface = Hex("#c4c4c0"), SurfaceHover = Hex("#b8b8b4"), Card = Hex("#d2d2ce"),
+            Text = Hex("#141414"), Text2 = Hex("#3a3a3a"), Text3 = Hex("#5a5a5a"), Divider = Black(0.12), Hover = Black(0.07),
+            Pressed = Black(0.13), Selected = Black(0.10), InputBg = Hex("#e2e2df"), InputBorder = Hex("#8a8a88"),
+        }),
         new("amoled", "AMOLED siyah", "AMOLED black", true, DarkBase),
         new("dark_gray", "Koyu gri", "Dark gray", true, DarkBase with { Bg = Hex("#0f0f0f"), Bg2 = Hex("#181818") }),
         new("graphite", "Grafit", "Graphite", true, DarkBase with
@@ -91,10 +99,10 @@ public static class GammaTheme
         }),
     ];
 
-    /// <summary>Gamma's ACCENTS (its "gray" default is a fine player chrome but reads as idle here, so BetaMonitor
-    /// starts on blue, the icon's pulse).</summary>
+    /// <summary>Gamma's ACCENTS, after Bambu Lab's green (beta's default: Gamma's "gray" reads as idle here).</summary>
     public static IReadOnlyList<(string Id, string Turkish, string English, Color Color)> Accents { get; } =
     [
+        ("bambu", "Bambu yeşili", "Bambu green", Hex("#00ae42")),
         ("blue", "Mavi", "Blue", Hex("#3ea6ff")),
         ("red", "Kırmızı", "Red", Hex("#ff0033")),
         ("green", "Yeşil", "Green", Hex("#2ecc71")),

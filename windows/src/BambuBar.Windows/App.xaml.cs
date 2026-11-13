@@ -43,6 +43,7 @@ public partial class App : Application
     {
         base.OnStartup(e);
         CrashLog.Install(this);
+        BambuBar.Theme.SmoothScroll.Install();
         var args = e.Args;
         _arguments = args;
         var ephemeral = PrinterStore.IsEphemeralRun(args);

@@ -57,6 +57,17 @@ public sealed class ProgressCapsule : FrameworkElement
         var w = ActualWidth;
         var h = ActualHeight;
         if (w <= 0 || h <= 0) return;
+        // beta: under the Gamma theme the bar is Gamma's (and YouTube's): a thin flat line, no gradient or shine.
+        if (GammaTheme.Active)
+        {
+            const double thin = 4;
+            var top = (h - thin) / 2;
+            dc.DrawRoundedRectangle(Track, null, new Rect(0, top, w, thin), thin / 2, thin / 2);
+            if (Progress <= 0) return;
+            var width = Math.Max(thin, w * Math.Min(1, Progress));
+            dc.DrawRoundedRectangle(Palette.Brush(_tint), null, new Rect(0, top, width, thin), thin / 2, thin / 2);
+            return;
+        }
         var r = h / 2;
         dc.DrawRoundedRectangle(Track, null, new Rect(0, 0, w, h), r, r);
         if (Progress <= 0) return;

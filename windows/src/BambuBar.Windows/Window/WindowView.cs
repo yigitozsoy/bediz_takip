@@ -586,7 +586,8 @@ public sealed class WindowView : Border, IDisposable
             if (GammaTheme.Active)
                 return new Border
                 {
-                    Width = 28, Height = 28, Child = Icons.Glyph(page.Glyph(), 17, ThemeKeys.TextPrimary),
+                    Width = 28, Height = 28,
+                    Child = page == AppPage.Printer ? Icons.Printer3D(18, ThemeKeys.TextPrimary) : Icons.Glyph(page.Glyph(), 17, ThemeKeys.TextPrimary),
                     VerticalAlignment = VerticalAlignment.Center,
                 };
             var tint = page.Tint();

@@ -59,6 +59,9 @@ internal sealed class PrinterPage(WindowContext ctx) : Page(ctx)
 
         _job = new JobSection(_panel, HeroScale);
         _hero = new Border { Child = _job.Root, LayoutTransform = new ScaleTransform(HeroScale, HeroScale) };
+        // The window lays text out on whole pixels (Display), which blurs once scaled: the hero's text is laid out
+        // for its scaled size instead.
+        TextOptions.SetTextFormattingMode(_hero, TextFormattingMode.Ideal);
 
         _controls = new ControlsSection(_panel);
         _controlsHost = new Border { Child = _controls.Root, MaxWidth = 520, HorizontalAlignment = HorizontalAlignment.Left };

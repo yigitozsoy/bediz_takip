@@ -535,6 +535,7 @@ internal sealed class Showcase : IDisposable
         var card = WidgetCard.CardSize(_size);
         _widgetSlot.Child = _card;
         _widgetSlot.LayoutTransform = new ScaleTransform(scale, scale);
+        TextOptions.SetTextFormattingMode(_widgetSlot, TextFormattingMode.Ideal);
         var height = card.Height * scale + StageMargin * 2 + ScenesHeight;
         _stage.MinWidth = Math.Max(card.Width * scale + StageMargin * 2, ScenesWidth);
         if (animate)

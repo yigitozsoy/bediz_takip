@@ -46,6 +46,7 @@ public static class TrayGlyph
         {
             dc.PushTransform(new ScaleTransform(pixels / 18.0, pixels / 18.0));
             if (look.Percent is { } percent) DrawPercent(dc, percent, step / 20.0, ink, lightTaskbar);
+            else if (Theme.GammaTheme.Active) DrawMark(dc, look.State, step / 20.0, look.Alert, look.Offline, ink, lightTaskbar);
             else Draw(dc, look.State, step / 20.0, look.Alert, look.Offline, ink);
             dc.Pop();
         }
@@ -107,6 +108,67 @@ public static class TrayGlyph
         {
             dc.Pop();
             // The badge, with an exclamation mark cut out of it.
+            var exclamation = new GeometryGroup();
+            exclamation.Children.Add(new RectangleGeometry(new Rect(badge.X + badge.Width / 2 - 0.6, badge.Top + 1.3, 1.2, 2.6), 0.6, 0.6));
+            exclamation.Children.Add(new EllipseGeometry(new Rect(badge.X + badge.Width / 2 - 0.65, badge.Top + 4.4, 1.3, 1.3)));
+            dc.DrawGeometry(ink, null, new CombinedGeometry(GeometryCombineMode.Exclude, new EllipseGeometry(badge), exclamation));
+        }
+    }
+
+    /// <summary>beta: the app's mark, a Georgia "Β", inside a ring that tells the state: faint while idle, filling in
+    /// Bambu green with the print, amber while paused, full green when finished, red when failed; dashed and faded
+    /// offline; with the alert badge cut into its corner.</summary>
+    private static void DrawMark(DrawingContext dc, JobState? state, double fill, bool alert, bool offline, Brush ink, bool lightTaskbar)
+    {
+        var badge = new Rect(11.2, 0.2, 6.6, 6.6);
+        var cutBadge = alert && !offline;
+        if (cutBadge)
+        {
+            var around = new RectangleGeometry(new Rect(0, 0, 18, 18));
+            var hole = new EllipseGeometry(Rect.Inflate(badge, 1.2, 1.2));
+            dc.PushClip(new CombinedGeometry(GeometryCombineMode.Exclude, around, hole));
+        }
+        const double stroke = 1.7;
+        var c = new Point(9, 9);
+        var r = 9 - stroke / 2 - 0.1;
+        var track = new Pen(new SolidColorBrush(lightTaskbar ? Color.FromArgb(0x40, 0, 0, 0) : Color.FromArgb(0x55, 0xFF, 0xFF, 0xFF)), stroke);
+        if (offline) track.DashStyle = new DashStyle([1.2, 1.0], 0);
+        dc.DrawEllipse(null, track, c, r, r);
+        Color? ring = state switch
+        {
+            JobState.Printing or JobState.Preparing or JobState.Finished => lightTaskbar ? Color.FromRgb(0x00, 0x99, 0x4A) : Color.FromRgb(0x21, 0xCC, 0x6B),
+            JobState.Paused => Color.FromRgb(0xD8, 0xA6, 0x57),
+            JobState.Failed => Color.FromRgb(0xE0, 0x6B, 0x6B),
+            _ => null,
+        };
+        if (!offline && ring is { } color)
+        {
+            var amount = state is JobState.Finished or JobState.Failed ? 1 : Math.Max(fill, 0.03);
+            var arc = new Pen(new SolidColorBrush(color), stroke) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round };
+            if (amount >= 0.999) dc.DrawEllipse(null, arc, c, r, r);
+            else
+            {
+                var angle = amount * 2 * Math.PI;
+                var g = new StreamGeometry();
+                using (var ctx = g.Open())
+                {
+                    ctx.BeginFigure(new Point(c.X, c.Y - r), false, false);
+                    ctx.ArcTo(new Point(c.X + r * Math.Sin(angle), c.Y - r * Math.Cos(angle)), new Size(r, r), 0, angle > Math.PI, SweepDirection.Clockwise, true, false);
+                }
+                dc.DrawGeometry(null, arc, g);
+            }
+        }
+        // The letter, centred on its ink.
+        var text = new FormattedText("\u0392", CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface("Georgia"), 11, ink, 1.0);
+        var letter = text.BuildGeometry(new Point(0, 0));
+        var b = letter.Bounds;
+        letter.Transform = new TranslateTransform(c.X - b.X - b.Width / 2, c.Y - b.Y - b.Height / 2);
+        if (offline) dc.PushOpacity(0.5);
+        dc.DrawGeometry(ink, null, letter);
+        if (offline) dc.Pop();
+        if (cutBadge)
+        {
+            dc.Pop();
             var exclamation = new GeometryGroup();
             exclamation.Children.Add(new RectangleGeometry(new Rect(badge.X + badge.Width / 2 - 0.6, badge.Top + 1.3, 1.2, 2.6), 0.6, 0.6));
             exclamation.Children.Add(new EllipseGeometry(new Rect(badge.X + badge.Width / 2 - 0.65, badge.Top + 4.4, 1.3, 1.3)));

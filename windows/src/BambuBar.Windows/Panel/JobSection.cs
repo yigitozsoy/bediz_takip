@@ -121,6 +121,11 @@ internal sealed class JobSection : PanelSection
 
     private void FillLight(bool on)
     {
+        if (GammaTheme.Active)
+        {
+            FillGammaLight(on);
+            return;
+        }
         FrameworkElement icon = Icons.Draw(on ? Icons.Vector.BulbLit : Icons.Vector.Bulb, 13, on ? Palette.Brush(Palette.Lamp) : Ctx.Brush(ThemeKeys.TextSecondary));
         if (on)
         {
@@ -134,6 +139,27 @@ internal sealed class JobSection : PanelSection
             };
         }
         var label = Ui.Text(Loc.T("Light"), Ramp.Caption, FontWeights.SemiBold, on ? ThemeKeys.TextPrimary : ThemeKeys.TextSecondary);
+        label.Margin = new Thickness(5, 0, 0, 0);
+        _light.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { icon, label } };
+        _light.IsChecked = on;
+        Ui.Tip(_light, on ? Loc.T("Turn the chamber light off") : Loc.T("Turn the chamber light on"));
+    }
+
+    /// <summary>beta: the switch as a YouTube chip: flat grey when off, the text colour's solid fill when on (no
+    /// yellow, no glow).</summary>
+    private void FillGammaLight(bool on)
+    {
+        var g = GammaTheme.For(Ctx.Dark);
+        Brush Solid(Color color) => Palette.Brush(color);
+        _light.CheckedLook = new ButtonLook(null, null, null)
+        {
+            RestBrush = Solid(g.Text), HoverBrush = Solid(SpoolArt.Mix(g.Text, g.Bg, 0.12)),
+            PressedBrush = Solid(SpoolArt.Mix(g.Text, g.Bg, 0.22)), StrokeBrush = Brushes.Transparent,
+        };
+        var ink = on ? Solid(g.Bg) : Solid(g.Text);
+        var icon = Icons.Draw(on ? Icons.Vector.BulbLit : Icons.Vector.Bulb, 13, ink);
+        var label = Ui.Text(Loc.T("Light"), Ramp.Caption, FontWeights.Medium);
+        label.Foreground = ink;
         label.Margin = new Thickness(5, 0, 0, 0);
         _light.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { icon, label } };
         _light.IsChecked = on;
