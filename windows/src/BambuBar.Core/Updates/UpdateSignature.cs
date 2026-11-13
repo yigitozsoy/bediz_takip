@@ -11,8 +11,9 @@ namespace BambuBar.Core.Updates;
 /// </summary>
 public sealed class UpdateSignature
 {
-    /// <summary>The Mac's SUPublicEDKey: 32 bytes, Base64.</summary>
-    public const string SparklePublicKey = "TwKjQ7USQKbkf0Q0zq6N+17GXDxhmxXlxteHJn0T4jE=";
+    /// <summary>PrintPulse's update key (not Bambu Bar's): 32 bytes, Base64. Its private half is the
+    /// PRINTPULSE_UPDATE_KEY GitHub secret; <c>bambubar --update-keygen</c> makes a new pair.</summary>
+    public const string SparklePublicKey = "dgsl9WZHvsz9BDAL8/e/rriCGPSRMTsr6GLxbT2W62A=";
 
     private readonly Ed25519PublicKeyParameters _key;
 

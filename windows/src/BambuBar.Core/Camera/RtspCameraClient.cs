@@ -95,7 +95,7 @@ internal sealed class RtspCameraClient : ICameraClient
     private byte[] Request(string method, string uri, params string[] headers)
     {
         _sequence++;
-        var lines = new List<string> { $"{method} {uri} RTSP/1.0", $"CSeq: {_sequence}", "User-Agent: Bambu Bar" };
+        var lines = new List<string> { $"{method} {uri} RTSP/1.0", $"CSeq: {_sequence}", "User-Agent: " + Brand.Name };
         if (_auth?.Header(method, uri) is { } header) lines.Add($"Authorization: {header}");
         if (_session is not null) lines.Add($"Session: {_session}");
         lines.AddRange(headers);

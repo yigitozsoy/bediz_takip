@@ -29,7 +29,7 @@ public sealed class MainWindow : Window
     public MainWindow(PrinterStore store, AppSettings settings, WindowServices services)
     {
         _settings = settings;
-        Title = "Bambu Bar";
+        Title = Brand.Name;
         MinWidth = 960;
         MinHeight = 600;
         Width = 1040;
@@ -119,7 +119,7 @@ public sealed class MainWindow : Window
     {
         var variant = _view.Variant;
         Native.SetAttribute(_hwnd, Native.DWMWA_USE_IMMERSIVE_DARK_MODE, variant == ThemeVariant.Dark ? 1 : 0);
-        var mica = _chrome && variant != ThemeVariant.HighContrast
+        var mica = _chrome && variant != ThemeVariant.HighContrast && !GammaTheme.Active
             && Native.SetAttribute(_hwnd, Native.DWMWA_SYSTEMBACKDROP_TYPE, DwmsbtMainWindow);
         if (mica && HwndSource.FromHwnd(_hwnd)?.CompositionTarget is { } target) target.BackgroundColor = Colors.Transparent;
         if (mica) Background = Brushes.Transparent;

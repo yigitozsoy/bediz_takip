@@ -32,6 +32,23 @@ public static class WindowTheme
         var d = ThemeResources.Create(variant);
         void Put(string key, Color color) => d[key] = Palette.Brush(color);
         static Color C(uint argb) => Color.FromArgb((byte)(argb >> 24), (byte)(argb >> 16), (byte)(argb >> 8), (byte)argb);
+        if (GammaTheme.Active && variant != ThemeVariant.HighContrast)
+        {
+            // PrintPulse's Gamma look: one flat background, Gamma's hover/selected overlays and input colours.
+            var dark = variant == ThemeVariant.Dark;
+            var c = GammaTheme.For(dark);
+            Put(WindowKeys.WindowBackground, c.Bg);
+            Put(WindowKeys.LayerFill, c.Bg);
+            Put(WindowKeys.LayerStroke, Colors.Transparent);
+            Put(WindowKeys.NavHover, c.Hover);
+            Put(WindowKeys.NavSelected, c.Selected);
+            Put(WindowKeys.NavPressed, c.Pressed);
+            Put(WindowKeys.FieldFill, c.InputBg);
+            Put(WindowKeys.FieldFocused, c.InputBg);
+            Put(WindowKeys.StrongStroke, c.InputBorder);
+            Put(WindowKeys.OffFill, Colors.Transparent);
+            return d;
+        }
         switch (variant)
         {
             case ThemeVariant.Light:

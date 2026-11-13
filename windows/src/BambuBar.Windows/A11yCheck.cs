@@ -57,6 +57,7 @@ public static class A11yCheck
     public static int Run(string folder)
     {
         Directory.CreateDirectory(folder);
+        GammaTheme.Load(new AppSettings(null));
         Renderer3D.LogPath = null;
         Strings.Load().Use("en");
         var check = new Checker(folder);
@@ -122,7 +123,7 @@ public static class A11yCheck
                 File.WriteAllText(Path.Combine(folder, "a11y-problems.txt"),
                     problems.Count == 0 ? "No problems.\n" : string.Join("\n", problems) + "\n");
                 File.WriteAllText(Path.Combine(folder, "a11y-report.txt"),
-                    $"Bambu Bar accessibility check ({DateTime.Now:yyyy-MM-dd HH:mm}), {problems.Count} problem(s)\n\n" + _report);
+                    $"{Brand.Name} accessibility check ({DateTime.Now:yyyy-MM-dd HH:mm}), {problems.Count} problem(s)\n\n" + _report);
                 return problems.Count == 0 ? 0 : 1;
             }
         }
@@ -259,7 +260,7 @@ public static class A11yCheck
             var widgets = new WidgetHost(temp, temp);
             widgets.Add(WidgetHost.Size.Medium, store.Sessions.FirstOrDefault()?.Id, 1500, 16);
             widgets.Add(WidgetHost.Size.Small, null, 1500, 240);
-            var window = new MainWindow(store, settings, new WindowServices { Widgets = widgets });
+            var window = new MainWindow(store, settings, new WindowServices { Widgets = widgets, Relay = new RelayNotifier(new NullNotifier(), settings, new MemorySecretStore(), new BambuBar.Notifications.SoundEffects()) });
             try
             {
                 window.Present();

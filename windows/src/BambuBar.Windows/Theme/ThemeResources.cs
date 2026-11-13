@@ -24,7 +24,9 @@ public static class ThemeResources
         void Put(string key, Color color) => d[key] = Palette.Brush(color);
         static Color C(uint argb) => Color.FromArgb((byte)(argb >> 24), (byte)(argb >> 16), (byte)(argb >> 8), (byte)argb);
 
-        switch (variant)
+        var gamma = GammaTheme.Active && variant != ThemeVariant.HighContrast;
+        if (gamma) Gamma(d, variant == ThemeVariant.Dark);
+        else switch (variant)
         {
             case ThemeVariant.Light:
                 Put(ThemeKeys.TextPrimary, C(0xE4000000));
@@ -110,7 +112,7 @@ public static class ThemeResources
                 break;
         }
 
-        if (variant != ThemeVariant.HighContrast) Glass(d, variant == ThemeVariant.Dark);
+        if (variant != ThemeVariant.HighContrast && !gamma) Glass(d, variant == ThemeVariant.Dark);
 
         // Segoe UI Variable on Windows 11; WPF falls back along the list (Segoe UI on Windows 10).
         d[ThemeKeys.FontText] = new FontFamily("Segoe UI Variable Text, Segoe UI");
@@ -121,6 +123,44 @@ public static class ThemeResources
         d[typeof(ToolTip)] = ToolTipStyle();
         if (ScrollBarStyle() is { } scrollBar) d[typeof(ScrollBar)] = scrollBar;
         return d;
+    }
+
+    /// <summary>
+    /// PrintPulse's Gamma Player look: flat surfaces on the variant's background (AMOLED black by default), no strokes
+    /// or gradients, Gamma's text greys, and the picked accent as a solid fill.
+    /// </summary>
+    private static void Gamma(ResourceDictionary d, bool dark)
+    {
+        void Put(string key, Color color) => d[key] = Palette.Brush(color);
+        var c = GammaTheme.For(dark);
+        var accent = GammaTheme.Accent;
+        var control = dark ? c.Surface : c.SurfaceHover;
+        var controlHover = dark ? c.SurfaceHover : SpoolArt.Mix(c.SurfaceHover, Colors.Black, 0.06);
+        Put(ThemeKeys.TextPrimary, c.Text);
+        Put(ThemeKeys.TextSecondary, c.Text2);
+        Put(ThemeKeys.TextTertiary, c.Text3);
+        Put(ThemeKeys.TextOnAccent, GammaTheme.OnAccent);
+        Put(ThemeKeys.TextLink, Palette.Ink(accent, dark));
+        Put(ThemeKeys.PanelBackground, c.Bg);
+        Put(ThemeKeys.PanelStroke, c.Divider);
+        Put(ThemeKeys.CardFill, dark ? c.Card : c.Surface);
+        Put(ThemeKeys.CardStroke, Colors.Transparent);
+        Put(ThemeKeys.SubtleHover, c.Hover);
+        Put(ThemeKeys.SubtlePressed, c.Pressed);
+        Put(ThemeKeys.ControlFill, control);
+        Put(ThemeKeys.ControlHover, controlHover);
+        Put(ThemeKeys.ControlPressed, SpoolArt.Mix(controlHover, dark ? Colors.White : Colors.Black, 0.06));
+        Put(ThemeKeys.ControlStroke, Colors.Transparent);
+        Put(ThemeKeys.ControlSelected, Palette.WithAlpha(accent, dark ? 0.22 : 0.18));
+        Put(ThemeKeys.Track, dark ? c.SurfaceHover : SpoolArt.Mix(c.SurfaceHover, Colors.Black, 0.04));
+        Put(ThemeKeys.Divider, c.Divider);
+        Put(ThemeKeys.FlyoutFill, dark ? c.Card : c.Bg);
+        Put(ThemeKeys.FlyoutStroke, c.Divider);
+        Put(ThemeKeys.FocusOuter, c.Text);
+        Put(ThemeKeys.FocusInner, c.Bg);
+        Put(ThemeKeys.AccentFill, accent);
+        Put(ThemeKeys.AccentHover, SpoolArt.Mix(accent, Colors.White, 0.15));
+        Put(ThemeKeys.AccentPressed, SpoolArt.Mix(accent, Colors.Black, 0.10));
     }
 
     /// <summary>

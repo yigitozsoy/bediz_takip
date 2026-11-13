@@ -42,7 +42,7 @@ CardGradient=90 | 292B2E ; 0 | 141719 ; 1
 MouseOverAction=[!CommandMeasure MeasureScript "Hover(1)"]
 MouseLeaveAction=[!CommandMeasure MeasureScript "Hover(0)"]
 MouseActionCursorName=Hand
-LeftMouseUpAction=["bambubar://printer/"]
+LeftMouseUpAction=["printpulse://printer/"]
 
 ; Every content meter has Container=Content: drawn through this shape, so its alpha fades them all (150 ms out,
 ; 180 ms in on a state change). Positions inside are card coordinates.

@@ -7,7 +7,7 @@ public static class Registration
 {
     private const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
     private const string StartupApprovedKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run";
-    private const string ValueName = "Bambu Bar";
+    private const string ValueName = Brand.Name;
 
     private static string Exe => Environment.ProcessPath ?? throw new InvalidOperationException("No process path");
 
@@ -42,8 +42,8 @@ public static class Registration
     /// <summary>Registers <c>bambubar://</c> for this user, pointing at this copy of the app (widgets' clicks, links).</summary>
     public static void RegisterUriScheme()
     {
-        using var scheme = Registry.CurrentUser.CreateSubKey(@"Software\Classes\bambubar");
-        scheme.SetValue("", "URL:Bambu Bar");
+        using var scheme = Registry.CurrentUser.CreateSubKey(@"Software\Classes\" + Brand.Scheme);
+        scheme.SetValue("", "URL:" + Brand.Name);
         scheme.SetValue("URL Protocol", "");
         using (var icon = scheme.CreateSubKey("DefaultIcon")) icon.SetValue("", $"\"{Exe}\",0");
         using var command = scheme.CreateSubKey(@"shell\open\command");

@@ -1,7 +1,9 @@
-name: Build
+name: PrintPulse
 
 on:
   push:
+    branches: ['**']
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
@@ -9,29 +11,6 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: macOS (universal)
-    runs-on: macos-26
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Install XcodeGen
-        run: brew install xcodegen
-      - name: Build and package (ad-hoc signed)
-        run: ./scripts/package.sh
-      - name: Verify checksum
-        working-directory: build
-        run: shasum -a 256 -c Bambu-Bar-*-macos.zip.sha256
-      - uses: actions/upload-artifact@v7
-        with:
-          name: Bambu-Bar-macos
-          path: |
-            build/Bambu-Bar-*-macos.zip
-            build/Bambu-Bar-*-macos.zip.sha256
-          if-no-files-found: error
-
   # The Windows app (docs/windows.md). Core has no Windows APIs, so its tests run on Linux.
   windows-core:
     name: Windows Core tests (Linux)
@@ -155,7 +134,7 @@ jobs:
         # A WinExe: PowerShell wouldn't wait for it on its own. camera.png goes through the bundled FFmpeg; a problem
         # there (it didn't load or decode) fails the job.
         run: |
-          $p = Start-Process ../build/windows/win-x64/BambuBar.exe -ArgumentList '--snapshot', "$PWD/../build/snapshots" -Wait -PassThru
+          $p = Start-Process ../build/windows/win-x64/PrintPulse.exe -ArgumentList '--snapshot', "$PWD/../build/snapshots" -Wait -PassThru
           if ($p.ExitCode -ne 0) { throw "snapshot exited with $($p.ExitCode)" }
           Get-ChildItem ../build/snapshots
           if (Test-Path ../build/snapshots/camera-errors.txt) { Get-Content ../build/snapshots/camera-errors.txt; throw "The camera snapshot failed" }
@@ -165,9 +144,9 @@ jobs:
       - name: Run the demo and screenshot the desktop
         if: matrix.rid == 'win-x64'
         run: |
-          $p = Start-Process ../build/windows/win-x64/BambuBar.exe -ArgumentList '--demo', 'printing', '--fleet' -PassThru
+          $p = Start-Process ../build/windows/win-x64/PrintPulse.exe -ArgumentList '--demo', 'printing', '--fleet' -PassThru
           Start-Sleep -Seconds 10
-          if ($p.HasExited) { throw "BambuBar.exe exited early with $($p.ExitCode)" }
+          if ($p.HasExited) { throw "PrintPulse.exe exited early with $($p.ExitCode)" }
           Add-Type -AssemblyName System.Windows.Forms, System.Drawing
           $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
           $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
@@ -197,7 +176,7 @@ jobs:
           }
       - uses: actions/upload-artifact@v7
         with:
-          name: Bambu-Bar-windows-installer-${{ matrix.rid }}
+          name: PrintPulse-windows-installer-${{ matrix.rid }}
           path: build/installer/
           if-no-files-found: error
       - uses: actions/upload-artifact@v7
@@ -210,33 +189,33 @@ jobs:
         # Even when a step failed: the errors files and what did render say why.
         if: always() && matrix.rid == 'win-x64'
         with:
-          name: Bambu-Bar-windows-snapshots
+          name: PrintPulse-windows-snapshots
           path: build/snapshots/
           if-no-files-found: warn
       - uses: actions/upload-artifact@v7
         with:
-          name: Bambu-Bar-windows-${{ matrix.rid }}
+          name: PrintPulse-windows-${{ matrix.rid }}
           path: build/windows/${{ matrix.rid }}/
           if-no-files-found: error
       - name: Accessibility check (UI Automation)
         id: a11y
         if: matrix.rid == 'win-x64'
         timeout-minutes: 12
-        # BambuBar.exe --a11y-check (src/BambuBar.Windows/A11yCheck.cs, P3.12): the panel, its menus, the stop
+        # PrintPulse.exe --a11y-check (src/BambuBar.Windows/A11yCheck.cs, P3.12): the panel, its menus, the stop
         # confirmation and every page of the window over the demo fleet, read through UI Automation and walked with Tab.
         # Fails on a control without a name, a meaningless or duplicated name, one Tab never reaches, or Esc and Enter
         # not doing their job; the report (each scene's tree with names, roles and states, and its Tab order) is an
         # artifact either way.
         run: |
           $out = "$PWD/../build/a11y"
-          $p = Start-Process ../build/windows/win-x64/BambuBar.exe -ArgumentList '--a11y-check', $out -PassThru
+          $p = Start-Process ../build/windows/win-x64/PrintPulse.exe -ArgumentList '--a11y-check', $out -PassThru
           if (-not $p.WaitForExit(600000)) { Stop-Process $p -Force; throw "The accessibility check didn't end within 10 minutes" }
           if (Test-Path "$out/a11y-problems.txt") { Get-Content "$out/a11y-problems.txt" }
           if ($p.ExitCode -ne 0) { throw "The accessibility check failed (exit $($p.ExitCode)): see a11y-report.txt in the a11y artifact" }
       - uses: actions/upload-artifact@v7
         if: always() && matrix.rid == 'win-x64'
         with:
-          name: Bambu-Bar-windows-a11y
+          name: PrintPulse-windows-a11y
           path: build/a11y/
           if-no-files-found: ignore
       # Last, so a failing install test never holds back the artifacts above (the installers people test by hand). It
@@ -247,7 +226,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         if: always() && matrix.rid == 'win-x64'
         with:
-          name: Bambu-Bar-windows-install-smoke
+          name: PrintPulse-windows-install-smoke
           path: build/install-smoke/
           if-no-files-found: ignore
 
@@ -266,5 +245,60 @@ jobs:
       - uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: Bambu-Bar-widgets-smoke
+          name: PrintPulse-widgets-smoke
           path: build/widgets/
+
+  # A v* tag (v2.3.0, the version in project.yml) becomes a GitHub release: both installers, their checksums, the
+  # Rainmeter source (GPL-2.0) and appcast.xml, which the app checks daily. The appcast is signed with the
+  # PRINTPULSE_UPDATE_KEY secret (windows/tools/BambuBar.Cli --update-keygen); without it the release isn't made.
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows-core, windows, widgets]
+    runs-on: windows-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    env:
+      DOTNET_NOLOGO: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: windows/global.json
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: PrintPulse-windows-installer-*
+          path: build/installer
+          merge-multiple: true
+      - uses: actions/download-artifact@v8
+        with:
+          name: rainmeter-source
+          path: build/release
+      - name: Check the tag is project.yml's version
+        run: |
+          $version = ./windows/tools/version.ps1
+          if ('${{ github.ref_name }}' -ne "v$version") { throw "Tag ${{ github.ref_name }} isn't v$version (project.yml)" }
+          "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Sign the installers into appcast.xml
+        env:
+          PRINTPULSE_UPDATE_KEY: ${{ secrets.PRINTPULSE_UPDATE_KEY }}
+        run: |
+          $installers = (Get-ChildItem build/installer -Filter *.exe).FullName
+          if ($installers.Count -ne 2) { throw "Expected the x64 and ARM64 installers, found: $($installers -join ', ')" }
+          $base = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/"
+          dotnet run --project windows/tools/BambuBar.Cli -c Release -- --appcast build/installer/appcast.xml $env:VERSION $base @installers
+          if ($LASTEXITCODE -ne 0) { throw "appcast failed with $LASTEXITCODE" }
+          Get-Content build/installer/appcast.xml
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $files = @(Get-ChildItem build/installer, build/release -File | ForEach-Object FullName)
+          gh release create '${{ github.ref_name }}' --repo '${{ github.repository }}' --title "PrintPulse $env:VERSION" --generate-notes @files

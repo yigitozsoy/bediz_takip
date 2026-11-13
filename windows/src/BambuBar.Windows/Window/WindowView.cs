@@ -13,7 +13,6 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using BambuBar.Core;
 using BambuBar.Core.App;
-using BambuBar.Core.Licensing;
 using BambuBar.Core.Model;
 using BambuBar.Core.Protocol;
 using BambuBar.Theme;
@@ -58,6 +57,7 @@ public sealed class WindowView : Border, IDisposable
     private Region _picker = null!;
     private Region _footer = null!;
     private Region _supporter = null!;
+    private int _themeStamp;
     private AccessibleGroup _layer = null!;
     private FrameworkElement _appName = null!;
     private bool _showsAppName = true;
@@ -87,7 +87,6 @@ public sealed class WindowView : Border, IDisposable
         Build();
         store.PropertyChanged += OnChanged;
         ((INotifyCollectionChanged)store.Sessions).CollectionChanged += OnSessionsChanged;
-        if (services.License is { } license) license.PropertyChanged += OnChanged;
         if (services.Updates is { } updates) updates.PropertyChanged += OnChanged;
         Watch();
     }
@@ -158,7 +157,7 @@ public sealed class WindowView : Border, IDisposable
 
     public void ApplyTheme(ThemeVariant variant)
     {
-        if (variant == Variant) return;
+        if (variant == Variant && _themeStamp == GammaTheme.Stamp) return;
         Variant = variant;
         _page?.Dispose();
         _page = null;
@@ -174,6 +173,7 @@ public sealed class WindowView : Border, IDisposable
 
     private void Build()
     {
+        _themeStamp = GammaTheme.Stamp;
         Theme = WindowTheme.Create(Variant);
         Resources.MergedDictionaries.Clear();
         Resources.MergedDictionaries.Add(Theme);
@@ -235,7 +235,7 @@ public sealed class WindowView : Border, IDisposable
             : Icons.Glyph(Icons.Printer, 14, null, Palette.Brush(Palette.Accent));
         RenderOptions.SetBitmapScalingMode(mark, BitmapScalingMode.HighQuality);
         mark.Margin = new Thickness(14, 0, 9, 0);
-        var name = Ui.Text("Bambu Bar", 12, null, ThemeKeys.TextSecondary);
+        var name = Ui.Text(Brand.Name, 12, null, ThemeKeys.TextSecondary);
         _appName = new StackPanel { Orientation = Orientation.Horizontal, Children = { mark, name }, Visibility = _showsAppName ? Visibility.Visible : Visibility.Collapsed };
         grid.Children.Add(Ui.At(_appName, 0));
         _supporter = new Region();
@@ -260,7 +260,7 @@ public sealed class WindowView : Border, IDisposable
             list.Children.Add(item);
         }
         var scroller = new ScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Focusable = false };
-        AutomationProperties.SetName(list, "Bambu Bar");
+        AutomationProperties.SetName(list, Brand.Name);
         var dock = new DockPanel { LastChildFill = true };
         _picker.Host.Margin = new Thickness(12, 0, 12, 8);
         DockPanel.SetDock(_picker.Host, Dock.Top);
@@ -312,6 +312,7 @@ public sealed class WindowView : Border, IDisposable
             AppPage.Fleet or AppPage.Printer when configured && !AddingPrinter => ("printer|" + id, Printer),
             AppPage.Fleet or AppPage.Printer => ("setup|" + SetupCandidate?.Serial, Setup),
             AppPage.Filament => ("filament", () => new FilamentPage(_ctx)),
+            AppPage.History => ("history", () => new HistoryPage(_ctx)),
             AppPage.Tray => ("tray", () => new TrayPage(_ctx)),
             AppPage.Notifications => ("notifications", () => new NotificationsPage(_ctx)),
             AppPage.Printers => ("printers|" + id, () => new PrintersPage(_ctx)),
@@ -336,7 +337,7 @@ public sealed class WindowView : Border, IDisposable
 
     /// <summary>Pages that only show what the store says, with no timer, animation or setup state of their own.</summary>
     private static bool Keepable(Page page) =>
-        page is PrinterPage or FleetPage or FilamentPage or NotificationsPage or PrintersPage or SettingsPage;
+        page is PrinterPage or FleetPage or FilamentPage or HistoryPage or NotificationsPage or PrintersPage or SettingsPage;
 
     // MARK: Updating
 
@@ -433,20 +434,14 @@ public sealed class WindowView : Border, IDisposable
         return Ui.ReadAsOne(grid, $"{name.Text}, {line}");
     }
 
-    /// <summary>"Hero Supporter" for supporters (opens About), else "Support this project" (opens the page).</summary>
-    private void FillSupporter()
-    {
-        var access = _services.License?.HasAccess ?? false;
-        _supporter.Show(access.ToString(), () =>
+    /// <summary>PrintPulse on GitHub, where "Support this project" was.</summary>
+    private void FillSupporter() =>
+        _supporter.Show("github", () =>
         {
-            var button = access
-                ? W.Link(Loc.T("Hero Supporter"), () => Show(AppPage.About), "", 12)
-                : W.Link(Loc.T("Support this project"), () => W.Open(PolarConfiguration.SupportUrl(PolarConfiguration.SupportPlacement.MainWindow)), "", 12);
-            if (access) Ui.Tip(button, Loc.T("Thanks for supporting Bambu Bar"));
-            else if (button.Content is StackPanel { Children: [FrameworkElement heart, ..] }) Ui.Heartbeat(heart);
+            var button = W.Link("GitHub", () => W.Open(Website.Home), "", 12);
+            Ui.Tip(button, Website.Home.AbsoluteUri);
             return button;
         });
-    }
 
     private void OnChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -526,7 +521,6 @@ public sealed class WindowView : Border, IDisposable
     {
         _store.PropertyChanged -= OnChanged;
         ((INotifyCollectionChanged)_store.Sessions).CollectionChanged -= OnSessionsChanged;
-        if (_services.License is { } license) license.PropertyChanged -= OnChanged;
         if (_services.Updates is { } updates) updates.PropertyChanged -= OnChanged;
         foreach (var session in _watched) session.PropertyChanged -= OnChanged;
         _watched.Clear();
@@ -576,6 +570,13 @@ public sealed class WindowView : Border, IDisposable
         /// <summary>The page's icon, white on a rounded tile of its colour lit from above.</summary>
         private static Border Tile(AppPage page)
         {
+            // PrintPulse's Gamma look: a plain icon in the text colour, as in Gamma's sidebar.
+            if (GammaTheme.Active)
+                return new Border
+                {
+                    Width = 28, Height = 28, Child = Icons.Glyph(page.Glyph(), 17, ThemeKeys.TextPrimary),
+                    VerticalAlignment = VerticalAlignment.Center,
+                };
             var tint = page.Tint();
             var fill = new LinearGradientBrush(SpoolArt.Mix(tint, Colors.White, 0.16), SpoolArt.Mix(tint, Colors.Black, 0.10), 90);
             fill.Freeze();

@@ -14,13 +14,18 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <RootNamespace>BambuBar</RootNamespace>
-    <AssemblyName>BambuBar</AssemblyName>
+    <AssemblyName>PrintPulse</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Assets\BambuBar.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\PrintPulse.ico</ApplicationIcon>
     <AssemblyTitle>Bambu Bar</AssemblyTitle>
     <!-- Source-generated Win32 interop (LibraryImport): tray, WM_COPYDATA, Credential Manager. -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- PrintPulse: Brand (the app's name, folders, link scheme) everywhere. -->
+    <Using Include="BambuBar.Core" />
+  </ItemGroup>
 
   <!-- dotnet publish -r win-x64|win-arm64: one self-contained folder, no .NET install needed. -->
   <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">

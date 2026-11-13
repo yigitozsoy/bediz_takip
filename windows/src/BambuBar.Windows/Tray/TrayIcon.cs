@@ -190,7 +190,7 @@ public sealed partial class TrayIcon : IDisposable
     public static string Text(PrinterSession? session)
     {
         var line = Tooltip(session);
-        var text = line.StartsWith("Bambu Bar", StringComparison.Ordinal) ? line : "Bambu Bar\n" + line;
+        var text = line.StartsWith(Brand.Name, StringComparison.Ordinal) ? line : Brand.Name + "\n" + line;
         return text.Length > 127 ? text[..126] + "…" : text;
     }
 

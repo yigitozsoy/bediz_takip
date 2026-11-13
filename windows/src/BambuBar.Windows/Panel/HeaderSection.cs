@@ -126,7 +126,7 @@ internal sealed class HeaderSection : PanelSection, IDisposable
         if (all) _summary.Text = PanelText.FleetSummary(Store);
         _pickerName.Text = Store.PrinterName;
         AutomationProperties.SetName(_picker, Store.PrinterName);
-        _plainTitle.Text = configured ? Store.PrinterName : "Bambu Bar";
+        _plainTitle.Text = configured ? Store.PrinterName : Brand.Name;
         _linkLine.Text = PanelText.LinkLine(Store);
         _linkDot.Fill = Store.Current?.Phase switch
         {

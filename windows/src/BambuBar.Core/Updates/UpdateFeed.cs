@@ -30,7 +30,7 @@ public sealed class UpdateException(UpdateFailure failure, Exception? inner = nu
 /// </summary>
 public sealed partial class UpdateFeed
 {
-    public static readonly Uri DefaultUrl = new("https://github.com/rolottr/bambu-bar/releases/latest/download/appcast.xml");
+    public static readonly Uri DefaultUrl = new($"https://github.com/{Brand.Repository}/releases/latest/download/appcast.xml");
 
     /// <summary>Today's feed is a few kilobytes; anything near this is not an appcast.</summary>
     public const int MaximumFeedBytes = 4 << 20;
@@ -54,7 +54,7 @@ public sealed partial class UpdateFeed
     {
         Url = url ?? DefaultUrl;
         _http = new HttpClient(handler ?? new SocketsHttpHandler { UseCookies = false }) { Timeout = Timeout.InfiniteTimeSpan };
-        _http.DefaultRequestHeaders.UserAgent.ParseAdd($"BambuBar/{AppVersion.Marketing}");
+        _http.DefaultRequestHeaders.UserAgent.ParseAdd($"{Brand.Name}/{AppVersion.Marketing}");
         _http.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue { NoCache = true };
     }
 

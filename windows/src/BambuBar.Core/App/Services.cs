@@ -19,11 +19,17 @@ public sealed class MemorySecretStore : ISecretStore
     public void RemoveAccessCode(string serial) => _codes.TryRemove(serial, out _);
 }
 
+/// <summary>PrintPulse: what a notification is about, so the relay can pick a sound and a colour for it.</summary>
+public enum PrintEvent { Started, Paused, Finished, Failed, Canceled, Issue, Test }
+
 /// <summary>System notifications (toasts on Windows). <paramref name="id"/> replaces an earlier one with the same id.</summary>
 public interface INotifier
 {
     void Post(string title, string body, string id);
     void RequestAuthorization();
+
+    /// <summary>PrintPulse: a notification with what it's about; plain notifiers just post it.</summary>
+    void Event(PrintEvent kind, string title, string body, string id) => Post(title, body, id);
 }
 
 public sealed class NullNotifier : INotifier

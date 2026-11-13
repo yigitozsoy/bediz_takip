@@ -83,7 +83,8 @@ public static class Ramp
     public const double Hero = 34;
 }
 
-/// <summary>Sizes, gaps and corner radii. Windows 11 rounds overlays at 8 and controls at 4; the Mac's larger, softer
+/// <summary>Sizes, gaps and corner radii (PrintPulse's Gamma look rounds cards a little less and menus a little more,
+/// and its filled buttons are capsules: see <see cref="ChromeButton"/>). Windows 11 rounds overlays at 8 and controls at 4; the Mac's larger, softer
 /// radii (20 for the job card, 14 for tiles) are scaled toward those so the panel sits with the rest of Windows.</summary>
 public static class Metrics
 {
@@ -97,17 +98,17 @@ public static class Metrics
     public const double ScreenMargin = 12;
 
     /// <summary>The job card (Mac 20).</summary>
-    public static readonly CornerRadius Hero = new(20);
+    public static CornerRadius Hero => new(GammaTheme.Active ? 16 : 20);
     /// <summary>Cards: connection, setup, filament (Mac 18–20).</summary>
-    public static readonly CornerRadius Card = new(18);
+    public static CornerRadius Card => new(GammaTheme.Active ? 14 : 18);
     /// <summary>Tiles, issue, toast, update row, list rows (Mac 12–14).</summary>
-    public static readonly CornerRadius Tile = new(14);
+    public static CornerRadius Tile => new(GammaTheme.Active ? 12 : 14);
     /// <summary>Buttons in the window's forms (between Fluent's 4 and the Mac's 11).</summary>
     public static readonly CornerRadius Control = new(8);
     /// <summary>The panel's print controls and its prominent buttons (Mac ControlButtonStyle, 11).</summary>
     public static readonly CornerRadius Button = new(11);
     /// <summary>Menus and tooltips (Fluent OverlayCornerRadius).</summary>
-    public static readonly CornerRadius Overlay = new(8);
+    public static CornerRadius Overlay => new(GammaTheme.Active ? 12 : 8);
     /// <summary>State pills, chips, the light switch: capsules, as on the Mac (StatePill, LightToggle). A starting radius;
     /// <see cref="Ui.Capsule{T}"/> keeps it at half the height (a radius larger than that draws elliptical corners in
     /// WPF, not a capsule).</summary>

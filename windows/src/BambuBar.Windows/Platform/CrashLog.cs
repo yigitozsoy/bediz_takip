@@ -13,7 +13,7 @@ namespace BambuBar.Platform;
 public static class CrashLog
 {
     public static string Folder { get; } =
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Bambu Bar", "Logs");
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Brand.Folder, "Logs");
 
     /// <summary>Set when the app starts letting go of everything.</summary>
     public static bool Quitting { get; set; }
@@ -48,7 +48,7 @@ public static class CrashLog
         {
             Directory.CreateDirectory(Folder);
             var text = new StringBuilder()
-                .AppendLine($"Bambu Bar {typeof(CrashLog).Assembly.GetName().Version} · {Environment.OSVersion.VersionString} · " +
+                .AppendLine($"{Brand.Name} {typeof(CrashLog).Assembly.GetName().Version} · {Environment.OSVersion.VersionString} · " +
                             $"{System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture}")
                 .AppendLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} · {where}")
                 .AppendLine(exception?.ToString() ?? "(no exception)")

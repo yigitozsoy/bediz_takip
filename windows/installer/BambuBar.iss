@@ -1,5 +1,5 @@
-; Bambu Bar for Windows: the installer (ledger P5.1, O10). Inno Setup 6.3 or later, per user, no admin: installs to
-; %LOCALAPPDATA%\Programs\Bambu Bar. One installer per architecture, built from the install image CI stages in
+; PrintPulse for Windows: the installer (ledger P5.1, O10). Inno Setup 6.3 or later, per user, no admin: installs to
+; %LOCALAPPDATA%\Programs\PrintPulse. One installer per architecture, built from the install image CI stages in
 ; build\windows\<rid>\ (dotnet publish + ffmpeg\ + Rainmeter\ + Skins\ + LICENSE.txt + THIRD-PARTY-NOTICES.txt):
 ;
 ;   ISCC /DAppVersion=3.0.0 /DArch=x64 /DSourceDir=<repo>\build\windows\win-x64 /DOutputDir=<repo>\build\installer BambuBar.iss
@@ -7,17 +7,17 @@
 ; AppVersion comes from windows\tools\version.ps1 (project.yml's MARKETING_VERSION, the one version line). Arch is x64
 ; or arm64; both carry the x64 Rainmeter, which runs under emulation on ARM64 (D9).
 ;
-; Silent updates: /VERYSILENT /SUPPRESSMSGBOXES /NORESTART. A running Bambu Bar from this folder, and the Rainmeter
+; Silent updates: /VERYSILENT /SUPPRESSMSGBOXES /NORESTART. A running PrintPulse from this folder, and the Rainmeter
 ; it started from Rainmeter\, are stopped before the files are replaced; after a silent install the app is started
 ; again (with --background when it had been started with it, i.e. at sign-in), after an interactive one the last
 ; page offers to open it.
-; Uninstall stops both, removes the bambubar:// and AppUserModelID keys, the sign-in (Run) entry and the .rmskin
-; association our Rainmeter registers, and keeps the user's data (%APPDATA%\Bambu Bar, %LOCALAPPDATA%\Bambu Bar,
+; Uninstall stops both, removes the printpulse:// and AppUserModelID keys, the sign-in (Run) entry and the .rmskin
+; association our Rainmeter registers, and keeps the user's data (%APPDATA%\PrintPulse, %LOCALAPPDATA%\PrintPulse,
 ; the access codes and license in Credential Manager) unless the user says so, or /PURGE=1 on a silent uninstall.
 ;
-; Signing (ledger section 9, not yet): sign BambuBar.exe in the image first, then pass a sign tool named "bambubar" and define
+; Signing (ledger section 9, not yet): sign PrintPulse.exe in the image first, then pass a sign tool named "printpulse" and define
 ; SignTool, and Inno signs the installer and its uninstaller:
-;   ISCC "/Sbambubar=signtool sign /fd SHA256 /f <pfx> /p <password> /tr http://timestamp.digicert.com /td SHA256 $f" /DSignTool=bambubar ...
+;   ISCC "/Sprintpulse=signtool sign /fd SHA256 /f <pfx> /p <password> /tr http://timestamp.digicert.com /td SHA256 $f" /DSignTool=printpulse ...
 
 #ifndef AppVersion
   #error Pass /DAppVersion=X.Y.Z (windows\tools\version.ps1)
@@ -42,24 +42,24 @@
 
 ; The same as Notifications\AppIdentity.cs: the Start menu shortcut carries it so Windows ties the shortcut, the
 ; taskbar button and the toasts together (P3.7).
-#define AppUserModelId "dev.rolottr.BambuBar"
+#define AppUserModelId "PrintPulse.App"
 
 [Setup]
-; Never change AppId: updates find the installed copy by it.
-AppId={{4EE34AFD-22B6-4447-84F3-ED113FD0A4F1}
-AppName=Bambu Bar
+; Never change AppId: updates find the installed copy by it. (PrintPulse has its own, so it installs beside Bambu Bar.)
+AppId={{40AB2714-4329-4530-81BD-5ECDC7D268D0}
+AppName=PrintPulse
 AppVersion={#AppVersion}
-AppVerName=Bambu Bar {#AppVersion}
-AppPublisher=NINA LABS, LLC
-AppPublisherURL=https://bambubar.app
-AppSupportURL=https://github.com/rolottr/bambu-bar/issues
-AppUpdatesURL=https://github.com/rolottr/bambu-bar/releases
-AppCopyright=Copyright (C) 2026 NINA LABS, LLC. MIT License.
+AppVerName=PrintPulse {#AppVersion}
+AppPublisher=PrintPulse
+AppPublisherURL=https://github.com/yigitozsoy/printpulse
+AppSupportURL=https://github.com/yigitozsoy/printpulse/issues
+AppUpdatesURL=https://github.com/yigitozsoy/printpulse/releases
+AppCopyright=PrintPulse, based on Bambu Bar (C) 2026 NINA LABS, LLC. MIT License.
 VersionInfoVersion={#AppVersion}.0
-VersionInfoProductName=Bambu Bar
-VersionInfoDescription=Bambu Bar Setup
+VersionInfoProductName=PrintPulse
+VersionInfoDescription=PrintPulse Setup
 PrivilegesRequired=lowest
-DefaultDirName={autopf}\Bambu Bar
+DefaultDirName={autopf}\PrintPulse
 DisableDirPage=yes
 DisableProgramGroupPage=yes
 DisableReadyPage=yes
@@ -75,11 +75,11 @@ WizardStyle=modern
 WizardImageFile=art\wizard-*.bmp
 WizardSmallImageFile=art\small-*.bmp
 DisableWelcomePage=no
-SetupIconFile=..\src\BambuBar.Windows\Assets\BambuBar.ico
-UninstallDisplayIcon={app}\BambuBar.exe
-UninstallDisplayName=Bambu Bar
+SetupIconFile=..\src\BambuBar.Windows\Assets\PrintPulse.ico
+UninstallDisplayIcon={app}\PrintPulse.exe
+UninstallDisplayName=PrintPulse
 OutputDir={#OutputDir}
-OutputBaseFilename=Bambu-Bar-{#AppVersion}-windows-{#Arch}
+OutputBaseFilename=PrintPulse-{#AppVersion}-windows-{#Arch}
 Compression=lzma2/max
 SolidCompression=yes
 #ifdef SignTool
@@ -91,14 +91,14 @@ SignedUninstaller=yes
 Name: "en"; MessagesFile: "compiler:Default.isl"
 
 [Messages]
-WelcomeLabel1=Welcome to Bambu Bar
-WelcomeLabel2=Your Bambu Lab printers in the Windows tray: the print's progress at a glance, the camera, filament, alerts, and widgets for your desktop.%n%nBambu Bar {#AppVersion} installs just for you; no administrator needed.
-FinishedHeadingLabel=Bambu Bar is ready
-FinishedLabel=Bambu Bar lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
-FinishedLabelNoIcons=Bambu Bar lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
+WelcomeLabel1=Welcome to PrintPulse
+WelcomeLabel2=Your Bambu Lab printers in the Windows tray: the print's progress at a glance, the camera, filament, alerts, and widgets for your desktop.%n%nPrintPulse {#AppVersion} installs just for you; no administrator needed.
+FinishedHeadingLabel=PrintPulse is ready
+FinishedLabel=PrintPulse lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
+FinishedLabelNoIcons=PrintPulse lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
 
 [CustomMessages]
-en.RemoveUserData=Also remove your Bambu Bar settings, print history and widgets from this PC?%n%nPrinter access codes and the supporter license stay in Windows Credential Manager.
+en.RemoveUserData=Also remove your PrintPulse settings, print history and widgets from this PC?%n%nPrinter access codes and the supporter license stay in Windows Credential Manager.
 
 [InstallDelete]
 ; Folders the image owns wholesale: an update replaces them instead of leaving old files behind.
@@ -111,22 +111,22 @@ Type: filesandordirs; Name: "{app}\Skins"
 Source: "{#SourceDir}\*"; Excludes: "*.pdb"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{autoprograms}\Bambu Bar"; Filename: "{app}\BambuBar.exe"; AppUserModelID: "{#AppUserModelId}"
+Name: "{autoprograms}\PrintPulse"; Filename: "{app}\PrintPulse.exe"; AppUserModelID: "{#AppUserModelId}"
 
 [Registry]
-; bambubar:// links (widget clicks, toasts), as Platform\Registration.cs writes them too.
-Root: HKCU; Subkey: "Software\Classes\bambubar"; ValueType: string; ValueName: ""; ValueData: "URL:Bambu Bar"; Flags: uninsdeletekey
-Root: HKCU; Subkey: "Software\Classes\bambubar"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
-Root: HKCU; Subkey: "Software\Classes\bambubar\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: """{app}\BambuBar.exe"",0"
-Root: HKCU; Subkey: "Software\Classes\bambubar\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\BambuBar.exe"" ""%1"""
+; printpulse:// links (widget clicks, toasts), as Platform\Registration.cs writes them too.
+Root: HKCU; Subkey: "Software\Classes\printpulse"; ValueType: string; ValueName: ""; ValueData: "URL:PrintPulse"; Flags: uninsdeletekey
+Root: HKCU; Subkey: "Software\Classes\printpulse"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
+Root: HKCU; Subkey: "Software\Classes\printpulse\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: """{app}\PrintPulse.exe"",0"
+Root: HKCU; Subkey: "Software\Classes\printpulse\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\PrintPulse.exe"" ""%1"""
 ; The AppUserModelID's name and icon for toasts, as Notifications\AppIdentity.cs writes them too.
-Root: HKCU; Subkey: "Software\Classes\AppUserModelId\{#AppUserModelId}"; ValueType: string; ValueName: "DisplayName"; ValueData: "Bambu Bar"; Flags: uninsdeletekey
+Root: HKCU; Subkey: "Software\Classes\AppUserModelId\{#AppUserModelId}"; ValueType: string; ValueName: "DisplayName"; ValueData: "PrintPulse"; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\Classes\AppUserModelId\{#AppUserModelId}"; ValueType: string; ValueName: "IconUri"; ValueData: "{app}\AppIcon.png"
 
 [Run]
 ; After a silent update: back as it was (the tray only when it had been started that way).
-Filename: "{app}\BambuBar.exe"; Parameters: "{code:RelaunchParameters}"; Flags: nowait; Check: RelaunchAfterSilentInstall
-Filename: "{app}\BambuBar.exe"; Description: "{cm:LaunchProgram,Bambu Bar}"; Flags: postinstall nowait skipifsilent
+Filename: "{app}\PrintPulse.exe"; Parameters: "{code:RelaunchParameters}"; Flags: nowait; Check: RelaunchAfterSilentInstall
+Filename: "{app}\PrintPulse.exe"; Description: "{cm:LaunchProgram,PrintPulse}"; Flags: postinstall nowait skipifsilent
 
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}"
@@ -136,7 +136,7 @@ var
   WasRunning: Boolean;
   WasInTray: Boolean;
 
-{ Ends every process called Name whose executable is inside Folder (with its trailing backslash), so a Bambu Bar or a
+{ Ends every process called Name whose executable is inside Folder (with its trailing backslash), so a PrintPulse or a
   Rainmeter run from anywhere else is left alone. Returns how many; InTray is set when one was started with
   --background. }
 function StopProcesses(const Name, Folder: String; var InTray: Boolean): Integer;
@@ -174,14 +174,14 @@ begin
   end;
 end;
 
-{ Bambu Bar first (it would restart its Rainmeter), then our Rainmeter. }
+{ PrintPulse first (it would restart its Rainmeter), then our Rainmeter. }
 function StopOurProcesses(var InTray: Boolean): Boolean;
 var
   Folder: String;
   Ignored: Boolean;
 begin
   Folder := AddBackslash(ExpandConstant('{app}'));
-  Result := StopProcesses('BambuBar.exe', Folder, InTray) > 0;
+  Result := StopProcesses('PrintPulse.exe', Folder, InTray) > 0;
   if StopProcesses('Rainmeter.exe', Folder + 'Rainmeter\', Ignored) > 0 then Result := True;
   if Result then Sleep(1000);
 end;
@@ -228,8 +228,8 @@ begin
   begin
     StopOurProcesses(Ignored);
     { Opening at sign-in (Platform\Registration.cs) and Task Manager's on/off state for it. }
-    RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Bambu Bar');
-    RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run', 'Bambu Bar');
+    RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'PrintPulse');
+    RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run', 'PrintPulse');
     RemoveRmskinAssociation;
   end;
   if CurUninstallStep = usPostUninstall then
@@ -240,8 +240,8 @@ begin
       Purge := MsgBox(CustomMessage('RemoveUserData'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES;
     if Purge then
     begin
-      DelTree(ExpandConstant('{userappdata}\Bambu Bar'), True, True, True);
-      DelTree(ExpandConstant('{localappdata}\Bambu Bar'), True, True, True);
+      DelTree(ExpandConstant('{userappdata}\PrintPulse'), True, True, True);
+      DelTree(ExpandConstant('{localappdata}\PrintPulse'), True, True, True);
     end;
   end;
 end;

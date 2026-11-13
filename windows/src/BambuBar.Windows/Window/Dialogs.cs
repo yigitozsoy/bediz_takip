@@ -21,7 +21,7 @@ internal static class Dialogs
         var owner = Window.GetWindow(from);
         var dialog = new Window
         {
-            Title = "Bambu Bar", ResizeMode = ResizeMode.NoResize, SizeToContent = SizeToContent.WidthAndHeight, ShowInTaskbar = false,
+            Title = Brand.Name, ResizeMode = ResizeMode.NoResize, SizeToContent = SizeToContent.WidthAndHeight, ShowInTaskbar = false,
             WindowStartupLocation = owner is null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner, Owner = owner,
             UseLayoutRounding = true,
         };

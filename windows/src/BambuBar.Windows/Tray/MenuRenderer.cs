@@ -13,11 +13,14 @@ namespace BambuBar.Tray;
 internal sealed partial class MenuRenderer : Forms.ToolStripRenderer
 {
     private readonly bool _dark;
-    private Color Back => _dark ? Color.FromArgb(0x2C, 0x2C, 0x2C) : Color.FromArgb(0xF9, 0xF9, 0xF9);
-    private Color Text => _dark ? Color.White : Color.FromArgb(0x1A, 0x1A, 0x1A);
-    private Color Dim => _dark ? Color.FromArgb(0x9A, 0x9A, 0x9A) : Color.FromArgb(0x8A, 0x8A, 0x8A);
-    private Color Hover => _dark ? Color.FromArgb(0x16, 0xFF, 0xFF, 0xFF) : Color.FromArgb(0x0E, 0, 0, 0);
-    private Color Line => _dark ? Color.FromArgb(0x24, 0xFF, 0xFF, 0xFF) : Color.FromArgb(0x16, 0, 0, 0);
+    // PrintPulse's Gamma look: the theme's card, text greys and overlays (the classic look keeps Windows 11's).
+    private static Color G(System.Windows.Media.Color c) => Color.FromArgb(c.A, c.R, c.G, c.B);
+    private Theme.GammaTheme.Palette? Gamma => Theme.GammaTheme.Active ? Theme.GammaTheme.For(_dark) : null;
+    private Color Back => Gamma is { } g ? G(_dark ? g.Card : g.Bg) : _dark ? Color.FromArgb(0x2C, 0x2C, 0x2C) : Color.FromArgb(0xF9, 0xF9, 0xF9);
+    private Color Text => Gamma is { } g ? G(g.Text) : _dark ? Color.White : Color.FromArgb(0x1A, 0x1A, 0x1A);
+    private Color Dim => Gamma is { } g ? G(g.Text3) : _dark ? Color.FromArgb(0x9A, 0x9A, 0x9A) : Color.FromArgb(0x8A, 0x8A, 0x8A);
+    private Color Hover => Gamma is { } g ? G(g.Hover) : _dark ? Color.FromArgb(0x16, 0xFF, 0xFF, 0xFF) : Color.FromArgb(0x0E, 0, 0, 0);
+    private Color Line => Gamma is { } g ? G(g.Divider) : _dark ? Color.FromArgb(0x24, 0xFF, 0xFF, 0xFF) : Color.FromArgb(0x16, 0, 0, 0);
     private Color Edge => _dark ? Color.FromArgb(0x40, 0, 0, 0) : Color.FromArgb(0x20, 0, 0, 0);
 
     public MenuRenderer(bool dark) => _dark = dark;

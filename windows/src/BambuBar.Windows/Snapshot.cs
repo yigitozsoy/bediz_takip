@@ -44,6 +44,11 @@ public static class Snapshot
     public static int Run(string folder)
     {
         Directory.CreateDirectory(folder);
+        // PrintPulse: the default theme, or the one PRINTPULSE_THEME / PRINTPULSE_ACCENT name (to check a variant).
+        var theme = new AppSettings(null);
+        if (Environment.GetEnvironmentVariable("PRINTPULSE_THEME") is { Length: > 0 } variant) theme.Set(GammaTheme.ThemeKey, variant);
+        if (Environment.GetEnvironmentVariable("PRINTPULSE_ACCENT") is { Length: > 0 } accent) theme.Set(GammaTheme.AccentKey, accent);
+        GammaTheme.Load(theme);
         // The 3D renderer's log goes into model3d.txt, not the user's folder.
         Renderer3D.LogPath = null;
         Save(TraySheet(), Path.Combine(folder, "tray-glyphs.png"));
@@ -183,7 +188,7 @@ public static class Snapshot
             widgets.Add(WidgetHost.Size.Medium, store.Sessions.FirstOrDefault()?.Id, 1500, 16);
             widgets.Add(WidgetHost.Size.Small, null, 1500, 240);
         }
-        var view = new WindowView(store, settings, new WindowServices { Offscreen = true, Widgets = widgets }, variant, animate: false);
+        var view = new WindowView(store, settings, new WindowServices { Offscreen = true, Widgets = widgets, Relay = new RelayNotifier(new NullNotifier(), settings, new MemorySecretStore(), new BambuBar.Notifications.SoundEffects()) }, variant, animate: false);
         try
         {
             if (scene.Candidate is { } serial && SlicerPrinters.FirstOrDefault(p => p.Serial == serial) is { Serial.Length: > 0 } picked)
@@ -503,7 +508,7 @@ public static class Snapshot
         {
             WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize, ShowInTaskbar = false, ShowActivated = false,
             WindowStartupLocation = WindowStartupLocation.Manual, Left = -12000, Top = -12000, SizeToContent = SizeToContent.WidthAndHeight,
-            Content = view, Title = "Bambu Bar 3D snapshot",
+            Content = view, Title = Brand.Name + " 3D snapshot",
         };
         window.Show();
         try

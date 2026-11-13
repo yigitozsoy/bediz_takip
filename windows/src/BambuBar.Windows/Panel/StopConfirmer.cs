@@ -40,7 +40,7 @@ internal sealed class ConfirmDialog : Window
     {
         var theme = ThemeResources.Create(variant);
         Resources.MergedDictionaries.Add(theme);
-        Title = "Bambu Bar";
+        Title = Brand.Name;
         ResizeMode = ResizeMode.NoResize;
         SizeToContent = SizeToContent.WidthAndHeight;
         ShowInTaskbar = false;

@@ -691,7 +691,7 @@ public sealed class PrinterStore : Observable, IDisposable
                 historyChanged = true;
             }
             if (notify && old is not null && NotifyStarted)
-                notifier.Post(prefix + Loc.T("Print started"), name, $"start.{serial}");
+                notifier.Event(PrintEvent.Started, prefix + Loc.T("Print started"), name, $"start.{serial}");
         }
         var index = _history.FindIndex(j => j.PrinterSerial == serial && j.Outcome == JobOutcome.Running);
         if (index >= 0)
@@ -727,12 +727,12 @@ public sealed class PrinterStore : Observable, IDisposable
             }
         }
         if (notify && old is not null && old.State is JobState.Printing or JobState.Preparing && fresh.State == JobState.Paused && NotifyPaused)
-            notifier.Post(prefix + Loc.T("Print paused"), $"{name}: {fresh.DetailText}", $"pause.{serial}");
+            notifier.Event(PrintEvent.Paused, prefix + Loc.T("Print paused"), $"{name}: {fresh.DetailText}", $"pause.{serial}");
         if (notify && old is not null)
         {
             var newIssue = fresh.Issues.FirstOrDefault(i => i.Severity <= IssueSeverity.Serious && !old.Issues.Exists(o => o.Id == i.Id));
             if (newIssue is not null && (NotifyFailed || NotifyPaused))
-                notifier.Post($"{session.Config.Name}: {newIssue.Severity.Title()}", newIssue.Message, $"{newIssue.Id}.{serial}");
+                notifier.Event(PrintEvent.Issue, $"{session.Config.Name}: {newIssue.Severity.Title()}", newIssue.Message, $"{newIssue.Id}.{serial}");
         }
         if (historyChanged)
         {
@@ -751,14 +751,14 @@ public sealed class PrinterStore : Observable, IDisposable
                 var body = job.Duration is { } d
                     ? Loc.F("%@ finished in %@. It's ready to take off the plate.", job.Name, Format.Duration(d))
                     : Loc.F("%@ finished. It's ready to take off the plate.", job.Name);
-                notifier.Post(prefix + Loc.T("Print finished"), body, $"end.{serial}");
+                notifier.Event(PrintEvent.Finished, prefix + Loc.T("Print finished"), body, $"end.{serial}");
                 break;
             case JobOutcome.Failed when NotifyFailed:
                 var reason = status.Issues.FirstOrDefault()?.Message ?? Loc.T("the printer stopped the job.", "After the job name and a colon");
-                notifier.Post(prefix + Loc.T("Print failed"), $"{job.Name}: {reason}", $"end.{serial}");
+                notifier.Event(PrintEvent.Failed, prefix + Loc.T("Print failed"), $"{job.Name}: {reason}", $"end.{serial}");
                 break;
             case JobOutcome.Canceled when NotifyFailed:
-                notifier.Post(prefix + Loc.T("Print canceled"), job.Name, $"end.{serial}");
+                notifier.Event(PrintEvent.Canceled, prefix + Loc.T("Print canceled"), job.Name, $"end.{serial}");
                 break;
         }
     }

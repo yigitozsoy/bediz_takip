@@ -5,7 +5,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using BambuBar.Core;
 using BambuBar.Core.App;
-using BambuBar.Core.Licensing;
 using BambuBar.Theme;
 
 namespace BambuBar.TrayPanel;
@@ -81,40 +80,6 @@ internal sealed class ToastSection : PanelSection
     }
 
     private sealed class Toast : AccessibleCard;
-}
-
-/// <summary>"Support this project" and "Manage License…", for people without a supporter license (the Mac shows them
-/// outside the App Store build).</summary>
-internal sealed class SupportSection : PanelSection
-{
-    private readonly Grid _root;
-
-    public SupportSection(PanelContext ctx) : base(ctx)
-    {
-        var heart = Icons.Glyph("\uEB51", Ramp.Footnote, ThemeKeys.TextLink);
-        heart.Margin = new Thickness(0, 1, 6, 0);
-        heart.VerticalAlignment = VerticalAlignment.Center;
-        Ui.Heartbeat(heart);
-        var supportLabel = Ui.Text(Loc.T("Support this project"), Ramp.Footnote, null, ThemeKeys.TextLink);
-        var support = new ChromeButton
-        {
-            Padding = new Thickness(4, 2, 4, 3),
-            Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { heart, supportLabel } },
-        };
-        AutomationProperties.SetName(support, Loc.T("Support this project"));
-        support.Click += (_, _) => Shell.Open(PolarConfiguration.SupportUrl(PolarConfiguration.SupportPlacement.MenuPanel));
-        var manage = new ChromeButton { Padding = new Thickness(4, 2, 4, 3), Content = Ui.Text(Loc.T("Manage License…"), Ramp.Footnote, null, ThemeKeys.TextSecondary) };
-        AutomationProperties.SetName(manage, Loc.T("Manage License…"));
-        manage.Click += (_, _) => Ctx.Navigate(PanelDestination.License, null);
-        _root = Ui.Columns("Auto", "*", "Auto");
-        _root.Margin = new Thickness(0, -2, 0, -2);
-        _root.Children.Add(Ui.At(support, 0));
-        _root.Children.Add(Ui.At(manage, 2));
-    }
-
-    public override FrameworkElement Root => _root;
-
-    protected override void Fill() { }
 }
 
 /// <summary>Open Bambu Bar (Ctrl+O) and Quit (Ctrl+Q); the window handles the shortcuts.</summary>

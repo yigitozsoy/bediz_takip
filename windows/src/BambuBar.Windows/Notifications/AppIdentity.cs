@@ -13,8 +13,8 @@ namespace BambuBar.Notifications;
 /// </summary>
 public static partial class AppIdentity
 {
-    public const string Id = "dev.rolottr.BambuBar";
-    public const string DisplayName = "Bambu Bar";
+    public const string Id = Brand.AppUserModelId;
+    public const string DisplayName = Brand.Name;
 
     /// <summary>The app icon toasts show: <c>AppIcon.png</c> next to the exe (copied there by the build).</summary>
     public static string? IconPath

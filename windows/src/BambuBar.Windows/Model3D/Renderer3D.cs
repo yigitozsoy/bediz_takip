@@ -73,7 +73,7 @@ public static class Renderer3D
             if (_tried) return _offReason is null ? _effects : null;
             _tried = true;
             var mode = Requested();
-            Write($"Bambu Bar {typeof(Renderer3D).Assembly.GetName().Version} · {Environment.OSVersion.VersionString} · " +
+            Write($"{Brand.Name} {typeof(Renderer3D).Assembly.GetName().Version} · {Environment.OSVersion.VersionString} · " +
                   $"{System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture} · WPF render tier {RenderCapability.Tier >> 16}");
             if (mode == Mode.Off)
             {
@@ -168,7 +168,7 @@ public static class Renderer3D
     private static string? DefaultLogPath()
     {
         var local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        return local.Length == 0 ? null : Path.Combine(local, "Bambu Bar", "model3d.log");
+        return local.Length == 0 ? null : Path.Combine(local, Brand.Folder, "model3d.log");
     }
 
     /// <summary>HelixToolkit's logging, warnings and errors only, into <see cref="Write"/>.</summary>

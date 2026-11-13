@@ -20,7 +20,7 @@ public sealed record WidgetState
     public string Name { get; init; } = "";
     public string Model { get; init; } = "";
     /// <summary>What a click opens: the printer's page, or the app when no printer is set up.</summary>
-    public string Url { get; init; } = "bambubar://open";
+    public string Url { get; init; } = Brand.Scheme + "://open";
     /// <summary>"online", "connecting", "offline", "unauthorized", "unconfigured".</summary>
     public string Link { get; init; } = "unconfigured";
     /// <summary>A live status is on hand (online, or reconnecting with one).</summary>
@@ -71,6 +71,13 @@ public sealed record WidgetState
     /// <summary>False when Windows' animation effects are off: skins skip every tween.</summary>
     public bool Motion { get; init; } = true;
     public StringsView Strings { get; init; } = new();
+    /// <summary>PrintPulse: the app's theme for the card (accent, card, text), so the widgets match it; null keeps the
+    /// skin's own look.</summary>
+    public StyleView? Style { get; init; } = WidgetStyle.Current;
+
+    /// <summary>Colours as RRGGBB or RRGGBBAA hex, as the skins write them.</summary>
+    public sealed record StyleView(string Accent, string CardTop, string CardBottom, string CardHoverTop, string CardHoverBottom,
+        double Border, string Text, string Sec, string Tile, string Track);
 
     public sealed record Temp(string Label, string Value, string? Target, string Color, string Kind);
     public sealed record AmsHeader(string Title, string? Humidity);
@@ -102,10 +109,16 @@ public sealed record WidgetState
     };
 }
 
-/// <summary>The Mac's widget palette (Palette in Formatting.swift) as hex.</summary>
+/// <summary>PrintPulse: the widgets' look, set by the app from its theme (Gamma variant and accent).</summary>
+public static class WidgetStyle
+{
+    public static WidgetState.StyleView? Current { get; set; }
+}
+
+/// <summary>The Mac's widget palette (Palette in Formatting.swift) as hex; the accent follows PrintPulse's theme.</summary>
 public static class WidgetPalette
 {
-    public const string Accent = "#21CC6B";
+    public static string Accent => WidgetStyle.Current is { } style ? "#" + style.Accent : "#21CC6B";
     public const string Preparing = "#5CA8FF";
     public const string Paused = "#FFB83D";
     public const string Failed = "#FF5C5C";
@@ -293,7 +306,7 @@ public sealed class WidgetStateWriter(string folder, Func<bool>? motion = null) 
         return new WidgetState
         {
             SavedAt = now.ToUnixTimeSeconds(), Serial = snapshot.Serial, Name = snapshot.PrinterName, Model = snapshot.Model,
-            Url = snapshot.Serial.Length == 0 ? "bambubar://open" : $"bambubar://printer/{snapshot.Serial}",
+            Url = snapshot.Serial.Length == 0 ? Brand.Scheme + "://open" : $"{Brand.Scheme}://printer/{snapshot.Serial}",
             Info = info, Finish = finish,
             Offline = new(Loc.T("Offline"), Loc.T("Offline"), lastJobLine ?? Loc.T("Waiting for the printer"), Loc.T("No connection"),
                 Loc.T("Waiting for the printer")),

@@ -17,7 +17,7 @@ public sealed record PrinterSnapshot
     public required DateTimeOffset SavedAt { get; init; }
 
     public static PrinterSnapshot Unconfigured(DateTimeOffset now) =>
-        new() { PrinterName = "Bambu Bar", Model = "P2S", Link = LinkState.Unconfigured, SavedAt = now };
+        new() { PrinterName = Brand.Name, Model = "P2S", Link = LinkState.Unconfigured, SavedAt = now };
 }
 
 /// <summary>Every printer, for the widgets.</summary>
@@ -38,8 +38,11 @@ public sealed record FleetSnapshot
 
 /// <summary>The last few prints of every printer, newest first. Only what the app saw while running; it backs
 /// "Last: …", finish times and end-of-print notifications, not a print log. Without a path nothing is saved.</summary>
-public sealed class HistoryStore(string? path)
+public sealed class HistoryStore(string? path, int perPrinterLimit = 5)
 {
+    /// <summary>PrintPulse keeps this many per printer for its History page (Bambu Bar keeps 5).</summary>
+    public const int PrintPulseLimit = 500;
+
     private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
 
     public List<JobRecord> Load()
@@ -58,7 +61,7 @@ public sealed class HistoryStore(string? path)
         foreach (var job in jobs)
         {
             var key = job.PrinterSerial ?? "";
-            if (perPrinter.GetValueOrDefault(key) >= 5) continue;
+            if (perPrinter.GetValueOrDefault(key) >= perPrinterLimit) continue;
             perPrinter[key] = perPrinter.GetValueOrDefault(key) + 1;
             kept.Add(job);
         }

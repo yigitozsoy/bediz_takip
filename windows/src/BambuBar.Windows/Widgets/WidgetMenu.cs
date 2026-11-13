@@ -87,7 +87,7 @@ public static partial class WidgetMenu
     private static int Track(nint menu)
     {
         GetCursorPos(out var cursor);
-        var parameters = new HwndSourceParameters("Bambu Bar widget menu")
+        var parameters = new HwndSourceParameters(Brand.Name + " widget menu")
         {
             WindowStyle = unchecked((int)WsPopup), ExtendedWindowStyle = WsExToolWindow, Width = 0, Height = 0,
             PositionX = cursor.X, PositionY = cursor.Y,

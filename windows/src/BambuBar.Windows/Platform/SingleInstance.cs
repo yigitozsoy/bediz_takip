@@ -11,7 +11,7 @@ namespace BambuBar.Platform;
 /// </summary>
 public sealed class SingleInstance : IDisposable
 {
-    private static string Name => $"BambuBar-{Environment.UserName}-{Environment.UserDomainName}";
+    private static string Name => $"{Brand.Folder}-{Environment.UserName}-{Environment.UserDomainName}";
 
     private readonly Mutex _mutex;
     private readonly CancellationTokenSource _stop = new();

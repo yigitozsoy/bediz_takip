@@ -133,7 +133,7 @@ public static class FFmpeg
         }
         catch (EntryPointNotFoundException e)
         {
-            return (new FFmpegStatus(null, $"FFmpeg lacks a function Bambu Bar uses: {e.Message}", folder), null);
+            return (new FFmpegStatus(null, $"FFmpeg lacks a function {Brand.Name} uses: {e.Message}", folder), null);
         }
     }
 
@@ -256,8 +256,8 @@ internal sealed unsafe class FFmpegApi
         (string Name, uint Version, int Major)[] found =
             [("libavutil", avutil_version(), FFmpeg.AvutilMajor), ("libavcodec", avcodec_version(), FFmpeg.AvcodecMajor), ("libswscale", swscale_version(), FFmpeg.SwscaleMajor)];
         var wrong = found.Where(f => (int)(f.Version >> 16) != f.Major)
-            .Select(f => $"{f.Name} {f.Version >> 16}.{(f.Version >> 8) & 0xFF}.{f.Version & 0xFF} (Bambu Bar needs {f.Major})").ToList();
-        return wrong.Count == 0 ? null : $"FFmpeg is another version than Bambu Bar's: {string.Join(", ", wrong)}";
+            .Select(f => $"{f.Name} {f.Version >> 16}.{(f.Version >> 8) & 0xFF}.{f.Version & 0xFF} ({Brand.Name} needs {f.Major})").ToList();
+        return wrong.Count == 0 ? null : $"FFmpeg is another version than {Brand.Name}'s: {string.Join(", ", wrong)}";
     }
 
     /// <summary>"n9.0.2-39-g7adfbe40dc" or "9.0.2".</summary>

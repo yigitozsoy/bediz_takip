@@ -6758,6 +6758,18 @@
         }
       }
     },
+    "Accent color": {
+      "comment": "Windows: PrintPulse, Settings → Appearance, the accent swatches",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vurgu rengi"
+          }
+        }
+      }
+    },
     "Access code": {
       "localizations": {
         "cs": {
@@ -8431,6 +8443,42 @@
           "stringUnit": {
             "state": "translated",
             "value": "請前往「系統設定」→「一般」→「登入項目與延伸功能」允許 Bambu Bar。"
+          }
+        }
+      }
+    },
+    "And %@ older prints, counted above.": {
+      "comment": "Windows: PrintPulse, History: more prints than the list shows; %@ is a number",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ve %@ eski baskı daha (yukarıda sayıldı)."
+          }
+        }
+      }
+    },
+    "Appearance": {
+      "comment": "Windows: PrintPulse, Settings group: theme and accent",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm"
+          }
+        }
+      }
+    },
+    "Apply": {
+      "comment": "Windows: PrintPulse, Settings → Appearance, applies the custom color",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygula"
           }
         }
       }
@@ -13123,6 +13171,18 @@
         }
       }
     },
+    "Bot token": {
+      "comment": "Windows: PrintPulse, Telegram bot token",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bot token'ı"
+          }
+        }
+      }
+    },
     "Build volume": {
       "localizations": {
         "cs": {
@@ -16109,6 +16169,18 @@
         }
       }
     },
+    "Chat ID": {
+      "comment": "Windows: PrintPulse, Telegram chat id",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sohbet ID'si"
+          }
+        }
+      }
+    },
     "Check License": {
       "localizations": {
         "cs": {
@@ -18663,6 +18735,18 @@
         }
       }
     },
+    "Classic": {
+      "comment": "Windows: PrintPulse, theme: Bambu Bar's original look (the name follows in parentheses)",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasik"
+          }
+        }
+      }
+    },
     "Cleaning nozzle tip": {
       "comment": "Printer stage",
       "localizations": {
@@ -19615,6 +19699,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "已連線"
+          }
+        }
+      }
+    },
+    "Connected. Notifications also go to this channel.": {
+      "comment": "Windows: PrintPulse, Discord status",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlı. Bildirimler bu kanala da gidiyor."
+          }
+        }
+      }
+    },
+    "Connected. Notifications also go to this chat.": {
+      "comment": "Windows: PrintPulse, Telegram status",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlı. Bildirimler bu sohbete de gidiyor."
           }
         }
       }
@@ -20895,6 +21003,30 @@
         }
       }
     },
+    "Couldn't reach the server.": {
+      "comment": "Windows: PrintPulse, Error",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sunucuya ulaşılamadı."
+          }
+        }
+      }
+    },
+    "Couldn't send: %@": {
+      "comment": "Windows: PrintPulse, Status; %@ is the reason",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gönderilemedi: %@"
+          }
+        }
+      }
+    },
     "Couldn’t check for updates": {
       "localizations": {
         "cs": {
@@ -21209,6 +21341,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "致謝"
+          }
+        }
+      }
+    },
+    "Custom color (#RRGGBB)": {
+      "comment": "Windows: PrintPulse, Settings → Appearance, a hex accent",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel renk (#RRGGBB)"
           }
         }
       }
@@ -23768,6 +23912,18 @@
         }
       }
     },
+    "Ended while PrintPulse was closed": {
+      "comment": "Windows: PrintPulse, History: prints whose end wasn't seen",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PrintPulse kapalıyken bitti"
+          }
+        }
+      }
+    },
     "Enhancing motion precision": {
       "comment": "Printer stage",
       "localizations": {
@@ -23977,6 +24133,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "手動輸入位址"
+          }
+        }
+      }
+    },
+    "Enter both the bot token and the chat ID.": {
+      "comment": "Windows: PrintPulse, Telegram status",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hem bot token'ını hem sohbet ID'sini gir."
           }
         }
       }
@@ -24615,6 +24783,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "乙太網路"
+          }
+        }
+      }
+    },
+    "Every print PrintPulse saw end, and how it went.": {
+      "comment": "Windows: PrintPulse, History page subtitle",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PrintPulse'un gördüğü her baskı ve nasıl bittiği."
           }
         }
       }
@@ -25572,6 +25752,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "線材用盡"
+          }
+        }
+      }
+    },
+    "Find": {
+      "comment": "Windows: PrintPulse, Button: find the Telegram chat id",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bul"
           }
         }
       }
@@ -27298,6 +27490,18 @@
         }
       }
     },
+    "Found your chat. Press Save or Send Test.": {
+      "comment": "Windows: PrintPulse, Telegram status",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sohbetin bulundu. Kaydet'e ya da Test Gönder'e bas."
+          }
+        }
+      }
+    },
     "Free · Community edition": {
       "localizations": {
         "cs": {
@@ -27400,6 +27604,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "免費 · 社群版"
+          }
+        }
+      }
+    },
+    "Free · MIT License": {
+      "comment": "Windows: PrintPulse, About page, the license row",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ücretsiz · MIT Lisansı"
           }
         }
       }
@@ -29532,6 +29748,18 @@
         }
       }
     },
+    "History": {
+      "comment": "Windows: PrintPulse, Sidebar page: print history",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçmiş"
+          }
+        }
+      }
+    },
     "Homing blade holder": {
       "comment": "Printer stage",
       "localizations": {
@@ -30597,6 +30825,18 @@
         }
       }
     },
+    "In Discord: Server Settings → Integrations → Webhooks → New Webhook, then Copy Webhook URL. It's kept in Windows Credential Manager.": {
+      "comment": "Windows: PrintPulse, Discord help",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discord'da: Sunucu Ayarları → Entegrasyonlar → Webhook'lar → Yeni Webhook, sonra Webhook URL'sini Kopyala. Windows Kimlik Bilgisi Yöneticisi'nde saklanır."
+          }
+        }
+      }
+    },
     "In progress": {
       "comment": "How a print ended",
       "localizations": {
@@ -31232,113 +31472,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "安裝：Mac · %@"
-          }
-        }
-      }
-    },
-    "Installation: Windows · %@": {
-      "comment": "Windows: About page, this installation's short ID",
-      "localizations": {
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalace: Windows · %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Installation: Windows · %@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalación: Windows · %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Installation : Windows · %@"
-          }
-        },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Telepítés: Windows · %@"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Installazione: Windows · %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "インストール：Windows · %@"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "설치: Windows · %@"
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Installatie: Windows · %@"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalacja: Windows · %@"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalação: Windows · %@"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Установка: Windows · %@"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Installation: Windows · %@"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kurulum: Windows · %@"
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Інсталяція: Windows · %@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "安装：Windows · %@"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "安裝：Windows · %@"
           }
         }
       }
@@ -32402,6 +32535,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "大"
+          }
+        }
+      }
+    },
+    "Last 7 days": {
+      "comment": "Windows: PrintPulse, History stat: prints in the last week",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son 7 gün"
           }
         }
       }
@@ -33794,6 +33939,18 @@
         }
       }
     },
+    "Listen": {
+      "comment": "Windows: PrintPulse, Notifications: sound preview buttons",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinle"
+          }
+        }
+      }
+    },
     "Live View": {
       "localizations": {
         "cs": {
@@ -34220,6 +34377,18 @@
         }
       }
     },
+    "Longest print": {
+      "comment": "Windows: PrintPulse, History row",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En uzun baskı"
+          }
+        }
+      }
+    },
     "Looking for Bambu Lab printers on your network…": {
       "localizations": {
         "cs": {
@@ -34539,6 +34708,18 @@
         }
       }
     },
+    "Looking…": {
+      "comment": "Windows: PrintPulse, Status while looking for the chat id",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aranıyor…"
+          }
+        }
+      }
+    },
     "Ludicrous": {
       "comment": "Print speed profile",
       "localizations": {
@@ -34755,6 +34936,18 @@
     },
     "Mac App Store": {
       "shouldTranslate": false
+    },
+    "Make a bot with @BotFather and paste its token. Send your bot any message, then press Find to fill in the chat ID.": {
+      "comment": "Windows: PrintPulse, Telegram help",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "@BotFather ile bir bot oluştur ve token'ını yapıştır. Botuna herhangi bir mesaj at, sonra sohbet ID'sini doldurmak için Bul'a bas."
+          }
+        }
+      }
     },
     "Manage License…": {
       "localizations": {
@@ -35070,6 +35263,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "請在您的購買帳戶中管理已啟用的安裝。停用舊的安裝，即可為其他安裝騰出名額。"
+          }
+        }
+      }
+    },
+    "Materials": {
+      "comment": "Windows: PrintPulse, History row: filament materials used",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Malzemeler"
           }
         }
       }
@@ -36993,6 +37198,18 @@
         }
       }
     },
+    "No messages yet. Send your bot a message in Telegram, then try again.": {
+      "comment": "Windows: PrintPulse, Telegram status",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz mesaj yok. Telegram'da botuna bir mesaj at, sonra tekrar dene."
+          }
+        }
+      }
+    },
     "No printer": {
       "localizations": {
         "cs": {
@@ -37413,6 +37630,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "無印表機。"
+          }
+        }
+      }
+    },
+    "No prints yet": {
+      "comment": "Windows: PrintPulse, History page, empty",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz baskı yok"
           }
         }
       }
@@ -44868,6 +45097,18 @@
         }
       }
     },
+    "Play a sound with each notification": {
+      "comment": "Windows: PrintPulse, Notifications: sound switch",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her bildirimde ses çal"
+          }
+        }
+      }
+    },
     "Pre-extruding": {
       "comment": "Printer stage",
       "localizations": {
@@ -45613,6 +45854,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "通知區域圖示及其面板的預覽"
+          }
+        }
+      }
+    },
+    "Print History": {
+      "comment": "Windows: PrintPulse, History page title",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baskı Geçmişi"
           }
         }
       }
@@ -46567,6 +46820,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "列印已開始"
+          }
+        }
+      }
+    },
+    "Print time": {
+      "comment": "Windows: PrintPulse, History stat: total time spent printing",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baskı süresi"
+          }
+        }
+      }
+    },
+    "PrintPulse on GitHub": {
+      "comment": "Windows: PrintPulse, About page link to the repository",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub'da PrintPulse"
           }
         }
       }
@@ -47847,6 +48124,18 @@
         }
       }
     },
+    "Prints": {
+      "comment": "Windows: PrintPulse, History stat: number of prints",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baskı"
+          }
+        }
+      }
+    },
     "Prints at %lld–%lld °C": {
       "localizations": {
         "cs": {
@@ -47955,6 +48244,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "列印溫度 %lld–%lld °C"
+          }
+        }
+      }
+    },
+    "Prints show up here once PrintPulse sees one end.": {
+      "comment": "Windows: PrintPulse, History page, empty",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PrintPulse bir baskının bittiğini gördüğünde burada görünür."
           }
         }
       }
@@ -48917,6 +49218,18 @@
         }
       }
     },
+    "Recent prints": {
+      "comment": "Windows: PrintPulse, History group: the list of prints",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son baskılar"
+          }
+        }
+      }
+    },
     "Reconnect": {
       "localizations": {
         "cs": {
@@ -49550,6 +49863,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "移除"
+          }
+        }
+      }
+    },
+    "Removed.": {
+      "comment": "Windows: PrintPulse, Status after clearing",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaldırıldı."
           }
         }
       }
@@ -50827,6 +51152,18 @@
         }
       }
     },
+    "Same as Windows": {
+      "comment": "Windows: PrintPulse, theme that follows Windows' light/dark",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Windows ile aynı"
+          }
+        }
+      }
+    },
     "Sample print. Changes show here as you make them.": {
       "localizations": {
         "cs": {
@@ -51035,6 +51372,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "儲存"
+          }
+        }
+      }
+    },
+    "Saved.": {
+      "comment": "Windows: PrintPulse, Status after saving",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi."
           }
         }
       }
@@ -51358,6 +51707,18 @@
         }
       }
     },
+    "Send Test": {
+      "comment": "Windows: PrintPulse, Button: send a test message",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test Gönder"
+          }
+        }
+      }
+    },
     "Send a job from Bambu Studio or the printer and it shows up here.": {
       "localizations": {
         "cs": {
@@ -51460,6 +51821,42 @@
           "stringUnit": {
             "state": "translated",
             "value": "從 Bambu Studio 或印表機發起列印後，就會顯示在這裡。"
+          }
+        }
+      }
+    },
+    "Sending…": {
+      "comment": "Windows: PrintPulse, Status while sending",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gönderiliyor…"
+          }
+        }
+      }
+    },
+    "Sent. Check Telegram.": {
+      "comment": "Windows: PrintPulse, Status",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gönderildi. Telegram'a bak."
+          }
+        }
+      }
+    },
+    "Sent. Check your Discord channel.": {
+      "comment": "Windows: PrintPulse, Status",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gönderildi. Discord kanalına bak."
           }
         }
       }
@@ -55075,6 +55472,18 @@
         }
       }
     },
+    "Sounds": {
+      "comment": "Windows: PrintPulse, Notifications group: sound effects",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesler"
+          }
+        }
+      }
+    },
     "Speed": {
       "localizations": {
         "cs": {
@@ -57098,6 +57507,30 @@
         }
       }
     },
+    "Success rate": {
+      "comment": "Windows: PrintPulse, History stat",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başarı oranı"
+          }
+        }
+      }
+    },
+    "Summary": {
+      "comment": "Windows: PrintPulse, History group: how prints ended",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özet"
+          }
+        }
+      }
+    },
     "Support Bambu Bar": {
       "localizations": {
         "cs": {
@@ -57518,113 +57951,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "啟用支持者授權需要連上網際網路。驗證後，支持者權益最多可離線使用七天。印表機監控功能隨時都能使用。"
-          }
-        }
-      }
-    },
-    "Supporter licenses are validated online, with the key and installation ID stored in Credential Manager. In-app update checks use the latest GitHub release feed and require an active website supporter license. Update checks send no printer data, and updates must carry the developer's signature. Manage automatic updates in Settings → Updates.": {
-      "comment": "Windows: About page, privacy (the Mac's names the Keychain)",
-      "localizations": {
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Podporovatelské licence se ověřují online; klíč a ID instalace se ukládají do Správce přihlašovacích údajů. Kontrola aktualizací v aplikaci používá kanál nejnovějších vydání na GitHubu a vyžaduje aktivní podporovatelskou licenci z webu. Kontroly aktualizací neposílají žádná data tiskáren a aktualizace musí nést podpis vývojáře. Automatické aktualizace spravujete v Nastavení → Aktualizace."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unterstützerlizenzen werden online validiert; Schlüssel und Installations-ID liegen in der Anmeldeinformationsverwaltung. Update-Prüfungen in der App nutzen den Feed des neuesten Release auf GitHub und erfordern eine aktive Unterstützerlizenz von der Website. Update-Prüfungen senden keine Druckerdaten, und Updates müssen die Signatur des Entwicklers tragen. Automatische Updates verwalten Sie unter Einstellungen → Updates."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Las licencias de apoyo se validan en línea, y la clave y el ID de instalación se guardan en el Administrador de credenciales. La búsqueda de actualizaciones en la app usa el feed de la última versión en GitHub y requiere una licencia de apoyo activa del sitio web. La búsqueda de actualizaciones no envía datos de las impresoras, y las actualizaciones deben llevar la firma del desarrollador. Gestione las actualizaciones automáticas en Ajustes → Actualizaciones."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les licences de soutien sont validées en ligne, avec la clé et l’identifiant d’installation stockés dans le Gestionnaire d’identification. La recherche de mises à jour dans l’app consulte le flux des dernières versions sur GitHub et nécessite une licence de soutien active achetée sur le site. Elle n’envoie aucune donnée des imprimantes, et les mises à jour doivent porter la signature du développeur. Gérez les mises à jour automatiques dans Réglages → Mises à jour."
-          }
-        },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A támogatói licencek ellenőrzése online történik, a kulcsot és a telepítési azonosítót a Hitelesítőadat-kezelő tárolja. Az alkalmazáson belüli frissítéskeresés a legújabb GitHub-kiadások csatornáját használja, és aktív, a weboldalon vásárolt támogatói licencet igényel. A frissítéskeresés nem küld nyomtatóadatokat, és a frissítéseknek a fejlesztő aláírásával kell rendelkezniük. Az automatikus frissítéseket itt kezelheted: Beállítások → Frissítések."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le licenze di supporto vengono convalidate online e la chiave e l'ID di installazione sono salvati in Gestione credenziali. Il controllo degli aggiornamenti nell'app usa il feed dell'ultima release su GitHub e richiede una licenza di supporto attiva acquistata sul sito. Il controllo degli aggiornamenti non invia dati delle stampanti e gli aggiornamenti devono portare la firma dello sviluppatore. Gestisci gli aggiornamenti automatici in Impostazioni → Aggiornamenti."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "サポーターライセンスはオンラインで検証され、キーとインストールIDは資格情報マネージャーに保存されます。アプリ内のアップデート確認はGitHubの最新リリースフィードを使用し、有効なウェブサイトのサポーターライセンスが必要です。アップデート確認でプリンターのデータが送信されることはなく、アップデートには開発者の署名が必要です。自動アップデートは設定 → アップデートで管理できます。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "후원자 라이선스는 온라인으로 검증되며, 키와 설치 ID는 자격 증명 관리자에 저장됩니다. 앱 내 업데이트 확인은 최신 GitHub 릴리스 피드를 사용하며 유효한 웹사이트 후원자 라이선스가 필요합니다. 업데이트 확인 시 프린터 데이터는 전송되지 않으며, 업데이트에는 개발자의 서명이 있어야 합니다. 자동 업데이트는 설정 → 업데이트에서 관리할 수 있습니다."
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Supporterlicenties worden online gevalideerd; de sleutel en de installatie-ID worden in Referentiebeheer bewaard. Updatecontroles in de app gebruiken de feed met de nieuwste release op GitHub en vereisen een actieve supporterlicentie via de website. Bij updatecontroles worden geen printergegevens verstuurd, en updates moeten de handtekening van de ontwikkelaar dragen. Beheer automatische updates in Instellingen → Updates."
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Licencje wspierającego są weryfikowane online, a klucz i identyfikator instalacji są przechowywane w Menedżerze poświadczeń. Sprawdzanie uaktualnień w aplikacji korzysta z kanału najnowszych wydań w serwisie GitHub i wymaga aktywnej licencji wspierającego kupionej na stronie. Sprawdzanie uaktualnień nie wysyła żadnych danych drukarek, a uaktualnienia muszą mieć podpis dewelopera. Automatycznymi uaktualnieniami zarządzasz w: Ustawienia → Uaktualnienia."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "As licenças de apoio são validadas on-line, com a chave e o ID de instalação guardados no Gerenciador de Credenciais. A verificação de atualizações no app usa o feed da versão mais recente no GitHub e exige uma licença de apoio ativa comprada no site. A verificação de atualizações não envia dados das impressoras, e as atualizações precisam ter a assinatura do desenvolvedor. Gerencie as atualizações automáticas em Ajustes → Atualizações."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Лицензии сторонника проверяются онлайн, а ключ и идентификатор установки хранятся в Диспетчере учетных данных. Для проверки обновлений приложение читает ленту последних выпусков на GitHub; для этого нужна активная лицензия сторонника, купленная на сайте. При проверке обновлений данные принтеров не передаются, а обновления должны быть подписаны разработчиком. Управлять автоматическими обновлениями можно в разделе Настройки → Обновления."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stödlicenser valideras online, och nyckeln och installations-ID:t lagras i Autentiseringshanteraren. Uppdateringskontroller i appen använder flödet för den senaste versionen på GitHub och kräver en aktiv stödlicens från webbplatsen. Uppdateringskontrollerna skickar inga skrivardata, och uppdateringar måste ha utvecklarens signatur. Hantera automatiska uppdateringar i Inställningar → Uppdateringar."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Destekçi lisansları çevrimiçi doğrulanır; anahtar ve kurulum kimliği Kimlik Bilgileri Yöneticisi'nde saklanır. Uygulama içi güncelleme denetimleri en son GitHub sürüm akışını kullanır ve web sitesinden alınmış etkin bir destekçi lisansı gerektirir. Güncelleme denetimleri hiçbir yazıcı verisi göndermez ve güncellemelerin geliştiricinin imzasını taşıması gerekir. Otomatik güncellemeleri Ayarlar → Güncellemeler bölümünden yönet."
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ліцензії прихильника перевіряються онлайн, а ключ та ідентифікатор інсталяції зберігаються у Диспетчері облікових даних. Перевірка оновлень у програмі використовує стрічку останніх випусків на GitHub і потребує активної ліцензії прихильника, придбаної на сайті. Під час перевірки оновлень дані принтерів не надсилаються, а оновлення мають бути підписані розробником. Керувати автоматичними оновленнями можна в розділі Параметри → Оновлення."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "支持者许可证会在线验证，密钥和安装 ID 保存在凭据管理器中。App 内更新检查使用 GitHub 上的最新发布源，并且需要有效的网站支持者许可证。更新检查不会发送任何打印机数据，且更新必须带有开发者的签名。可在“设置 → 更新”中管理自动更新。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "支持者授權會在線上驗證，金鑰和安裝 ID 儲存在認證管理員中。App 內的更新檢查使用 GitHub 的最新版本發布來源，且需要有效的網站支持者授權。更新檢查不會傳送任何印表機資料，且更新項目必須帶有開發者的簽名。可在「設定」→「更新項目」中管理自動更新。"
           }
         }
       }
@@ -58474,6 +58800,42 @@
           "stringUnit": {
             "state": "translated",
             "value": "該位址的回應不像 Bambu Lab 印表機：%@"
+          }
+        }
+      }
+    },
+    "The Discord webhook address isn't valid.": {
+      "comment": "Windows: PrintPulse, Error",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discord webhook adresi geçerli değil."
+          }
+        }
+      }
+    },
+    "The Telegram bot token isn't valid.": {
+      "comment": "Windows: PrintPulse, Error",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram bot token'ı geçerli değil."
+          }
+        }
+      }
+    },
+    "The Telegram chat ID isn't valid.": {
+      "comment": "Windows: PrintPulse, Error",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram sohbet ID'si geçerli değil."
           }
         }
       }
@@ -63152,6 +63514,18 @@
         }
       }
     },
+    "The server didn't answer in time.": {
+      "comment": "Windows: PrintPulse, Error",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sunucu zamanında yanıt vermedi."
+          }
+        }
+      }
+    },
     "The update couldn’t be saved. Check that your disk has free space and try again.": {
       "comment": "Windows: updater error, the downloaded installer couldn't be written to disk",
       "localizations": {
@@ -63468,6 +63842,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "其中已儲存這些印表機的存取碼，因此可以一次全部加入。"
+          }
+        }
+      }
+    },
+    "Theme": {
+      "comment": "Windows: PrintPulse, Settings → Appearance, the theme picker",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
+          }
+        }
+      }
+    },
+    "Themes and accent colors come from Gamma Player. The classic look brings back the original glass and green.": {
+      "comment": "Windows: PrintPulse, Settings → Appearance note",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temalar ve vurgu renkleri Gamma Player'dan geliyor. Klasik görünüm orijinal cam efektini ve yeşili geri getirir."
           }
         }
       }
@@ -64000,6 +64398,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "這會釋出一個啟用名額給其他安裝使用，並關閉自動更新。您仍可繼續使用 Bambu Bar。"
+          }
+        }
+      }
+    },
+    "This is how PrintPulse tells you a print finished, failed or needs you.": {
+      "comment": "Windows: PrintPulse, Test message body",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PrintPulse bir baskı bittiğinde, başarısız olduğunda ya da sana ihtiyaç duyduğunda böyle haber verir."
           }
         }
       }
@@ -66341,6 +66751,18 @@
         }
       }
     },
+    "Update checks read the latest PrintPulse release on GitHub and send no printer data. Updates install only when they carry PrintPulse's signature. Manage automatic updates in Settings → Updates.": {
+      "comment": "Windows: PrintPulse, About page, privacy",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncelleme denetimi GitHub'daki en son PrintPulse sürümünü okur ve yazıcı verisi göndermez. Güncellemeler yalnızca PrintPulse imzasını taşıdıklarında kurulur. Otomatik güncellemeleri Ayarlar → Güncellemeler'den yönetebilirsin."
+          }
+        }
+      }
+    },
     "Updated %@": {
       "comment": "Relative time such as “3 min. ago”",
       "localizations": {
@@ -68477,6 +68899,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "警告"
+          }
+        }
+      }
+    },
+    "Webhook URL": {
+      "comment": "Windows: PrintPulse, Discord webhook address",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Webhook URL'si"
           }
         }
       }
@@ -71453,113 +71887,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "您的支持者授權已在這台 Mac 上啟用自動更新。"
-          }
-        }
-      }
-    },
-    "Your supporter license enables automatic updates on this PC.": {
-      "comment": "Windows: About page, with an active supporter license (the Mac's “on this Mac”)",
-      "localizations": {
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vaše podporovatelská licence zapíná automatické aktualizace na tomto počítači."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ihre Unterstützerlizenz schaltet automatische Updates auf diesem PC frei."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Su licencia de apoyo activa las actualizaciones automáticas en este equipo."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Votre licence de soutien active les mises à jour automatiques sur ce PC."
-          }
-        },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A támogatói licenced bekapcsolja az automatikus frissítéseket ezen a számítógépen."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La tua licenza di supporto abilita gli aggiornamenti automatici su questo PC."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "サポーターライセンスにより、このPCで自動アップデートが有効になっています。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "후원자 라이선스로 이 PC에서 자동 업데이트가 활성화되어 있습니다."
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uw supporterlicentie schakelt automatische updates in op deze pc."
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Twoja licencja wspierającego włącza automatyczne uaktualnienia na tym komputerze."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sua licença de apoio ativa as atualizações automáticas neste computador."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ваша лицензия сторонника включает автоматические обновления на этом компьютере."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Din stödlicens slår på automatiska uppdateringar på den här datorn."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Destekçi lisansın bu bilgisayarda otomatik güncellemeleri açar."
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ваша ліцензія прихильника вмикає автоматичні оновлення на цьому комп’ютері."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "您的支持者许可证已在这台电脑 上启用自动更新。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "您的支持者授權已在這台電腦 上啟用自動更新。"
           }
         }
       }

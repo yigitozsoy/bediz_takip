@@ -10,7 +10,7 @@ namespace BambuBar.Platform;
 /// </summary>
 public sealed partial class CredentialStore : ISecretStore
 {
-    private const string Prefix = "Bambu Bar/";
+    private const string Prefix = Brand.Folder + "/";
     private const int CredTypeGeneric = 1;
     private const int CredPersistLocalMachine = 2;
     private const int ErrorNotFound = 1168;

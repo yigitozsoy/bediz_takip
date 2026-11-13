@@ -92,9 +92,9 @@ public sealed class PanelView : Border, IDisposable
     private ConnectionSection _connection = null!;
     private UpdateSection _update = null!;
     private ToastSection _toast = null!;
-    private SupportSection _support = null!;
     private FooterSection _footer = null!;
     private bool _pending;
+    private int _themeStamp;
     private bool _live;
     private bool _transparent;
 
@@ -131,10 +131,6 @@ public sealed class PanelView : Border, IDisposable
 
     /// <summary>Placeholder for the updater's offer (P5.4); null hides the row.</summary>
     public UpdateOffer? UpdateOffer { get; set; }
-
-    /// <summary>"Support this project" shows until a supporter license is active. True until the app wires its
-    /// LicenseStore (P5.3).</summary>
-    public bool ShowsSupport { get; set; } = true;
 
     /// <summary>Over a Windows 11 backdrop the panel draws no background of its own.</summary>
     public bool TransparentBackground
@@ -182,7 +178,7 @@ public sealed class PanelView : Border, IDisposable
     /// <summary>Follows a change of the Windows theme: rebuilds everything with the new dictionary.</summary>
     public void ApplyTheme(ThemeVariant variant)
     {
-        if (variant == Variant) return;
+        if (variant == Variant && _themeStamp == GammaTheme.Stamp) return;
         Variant = variant;
         Build();
         if (_live) Refresh();
@@ -193,6 +189,7 @@ public sealed class PanelView : Border, IDisposable
         // A rebuild (theme change) retires the old sections' timers.
         if (_header is not null) _header.Dispose();
         if (_issue is not null) _issue.Dispose();
+        _themeStamp = GammaTheme.Stamp;
         Theme = ThemeResources.Create(Variant);
         Resources.MergedDictionaries.Clear();
         Resources.MergedDictionaries.Add(Theme);
@@ -224,7 +221,6 @@ public sealed class PanelView : Border, IDisposable
         _connection = new ConnectionSection(_ctx);
         _update = new UpdateSection(_ctx);
         _toast = new ToastSection(_ctx);
-        _support = new SupportSection(_ctx);
         _footer = new FooterSection(_ctx);
 
         // Header and footer stay put; what's between scrolls when the screen is too short for it all.
@@ -237,7 +233,7 @@ public sealed class PanelView : Border, IDisposable
             Focusable = false, Padding = new Thickness(0, 0, 0, 0),
         };
         var bottom = new Stack { Spacing = Metrics.Gap, Margin = new Thickness(0, Metrics.Gap, 0, 0) };
-        foreach (var section in new PanelSection[] { _update, _toast, _support, _footer }) bottom.Children.Add(section.Root);
+        foreach (var section in new PanelSection[] { _update, _toast, _footer }) bottom.Children.Add(section.Root);
 
         var grid = new Grid { Margin = new Thickness(Metrics.PanelPadding) };
         grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -292,7 +288,6 @@ public sealed class PanelView : Border, IDisposable
         _update.Offer = UpdateOffer;
         _update.Update(UpdateOffer is not null);
         _toast.Update(store.Toast is not null);
-        _support.Update(ShowsSupport);
         _footer.Update(true);
         ContentChanged?.Invoke();
     }

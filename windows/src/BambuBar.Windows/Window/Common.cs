@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using BambuBar.Core;
 using BambuBar.Core.App;
-using BambuBar.Core.Licensing;
 using BambuBar.Core.Protocol;
 using BambuBar.Theme;
 using BambuBar.TrayPanel;
@@ -11,12 +10,12 @@ using BambuBar.TrayPanel;
 namespace BambuBar.AppWindow;
 
 /// <summary>The window's pages, in the sidebar's order (the Mac's AppSection).</summary>
-public enum AppPage { Fleet, Printer, Filament, Tray, Notifications, Printers, Widgets, Settings, About }
+public enum AppPage { Fleet, Printer, Filament, Tray, Notifications, Printers, Widgets, Settings, About, History }
 
 public static class AppPages
 {
     public static readonly AppPage[] Order =
-        [AppPage.Fleet, AppPage.Printer, AppPage.Filament, AppPage.Tray, AppPage.Notifications, AppPage.Printers, AppPage.Widgets, AppPage.Settings, AppPage.About];
+        [AppPage.Fleet, AppPage.Printer, AppPage.Filament, AppPage.History, AppPage.Tray, AppPage.Notifications, AppPage.Printers, AppPage.Widgets, AppPage.Settings, AppPage.About];
 
     public static string Title(this AppPage page) => page switch
     {
@@ -28,6 +27,7 @@ public static class AppPages
         AppPage.Printers => Loc.T("Printers"),
         AppPage.Widgets => Loc.T("Widgets"),
         AppPage.Settings => Loc.T("Settings"),
+        AppPage.History => Loc.T("History"),
         _ => Loc.T("About"),
     };
 
@@ -43,6 +43,7 @@ public static class AppPages
         AppPage.About => '5',
         AppPage.Printers => '6',
         AppPage.Tray => '7',
+        AppPage.History => '9',
         _ => '8',
     };
 
@@ -58,6 +59,7 @@ public static class AppPages
         AppPage.Printers => Color.FromRgb(0x3B, 0x82, 0xF6),
         AppPage.Widgets => Color.FromRgb(0xA2, 0x5C, 0xFF),
         AppPage.Settings => Color.FromRgb(0x7D, 0x87, 0x96),
+        AppPage.History => Color.FromRgb(0xF5, 0xA5, 0x24),
         _ => Color.FromRgb(0x2E, 0xA3, 0xF2),
     };
 
@@ -67,6 +69,7 @@ public static class AppPages
         AppPage.Printer => "",        // Print (printer.fill)
         AppPage.Filament => "",       // CircleRing (circle.circle)
         AppPage.Tray => "",           // TVMonitor: the screen with its taskbar (menubar.rectangle)
+        AppPage.History => "\uE81C",        // History (clock.arrow.circlepath)
         AppPage.Notifications => "",  // Ringer (bell.badge)
         AppPage.Printers => "",       // BulletedList (printer.dotmatrix)
         AppPage.Widgets => "",        // Tiles (widget.medium)
@@ -75,12 +78,9 @@ public static class AppPages
     };
 }
 
-/// <summary>What the app hands the window beyond the store: the license, and the few things only the app can do.</summary>
+/// <summary>What the app hands the window beyond the store: the few things only the app can do.</summary>
 public sealed class WindowServices
 {
-    /// <summary>The supporter license; null in runs without one (snapshots), which then read as "free".</summary>
-    public LicenseStore? License { get; init; }
-
     /// <summary>Quits and starts again (a new language).</summary>
     public Action? Restart { get; init; }
 
@@ -101,6 +101,8 @@ public sealed class WindowServices
     public Action? InstallUpdate { get; init; }
     /// <summary>Posts a sample notification (the Notifications page's test button).</summary>
     public Action? TestNotification { get; init; }
+    /// <summary>PrintPulse: sounds, Discord and Telegram (the Notifications page's groups); null hides them.</summary>
+    public Core.App.RelayNotifier? Relay { get; init; }
 }
 
 /// <summary>Keys this app adds to the Mac's settings (same file, Windows-only).</summary>

@@ -24,7 +24,7 @@ public sealed class ToastNotifier : INotifier
     public void Post(string title, string body, string id)
     {
         var serial = SerialOf(id);
-        var link = serial is null ? "bambubar://open" : $"bambubar://printer/{serial}";
+        var link = serial is null ? Brand.Scheme + "://open" : $"{Brand.Scheme}://printer/{serial}";
         var xml =
             $"<toast launch=\"{Escape(link)}\" activationType=\"protocol\">" +
             "<visual><binding template=\"ToastGeneric\">" +

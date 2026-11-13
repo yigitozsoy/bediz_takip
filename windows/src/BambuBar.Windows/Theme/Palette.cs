@@ -12,10 +12,11 @@ namespace BambuBar.Theme;
 /// </summary>
 public static class Palette
 {
-    /// <summary>Bambu-ish green, a touch brighter so it reads on dark glass (0.13, 0.80, 0.42).</summary>
-    public static readonly Color Accent = Color.FromRgb(0x21, 0xCC, 0x6B);
-    /// <summary>(0.00, 0.60, 0.29): prominent buttons.</summary>
-    public static readonly Color AccentDeep = Color.FromRgb(0x00, 0x99, 0x4A);
+    /// <summary>The accent: the one picked in Settings (PrintPulse's Gamma theme), or Bambu Bar's green in the classic
+    /// look (0.13, 0.80, 0.42).</summary>
+    public static Color Accent => GammaTheme.Accent;
+    /// <summary>Prominent buttons: the accent, deeper (Bambu Bar's (0.00, 0.60, 0.29) in the classic look).</summary>
+    public static Color AccentDeep => GammaTheme.Active ? GammaTheme.AccentDeep : Color.FromRgb(0x00, 0x99, 0x4A);
     public static readonly Color Preparing = Color.FromRgb(0x5C, 0xA8, 0xFF);
     public static readonly Color Paused = Color.FromRgb(0xFF, 0xB8, 0x3D);
     public static readonly Color Failed = Color.FromRgb(0xFF, 0x5C, 0x5C);

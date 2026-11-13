@@ -41,7 +41,8 @@ internal sealed class SettingsPage(WindowContext ctx) : Page(ctx)
         cameraBody.Children.Add(W.Note(Loc.T("Turn the camera on for each printer too, on the Printers page. While it's off, the camera is hidden everywhere: the Printer page, the tray panel and the menus.")));
         cameraBody.Children.Add(_cameraMore.Host);
 
-        return new Stack { Spacing = 22, Children = { W.PageHeader(Loc.T("Settings"), null), general, language, camera, _updates.Host } };
+        var appearance = AppearanceGroup.Build(Ctx);
+        return new Stack { Spacing = 22, Children = { W.PageHeader(Loc.T("Settings"), null), general, appearance, language, camera, _updates.Host } };
     }
 
     public override void Refresh()
@@ -86,7 +87,7 @@ internal sealed class SettingsPage(WindowContext ctx) : Page(ctx)
             }
             : null);
 
-        var access = Ctx.Services.License?.HasAccess ?? false;
+        const bool access = true; // PrintPulse: no supporter license, updates for everyone
         var u = Ctx.Services.Updates;
         _updates.Show($"{access}|{u?.State}|{u?.LastChecked}|{u?.Release?.DisplayVersion}|{u?.Error}", () => Updates(access));
     }
@@ -179,16 +180,11 @@ internal sealed class SettingsPage(WindowContext ctx) : Page(ctx)
         };
     }
 
-    /// <summary>Automatic checks and downloads, which need the supporter license (the Mac's UpdatesGroup), the last
+    /// <summary>Automatic checks and downloads (the Mac's UpdatesGroup), the last
     /// check's result, Check Now, and Update… when a newer release is waiting.</summary>
     private FrameworkElement Updates(bool access)
     {
         var group = W.Group(Loc.T("Updates"), Icons.Download, out var body);
-        if (!access)
-        {
-            body.Children.Add(W.Note(Loc.T("Activate your website supporter license to check GitHub for updates and enable automatic updates."), ThemeKeys.TextSecondary, WRamp.Body));
-            body.Children.Add(W.Button(Loc.T("Activate Supporter License…"), () => Ctx.Show(AppPage.About), small: true));
-        }
         var checks = Ctx.Settings.Get(UpdateChecker.Keys.AutomaticChecks, true);
         ToggleSwitch? downloads = null;
         body.Children.Add(W.Switch(Loc.T("Check for updates automatically"), access && checks, on =>

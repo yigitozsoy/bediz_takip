@@ -36,7 +36,7 @@ public sealed class PanelWindow : Window
     public PanelWindow(PanelView view)
     {
         _view = view;
-        Title = "Bambu Bar";
+        Title = Brand.Name;
         WindowStyle = WindowStyle.SingleBorderWindow;
         ResizeMode = ResizeMode.NoResize;
         ShowInTaskbar = false;
@@ -244,7 +244,7 @@ public sealed class PanelWindow : Window
         var variant = _view.Variant;
         Native.SetAttribute(_hwnd, Native.DWMWA_USE_IMMERSIVE_DARK_MODE, variant == ThemeVariant.Dark ? 1 : 0);
         if (AppTheme.IsWindows11) Native.SetAttribute(_hwnd, Native.DWMWA_WINDOW_CORNER_PREFERENCE, Native.DWMWCP_ROUND);
-        _backdrop = variant != ThemeVariant.HighContrast && AppTheme.HasSystemBackdrop
+        _backdrop = variant != ThemeVariant.HighContrast && AppTheme.HasSystemBackdrop && !GammaTheme.Active
             && Native.SetAttribute(_hwnd, Native.DWMWA_SYSTEMBACKDROP_TYPE, Native.DWMSBT_TRANSIENTWINDOW);
         if (_backdrop)
         {

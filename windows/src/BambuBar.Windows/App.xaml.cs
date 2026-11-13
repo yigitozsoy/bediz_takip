@@ -6,7 +6,6 @@ using BambuBar.AppWindow;
 using BambuBar.CameraViews;
 using BambuBar.Core;
 using BambuBar.Core.App;
-using BambuBar.Core.Licensing;
 using BambuBar.Core.Updates;
 using BambuBar.Notifications;
 using BambuBar.Platform;
@@ -30,13 +29,13 @@ public partial class App : Application
     private SingleInstance? _instance;
     private PrinterStore? _store;
     private AppSettings? _settings;
-    private LicenseStore? _license;
     private UpdateChecker? _updates;
     private TrayIcon? _tray;
     private PanelWindow? _panel;
     private PanelView? _panelView;
     private WidgetHost? _widgets;
     private INotifier _notifier = new NullNotifier();
+    private RelayNotifier? _relay;
     private MainWindow? _window;
     private string[] _arguments = [];
 
@@ -66,6 +65,8 @@ public partial class App : Application
 
         var folder = AppSettings.DefaultFolder;
         _settings = new AppSettings(ephemeral ? null : Path.Combine(folder, "settings.json"));
+        // PrintPulse's theme and accent, before any window is built.
+        GammaTheme.Load(_settings);
         // The language picked in Settings, else the first of Windows' languages the catalog has.
         // Only the language shown (and English): a language change restarts the app.
         string? language = null;
@@ -84,11 +85,14 @@ public partial class App : Application
             AppIdentity.Register();
             notifier = _notifier = new ToastNotifier();
         }
+        // PrintPulse: every notification also plays a chime and goes to Discord / Telegram when they're set up.
+        ISecretStore secrets = ephemeral ? new MemorySecretStore() : new CredentialStore();
+        notifier = _notifier = _relay = new RelayNotifier(notifier, _settings, secrets, new SoundEffects());
         _store = new PrinterStore(new PrinterStore.Services
         {
             Settings = _settings,
-            History = new HistoryStore(ephemeral ? null : Path.Combine(folder, "history.json")),
-            Secrets = ephemeral ? new MemorySecretStore() : new CredentialStore(),
+            History = new HistoryStore(ephemeral ? null : Path.Combine(folder, "history.json"), HistoryStore.PrintPulseLimit),
+            Secrets = secrets,
             // Written on a worker: the art's PNG and Rainmeter's reload would freeze the UI (QueuedWidgetSink).
             Widgets = _widgets is null ? null : new QueuedWidgetSink(_widgets.State),
             StartDiscoveryInBackground = true,
@@ -108,19 +112,13 @@ public partial class App : Application
         ((System.Collections.Specialized.INotifyCollectionChanged)_store.Sessions).CollectionChanged += (_, _) => CameraWindow.CloseWhereHidden(_store);
         _store.Start();
 
-        // The supporter license (P5.3): validated now and every 15 minutes while a key is saved; demo runs have none.
-        _license = new LicenseStore(new PolarClient(), ephemeral ? new MemoryLicenseVault() : new CredentialLicenseVault());
-        _license.PropertyChanged += (_, _) => { if (_panelView is not null) _panelView.ShowsSupport = !_license.HasAccess; };
-        _license.Start();
         if (!ephemeral)
         {
-            // Updates (ledger P5.4): the shared appcast's Windows item for this PC, checked daily while the supporter
-            // license is active, Ed25519-verified before the installer runs.
-            var license = _license;
-            _updates = new UpdateChecker(() => license.HasAccess, _settings, new UpdateFeed(),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Bambu Bar", "Updates"));
+            // Updates: PrintPulse's appcast on its GitHub releases, checked daily for everyone (no supporter license),
+            // Ed25519-verified with PrintPulse's own key before the installer runs.
+            _updates = new UpdateChecker(() => true, _settings, new UpdateFeed(),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Brand.Folder, "Updates"));
             _updates.PropertyChanged += (_, _) => Dispatcher.BeginInvoke(ShowUpdateOffer);
-            license.PropertyChanged += (_, _) => Dispatcher.BeginInvoke(() => _updates?.SupporterStatusChanged());
             _updates.Start();
         }
 
@@ -172,7 +170,7 @@ public partial class App : Application
         timer.Start();
     }
 
-    private static bool IsLink(string arg) => arg.StartsWith("bambubar://", StringComparison.OrdinalIgnoreCase);
+    private static bool IsLink(string arg) => arg.StartsWith(Brand.Scheme + "://", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>A left click on the tray icon: the flyout opens, or closes if it's open.</summary>
     private void TogglePanel()
@@ -186,7 +184,7 @@ public partial class App : Application
         if (_store is null || _settings is null) return null;
         if (_panel is null)
         {
-            var view = new PanelView(_store, _settings, AppTheme.Current, animate: true) { ShowsSupport = !(_license?.HasAccess ?? false) };
+            var view = new PanelView(_store, _settings, AppTheme.Current, animate: true);
             _panelView = view;
             ShowUpdateOffer();
             var panel = _panel = new PanelWindow(view);
@@ -238,11 +236,11 @@ public partial class App : Application
         {
             var window = new MainWindow(_store, _settings, new WindowServices
             {
-                License = _license,
                 Widgets = _widgets,
                 ToastsEnabled = _widgets is null ? null : ToastNotifier.Enabled,
                 Updates = _updates,
                 InstallUpdate = InstallUpdate,
+                Relay = _relay,
                 TestNotification = () => _notifier.Post(Loc.T("Notifications are on"),
                     Loc.T("This is how Bambu Bar tells you a print finished, failed or needs you."), "bambubar-test"),
                 Restart = Restart,
@@ -356,7 +354,6 @@ public partial class App : Application
         CrashLog.Step("window", () => _window?.Close());
         CrashLog.Step("panel", () => _panel?.Quit());
         CrashLog.Step("updates", () => _updates?.Stop());
-        CrashLog.Step("license", () => _license?.Stop());
         // The printers before the tray icon, which shows their state to the end.
         CrashLog.Step("printers", () => _store?.Dispose());
         CrashLog.Step("tray", () => _tray?.Dispose());

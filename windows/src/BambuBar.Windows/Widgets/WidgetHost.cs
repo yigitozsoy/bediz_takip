@@ -31,10 +31,10 @@ public sealed partial class WidgetHost : IDisposable
     /// <param name="installFolder">Where the installer put BambuBar.exe, <c>Rainmeter\</c> and <c>Skins\</c>.</param>
     public WidgetHost(string installFolder, string? root = null)
     {
-        _root = root ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Bambu Bar", "Widgets");
+        _root = root ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Brand.Folder, "Widgets");
         _installedSkins = Path.Combine(installFolder, "Skins", "BambuBar");
         _rainmeterExe = Path.GetFullPath(Path.Combine(installFolder, "Rainmeter", "Rainmeter.exe"));
-        _bambuBarExe = Path.Combine(installFolder, "BambuBar.exe");
+        _bambuBarExe = Path.Combine(installFolder, Brand.Exe);
         State = new WidgetStateWriter(StateFolder) { Reload = () => Bang("!UpdateGroup BambuBar") };
     }
 
@@ -188,7 +188,7 @@ public sealed partial class WidgetHost : IDisposable
     {
         Directory.CreateDirectory(Path.Combine(BambuBarSkins, "@Resources"));
         File.WriteAllText(Path.Combine(BambuBarSkins, "@Resources", "App.inc"),
-            $"; Written by Bambu Bar.\r\n[Variables]\r\nBambuBarExe={_bambuBarExe}\r\n", new UTF8Encoding(true));
+            $"; Written by {Brand.Name}.\r\n[Variables]\r\nBambuBarExe={_bambuBarExe}\r\n", new UTF8Encoding(true));
         if (File.Exists(IniPath)) return;
         File.WriteAllText(IniPath, string.Join("\r\n",
             "[Rainmeter]",

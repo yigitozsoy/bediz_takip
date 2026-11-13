@@ -69,10 +69,11 @@ public class UpdateSignatureTests
     }
 
     [Fact]
-    public void ReleaseKeyIsTheMacsSparkleKey()
+    public void ReleaseKeyIsPrintPulsesOwn()
     {
+        // Bambu Bar's key signs Bambu Bar's releases; PrintPulse must never trust it.
         var plist = File.ReadAllText(Path.Combine(Repo.Root, "Resources", "Sparkle-Info.plist"));
-        Assert.Contains($"<string>{UpdateSignature.SparklePublicKey}</string>", plist);
+        Assert.DoesNotContain($"<string>{UpdateSignature.SparklePublicKey}</string>", plist);
         _ = new UpdateSignature();
         Assert.Throws<ArgumentException>(() => new UpdateSignature(Convert.ToBase64String(new byte[31])));
     }

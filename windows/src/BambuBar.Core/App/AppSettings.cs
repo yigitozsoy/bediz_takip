@@ -24,7 +24,7 @@ public sealed class AppSettings
     public static string DefaultFolder => Path.Combine(
         OperatingSystem.IsWindows() ? Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
             : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Application Support"),
-        "Bambu Bar");
+        Brand.Folder);
 
     private static JsonObject Load(string? path)
     {
