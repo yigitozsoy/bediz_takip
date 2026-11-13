@@ -87,7 +87,7 @@ internal sealed class SettingsPage(WindowContext ctx) : Page(ctx)
             }
             : null);
 
-        const bool access = true; // PrintPulse: no supporter license, updates for everyone
+        const bool access = true; // Beta Monitor: no supporter license, updates for everyone
         var u = Ctx.Services.Updates;
         _updates.Show($"{access}|{u?.State}|{u?.LastChecked}|{u?.Release?.DisplayVersion}|{u?.Error}", () => Updates(access));
     }

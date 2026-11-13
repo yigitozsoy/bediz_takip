@@ -7,9 +7,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <InvariantGlobalization>false</InvariantGlobalization>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-    <Product>PrintPulse</Product>
-    <Company>PrintPulse</Company>
-    <Copyright>PrintPulse, based on Bambu Bar © 2026 NINA LABS, LLC. MIT License.</Copyright>
+    <Product>Beta Monitor</Product>
+    <Company>Beta Monitor</Company>
+    <Copyright>Beta Monitor, based on Bambu Bar © 2026 NINA LABS, LLC. MIT License.</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 

@@ -20,7 +20,7 @@ if (args is ["--art", var output, var w, var h])
     File.WriteAllBytes(output, Png.Encode(art));
     return 0;
 }
-// bambubar --update-keygen: a new update signing key (PrintPulse). The private half goes into the PRINTPULSE_UPDATE_KEY
+// bambubar --update-keygen: a new update signing key (Beta Monitor). The private half goes into the PRINTPULSE_UPDATE_KEY
 // secret, the public half into UpdateSignature.SparklePublicKey.
 if (args is ["--update-keygen"])
 {

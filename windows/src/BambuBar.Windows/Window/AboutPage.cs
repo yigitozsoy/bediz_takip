@@ -13,8 +13,8 @@ using Microsoft.Win32;
 
 namespace BambuBar.AppWindow;
 
-/// <summary>About the app: version details for bug reports, links, how it works, privacy and credits. PrintPulse has
-/// no supporter license: everything is free, and updates come from PrintPulse's own GitHub releases.</summary>
+/// <summary>About the app: version details for bug reports, links, how it works, privacy and credits. Beta Monitor has
+/// no supporter license: everything is free, and updates come from Beta Monitor's own GitHub releases.</summary>
 internal sealed class AboutPage(WindowContext ctx) : Page(ctx)
 {
     private readonly DispatcherTimer _copiedTimer = new() { Interval = TimeSpan.FromSeconds(2) };
@@ -48,7 +48,7 @@ internal sealed class AboutPage(WindowContext ctx) : Page(ctx)
             Ui.Tip(link, url.AbsoluteUri);
             linksBody.Children.Add(link);
         }
-        Link(Loc.T("PrintPulse on GitHub"), "", Website.Home);
+        Link(Loc.T("Beta Monitor on GitHub"), "", Website.Home);
         Link(Loc.T("Release Notes"), "", Website.Changelog);
         Link(Loc.T("Report an Issue"), "", Website.NewIssue);
         Link("Original project: Bambu Bar", "", Website.Upstream);
@@ -63,10 +63,10 @@ internal sealed class AboutPage(WindowContext ctx) : Page(ctx)
 
         var privacy = Section(Loc.T("Privacy"), out var privacyBody);
         privacyBody.Children.Add(Paragraph(Loc.T("Printer data stays on your local network. No app analytics. Printer access codes are stored in Windows Credential Manager.")));
-        privacyBody.Children.Add(Paragraph(Loc.T("Update checks read the latest PrintPulse release on GitHub and send no printer data. Updates install only when they carry PrintPulse's signature. Manage automatic updates in Settings → Updates.")));
+        privacyBody.Children.Add(Paragraph(Loc.T("Update checks read the latest Beta Monitor release on GitHub and send no printer data. Updates install only when they carry Beta Monitor's signature. Manage automatic updates in Settings → Updates.")));
 
         var credits = Section(Loc.T("Credits"), out var creditsBody);
-        creditsBody.Children.Add(Paragraph("PrintPulse is built on Bambu Bar by NINA LABS, LLC, released under the MIT License. Thank you for making it open source."));
+        creditsBody.Children.Add(Paragraph("Beta Monitor is built on Bambu Bar by NINA LABS, LLC, released under the MIT License. Thank you for making it open source."));
         creditsBody.Children.Add(Paragraph(Loc.T("Protocol details and the HMS error texts come from the open-source ha-bambulab project (MIT), with thanks to Bambuddy and bambu-cli for documenting the newer printers. What each model can do (chamber sensor, fans, heated chamber, nozzles, build volume) follows the printer profiles Bambu Lab publishes with Bambu Studio.")));
         creditsBody.Children.Add(Paragraph(Loc.T("The printer models were built for this project in Blender. They are visual approximations, not manufacturer CAD.")));
         creditsBody.Children.Add(Paragraph(Loc.T("Desktop widgets are drawn by Rainmeter (GPL-2.0), shipped unmodified with its license and source.")));

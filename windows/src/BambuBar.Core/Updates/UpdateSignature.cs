@@ -11,7 +11,7 @@ namespace BambuBar.Core.Updates;
 /// </summary>
 public sealed class UpdateSignature
 {
-    /// <summary>PrintPulse's update key (not Bambu Bar's): 32 bytes, Base64. Its private half is the
+    /// <summary>Beta Monitor's update key (not Bambu Bar's): 32 bytes, Base64. Its private half is the
     /// PRINTPULSE_UPDATE_KEY GitHub secret; <c>bambubar --update-keygen</c> makes a new pair.</summary>
     public const string SparklePublicKey = "dgsl9WZHvsz9BDAL8/e/rriCGPSRMTsr6GLxbT2W62A=";
 

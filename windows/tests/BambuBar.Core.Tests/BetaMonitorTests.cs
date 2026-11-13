@@ -5,8 +5,8 @@ using BambuBar.Core.Model;
 
 namespace BambuBar.Core.Tests;
 
-/// <summary>PrintPulse's additions: the Discord/Telegram relay, the chimes and the history totals.</summary>
-public class PrintPulseTests
+/// <summary>Beta Monitor's additions: the Discord/Telegram relay, the chimes and the history totals.</summary>
+public class BetaMonitorTests
 {
     private const string Webhook = "https://discord.com/api/webhooks/123456789/abcdefghijklmnop";
     private const string Token = "123456789:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsawABC";
@@ -181,12 +181,12 @@ public class PrintPulseTests
     }
 
     [Fact]
-    public void PrintPulseKeepsMoreHistory()
+    public void BetaMonitorKeepsMoreHistory()
     {
         var path = Path.Combine(Path.GetTempPath(), $"pp-history-{Guid.NewGuid():N}.json");
         try
         {
-            var store = new HistoryStore(path, HistoryStore.PrintPulseLimit);
+            var store = new HistoryStore(path, HistoryStore.BetaMonitorLimit);
             store.Save(Enumerable.Range(0, 40).Select(i => new JobRecord { Name = $"J{i}", StartedAt = DateTimeOffset.Now, Outcome = JobOutcome.Finished, PrinterSerial = "A" }));
             Assert.Equal(40, store.Load().Count);
         }

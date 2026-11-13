@@ -12,7 +12,7 @@ namespace BambuBar.Theme;
 /// </summary>
 public static class Palette
 {
-    /// <summary>The accent: the one picked in Settings (PrintPulse's Gamma theme), or Bambu Bar's green in the classic
+    /// <summary>The accent: the one picked in Settings (Beta Monitor's Gamma theme), or Bambu Bar's green in the classic
     /// look (0.13, 0.80, 0.42).</summary>
     public static Color Accent => GammaTheme.Accent;
     /// <summary>Prominent buttons: the accent, deeper (Bambu Bar's (0.00, 0.60, 0.29) in the classic look).</summary>

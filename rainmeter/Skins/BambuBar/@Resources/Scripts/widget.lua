@@ -42,7 +42,7 @@ BB.C = {
 BB.CARD = { top = { 0x29, 0x2B, 0x2E }, bottom = { 0x14, 0x17, 0x19 }, border = 0.08,
 	hoverTop = { 0x31, 0x33, 0x37 }, hoverBottom = { 0x19, 0x1B, 0x1E }, hoverBorder = 0.22 }
 
--- PrintPulse: the app writes its theme (Gamma variant and accent) into every state file as `style`; the card,
+-- Beta Monitor: the app writes its theme (Gamma variant and accent) into every state file as `style`; the card,
 -- text and accent follow it. Without one the defaults above stay.
 local function rgb(hex)
 	return { tonumber(hex:sub(1, 2), 16) or 0, tonumber(hex:sub(3, 4), 16) or 0, tonumber(hex:sub(5, 6), 16) or 0 }
@@ -226,12 +226,12 @@ function BB.model(s, now)
 	if (s.v or 1) > 1 then
 		-- A newer app wrote this: the skins on disk are older than the app (the app copies them on update).
 		m.link, m.live, m.state = "unconfigured", false, "idle"
-		m.caption = "Update PrintPulse"; m.headline = "Update PrintPulse"; m.stateLine = ""; m.detail = ""
+		m.caption = "Update Beta Monitor"; m.headline = "Update Beta Monitor"; m.stateLine = ""; m.detail = ""
 		m.temps, m.spools, m.ams, m.issue = {}, {}, nil, nil
 	end
 
 	-- What a click opens (contract: url; older files only had the serial).
-	m.url = s.url or ((m.serial and m.serial ~= "") and ("printpulse://printer/" .. m.serial) or "printpulse://open")
+	m.url = s.url or ((m.serial and m.serial ~= "") and ("betamonitor://printer/" .. m.serial) or "betamonitor://open")
 
 	m.stale = (m.link == "online" or m.link == "connecting") and s.savedAt ~= nil
 		and now - s.savedAt > BB.STALE_AFTER
@@ -1269,8 +1269,8 @@ function Update()
 			BB.applyStyle(G.state.style)
 		end
 	end
-	local s = G.state or { v = 1, link = "unconfigured", live = false, state = "idle", caption = "PrintPulse",
-		headline = "Open PrintPulse", stateLine = "", motion = true }
+	local s = G.state or { v = 1, link = "unconfigured", live = false, state = "idle", caption = "Beta Monitor",
+		headline = "Open Beta Monitor", stateLine = "", motion = true }
 	present(BB.model(s, now()))
 	return G.model and G.model.percent or 0
 end

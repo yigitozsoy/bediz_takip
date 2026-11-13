@@ -7,7 +7,7 @@ using Org.BouncyCastle.Crypto.Signers;
 namespace BambuBar.Core.Updates;
 
 /// <summary>
-/// PrintPulse's release side of <see cref="UpdateSignature"/>: makes the Ed25519 update key and writes a Windows-only
+/// Beta Monitor's release side of <see cref="UpdateSignature"/>: makes the Ed25519 update key and writes a Windows-only
 /// appcast whose items carry each installer's signature. The private key lives only in the
 /// <c>PRINTPULSE_UPDATE_KEY</c> GitHub secret (and wherever its owner keeps a copy), never in the repository.
 /// </summary>
@@ -40,7 +40,7 @@ public static class AppcastWriter
 
     /// <summary>
     /// An appcast with one item per installer. The architecture comes from the file name
-    /// (<c>PrintPulse-1.2.3-windows-x64.exe</c>, <c>…-windows-arm64.exe</c>); <paramref name="downloadBase"/> is the
+    /// (<c>BetaMonitor-1.2.3-windows-x64.exe</c>, <c>…-windows-arm64.exe</c>); <paramref name="downloadBase"/> is the
     /// release's download folder (<c>https://github.com/owner/repo/releases/download/v1.2.3/</c>).
     /// </summary>
     public static XDocument Write(string version, Uri downloadBase, IEnumerable<string> installers, string privateKey,

@@ -63,7 +63,7 @@ public class ChromeButton : Button
         FocusVisualStyle = Chrome.FocusVisual(Metrics.Control);
         IsEnabledChanged += (_, _) => Opacity = IsEnabled ? 1 : 0.4;
         Chrome.Apply(this, _look, false, false);
-        // PrintPulse's Gamma look: filled buttons (Pause, Stop, Set Up…, Check Now) are pills, like Gamma's.
+        // Beta Monitor's Gamma look: filled buttons (Pause, Stop, Set Up…, Check Now) are pills, like Gamma's.
         if (GammaTheme.Active)
             SizeChanged += (_, e) =>
             {

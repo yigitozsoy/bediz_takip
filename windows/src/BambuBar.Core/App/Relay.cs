@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 
 namespace BambuBar.Core.App;
 
-/// <summary>Plays PrintPulse's sound for an event (the Windows app's synthesized chimes).</summary>
+/// <summary>Plays Beta Monitor's sound for an event (the Windows app's synthesized chimes).</summary>
 public interface ISoundPlayer
 {
     void Play(PrintEvent kind);
 }
 
 /// <summary>
-/// PrintPulse: every print notification goes to the system notifier as before, and also plays a sound and goes to
+/// Beta Monitor: every print notification goes to the system notifier as before, and also plays a sound and goes to
 /// Discord (a channel webhook) and Telegram (a bot's chat) when they're set up. The webhook URL and the bot token are
 /// secrets, kept with the access codes (Credential Manager in the app), never in settings.json. Remote sends run on
 /// a worker and never hold up the store; a failure is kept in <see cref="LastError"/> for the Notifications page.
@@ -21,8 +21,8 @@ public sealed partial class RelayNotifier : INotifier, IDisposable
 {
     public static class Keys
     {
-        public const string Sounds = "printPulseSounds";
-        public const string TelegramChat = "printPulseTelegramChat";
+        public const string Sounds = "betaMonitorSounds";
+        public const string TelegramChat = "betaMonitorTelegramChat";
     }
 
     /// <summary>Names in the secret store (they sit beside the printers' serials, so they can't look like one).</summary>

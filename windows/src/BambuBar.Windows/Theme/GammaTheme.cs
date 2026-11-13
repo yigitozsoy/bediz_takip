@@ -5,7 +5,7 @@ using BambuBar.Core.App;
 namespace BambuBar.Theme;
 
 /// <summary>
-/// PrintPulse's look, taken from Gamma Player (gammaplayer/theme.py): AMOLED black and nine other variants, flat
+/// Beta Monitor's look, taken from Gamma Player (gammaplayer/theme.py): AMOLED black and nine other variants, flat
 /// surfaces instead of glass, and an accent the person picks (a named one or their own #RRGGBB). "classic" keeps Bambu
 /// Bar's Fluent glass and Mica; "system" follows Windows' light/dark with the AMOLED and White variants.
 /// <para>Read once at startup (<see cref="Load"/>); <see cref="SetVariant"/> and <see cref="SetAccent"/> save and
@@ -13,8 +13,8 @@ namespace BambuBar.Theme;
 /// </summary>
 public static class GammaTheme
 {
-    public const string ThemeKey = "printPulseTheme";
-    public const string AccentKey = "printPulseAccent";
+    public const string ThemeKey = "betaMonitorTheme";
+    public const string AccentKey = "betaMonitorAccent";
     public const string DefaultVariant = "amoled";
     public const string DefaultAccent = "blue";
     public const string System = "system";
@@ -91,7 +91,7 @@ public static class GammaTheme
         }),
     ];
 
-    /// <summary>Gamma's ACCENTS (its "gray" default is a fine player chrome but reads as idle here, so PrintPulse
+    /// <summary>Gamma's ACCENTS (its "gray" default is a fine player chrome but reads as idle here, so BetaMonitor
     /// starts on blue, the icon's pulse).</summary>
     public static IReadOnlyList<(string Id, string Turkish, string English, Color Color)> Accents { get; } =
     [

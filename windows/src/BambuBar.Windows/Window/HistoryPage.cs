@@ -12,9 +12,9 @@ using BambuBar.Theme;
 namespace BambuBar.AppWindow;
 
 /// <summary>
-/// PrintPulse's History page: totals (prints, success rate, time spent printing, the last week), how they ended and
+/// Beta Monitor's History page: totals (prints, success rate, time spent printing, the last week), how they ended and
 /// which materials, then every print the app saw end, newest first. The store saves up to
-/// <see cref="HistoryStore.PrintPulseLimit"/> per printer.
+/// <see cref="HistoryStore.BetaMonitorLimit"/> per printer.
 /// </summary>
 internal sealed class HistoryPage(WindowContext ctx) : Page(ctx)
 {
@@ -31,7 +31,7 @@ internal sealed class HistoryPage(WindowContext ctx) : Page(ctx)
             Spacing = 22,
             Children =
             {
-                W.PageHeader(Loc.T("Print History"), Loc.T("Every print PrintPulse saw end, and how it went.")),
+                W.PageHeader(Loc.T("Print History"), Loc.T("Every print Beta Monitor saw end, and how it went.")),
                 _content.Host,
             },
         };
@@ -48,7 +48,7 @@ internal sealed class HistoryPage(WindowContext ctx) : Page(ctx)
     {
         var ended = history.Where(j => j.Outcome != JobOutcome.Running).ToList();
         if (ended.Count == 0)
-            return W.Empty(AppPage.History.Glyph(), Loc.T("No prints yet"), Loc.T("Prints show up here once PrintPulse sees one end."));
+            return W.Empty(AppPage.History.Glyph(), Loc.T("No prints yet"), Loc.T("Prints show up here once Beta Monitor sees one end."));
 
         var stats = HistoryStats.Of(ended, DateTimeOffset.Now);
         var tiles = new UniformGrid { Columns = 4 };
@@ -62,7 +62,7 @@ internal sealed class HistoryPage(WindowContext ctx) : Page(ctx)
         body.Children.Add(W.DetailRow(JobOutcome.Failed.Title(), stats.Failed.ToString(CultureInfo.CurrentCulture), Dot(Palette.Failed)));
         body.Children.Add(W.DetailRow(JobOutcome.Canceled.Title(), stats.Canceled.ToString(CultureInfo.CurrentCulture), Dot(Palette.Idle)));
         if (stats.Unknown > 0)
-            body.Children.Add(W.DetailRow(Loc.T("Ended while PrintPulse was closed"), stats.Unknown.ToString(CultureInfo.CurrentCulture), Dot(Palette.Idle)));
+            body.Children.Add(W.DetailRow(Loc.T("Ended while Beta Monitor was closed"), stats.Unknown.ToString(CultureInfo.CurrentCulture), Dot(Palette.Idle)));
         if (stats.Longest is { Duration: { } longest } job)
             body.Children.Add(W.DetailRow(Loc.T("Longest print"), $"{job.Name} · {Format.Duration(longest)}"));
         if (stats.Materials.Count > 0)

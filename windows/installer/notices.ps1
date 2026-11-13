@@ -1,9 +1,9 @@
-# Writes THIRD-PARTY-NOTICES.txt into the install image (P5.1): the license of everything PrintPulse ships that isn't
+# Writes THIRD-PARTY-NOTICES.txt into the install image (P5.1): the license of everything Beta Monitor ships that isn't
 # its own, taken from the actual files. Run after the image is complete (publish + ffmpeg\ + Rainmeter\):
 #   pwsh windows/installer/notices.ps1 -App build/windows/win-x64
 # Sources: Rainmeter (GPL-2.0, rainmeter/version.txt for the version and source), FFmpeg (ffmpeg\LICENSE.txt and
 # SOURCE.txt), the Nunito font (OFL.txt) and Fluent icons (Icons\LICENSE.txt) in the skins, and every NuGet package
-# and .NET runtime pack that PrintPulse.deps.json says the app was published with, licensed from the restored packages
+# and .NET runtime pack that BetaMonitor.deps.json says the app was published with, licensed from the restored packages
 # (the license file the package names, else a LICENSE file in it, else windows/installer/licenses/<id>.txt, else the
 # MIT text with the package's copyright when its license expression is MIT). Fails when one has none of these.
 param(
@@ -33,8 +33,8 @@ function Read-Pin([string] $path) {
   $pin
 }
 
-[void]$text.AppendLine('PrintPulse for Windows: third-party notices').AppendLine()
-[void]$text.AppendLine('PrintPulse (based on Bambu Bar) is MIT-licensed (LICENSE.txt). It ships the following software by others, each under its')
+[void]$text.AppendLine('Beta Monitor for Windows: third-party notices').AppendLine()
+[void]$text.AppendLine('Beta Monitor (based on Bambu Bar) is MIT-licensed (LICENSE.txt). It ships the following software by others, each under its')
 [void]$text.AppendLine('own license, reproduced below.').AppendLine().AppendLine()
 
 # Rainmeter: GPL-2.0, unmodified (ledger D4). licenses/GPL-2.0.txt is the LICENSE file of its repository at the
@@ -44,7 +44,7 @@ $gpl = Join-Path $PSScriptRoot 'licenses/GPL-2.0.txt'
 Add-Section "Rainmeter $($rainmeter.version) (Rainmeter\)" @"
 Rainmeter draws the desktop widgets. It is shipped unmodified, as the Rainmeter project builds it
 ($($rainmeter.url)), and is licensed under the GNU General Public License version 2 (below).
-Its complete source code for this version is attached to every PrintPulse release on GitHub as
+Its complete source code for this version is attached to every Beta Monitor release on GitHub as
 rainmeter-$($rainmeter.version)-source.zip (https://github.com/yigitozsoy/printpulse/releases), and is also available from
 $($rainmeter.source). We will send it to anyone who asks, for three years from the release.
 Rainmeter includes LuaJIT, PCRE, zlib, Brotli, fmt, RapidJSON, kiss_fft and others; their licenses are in the
@@ -62,7 +62,7 @@ Add-Section 'Nunito font (Skins\BambuBar\@Resources\Fonts)' '' @(Join-Path $reso
 Add-Section 'Fluent UI System Icons (Skins\BambuBar\@Resources\Icons)' '' @(Join-Path $resources 'Icons/LICENSE.txt')
 
 # NuGet packages and runtime packs, as published.
-$deps = Get-Content (Join-Path $App 'PrintPulse.deps.json') -Raw | ConvertFrom-Json
+$deps = Get-Content (Join-Path $App 'BetaMonitor.deps.json') -Raw | ConvertFrom-Json
 $mit = @'
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation the

@@ -1,46 +1,61 @@
-"""Draws PrintPulse's icon in Gamma Player's style: AMOLED black, a light serif letter, one accent line.
-python windows/branding/make-icon.py  ->  Assets/AppIcon.png (256) and Assets/PrintPulse.ico (16-256)."""
+"""Draws Beta Monitor's icon exactly in Gamma Player's style: Gamma's is a dark serif capital gamma (Γ, Georgia) on
+a light-gray rounded square that darkens toward the bottom; Beta Monitor's is the capital beta (Β) the same way.
+Also a white letter on transparent, like Gamma's assets/logo.png, for places that tint it.
+
+python windows/branding/make-icon.py  ->  Assets/AppIcon.png (256), Assets/BetaMonitor.ico (16-256),
+                                          branding/BetaMonitor-1024.png and branding/BetaMonitor-logo.png"""
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 HERE = Path(__file__).resolve().parent
 ASSETS = HERE.parent / "src" / "BambuBar.Windows" / "Assets"
-S = 1024  # drawn large, scaled down
-INK = (241, 241, 241, 255)      # Gamma's text  #f1f1f1
-ACCENT = (62, 166, 255, 255)    # Gamma's blue  #3ea6ff
+S = 1024                        # drawn large, scaled down
+LETTER = "\u0392"               # Greek capital beta, as Gamma's is the capital gamma
+FONT = "C:/Windows/Fonts/georgia.ttf"
+INK = (33, 33, 33, 255)         # Gamma icon's letter  #212121
+TOP, BOTTOM = 232, 188          # Gamma icon's gray, top to bottom
+RADIUS = 0.21                   # of the side
+HEIGHT = 0.63                   # the letter's height, of the side (Gamma's Γ: 161 of 256)
 
 
-def draw(size=S):
+def letter(size, fill):
+    """The letter, centred, at Gamma's height, on transparent."""
     im = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
-    r = size * 0.22
-    d.rounded_rectangle([0, 0, size - 1, size - 1], radius=r, fill=(0, 0, 0, 255))
-    d.rounded_rectangle([size * .012, size * .012, size * .988, size * .988], radius=r * .97,
-                        outline=(255, 255, 255, 28), width=max(2, size // 128))
-    font = ImageFont.truetype("C:/Windows/Fonts/georgiab.ttf", int(size * 0.74))
-    box = d.textbbox((0, 0), "P", font=font)
+    probe = ImageFont.truetype(FONT, 1000)
+    box = d.textbbox((0, 0), LETTER, font=probe)
+    font = ImageFont.truetype(FONT, int(1000 * HEIGHT * size / (box[3] - box[1])))
+    box = d.textbbox((0, 0), LETTER, font=font)
     w, h = box[2] - box[0], box[3] - box[1]
-    x, y = (size - w) / 2 - box[0] - size * 0.02, (size - h) / 2 - box[1] - size * 0.04
-    d.text((x, y), "P", font=font, fill=INK)
-    # The pulse: flat, a spike up, a dip, flat, across the lower third.
-    yb = size * 0.76
-    u = size / 100
-    pts = [(12 * u, yb), (38 * u, yb), (46 * u, yb - 20 * u), (54 * u, yb + 12 * u), (60 * u, yb - 6 * u),
-           (64 * u, yb), (88 * u, yb)]
-    glow = Image.new("RGBA", im.size, (0, 0, 0, 0))
-    ImageDraw.Draw(glow).line(pts, fill=ACCENT, width=int(9 * u), joint="curve")
-    im.alpha_composite(glow.filter(ImageFilter.GaussianBlur(4 * u)))
-    # Black under the line so it cuts through the letter.
-    d.line(pts, fill=(0, 0, 0, 255), width=int(9 * u), joint="curve")
-    d.line(pts, fill=ACCENT, width=int(4.5 * u), joint="curve")
-    for p in (pts[0], pts[-1]):
-        d.ellipse([p[0] - 2.6 * u, p[1] - 2.6 * u, p[0] + 2.6 * u, p[1] + 2.6 * u], fill=ACCENT)
+    d.text(((size - w) / 2 - box[0], (size - h) / 2 - box[1]), LETTER, font=font, fill=fill)
     return im
 
 
-big = draw()
+def icon(size=S):
+    gradient = Image.new("RGBA", (size, size))
+    for y in range(size):
+        v = round(TOP + (BOTTOM - TOP) * y / (size - 1))
+        ImageDraw.Draw(gradient).line([(0, y), (size, y)], fill=(v, v, v, 255))
+    mask = Image.new("L", (size, size), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=size * RADIUS, fill=255)
+    im = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    im.paste(gradient, (0, 0), mask)
+    # Gamma's thin mid-gray outline, just inside the edge (2 px at 256, 1 px in).
+    inset, width = size / 256, max(1, round(size * 2 / 256))
+    ImageDraw.Draw(im).rounded_rectangle([inset, inset, size - 1 - inset, size - 1 - inset],
+                                         radius=size * RADIUS - inset, outline=(154, 154, 154, 255), width=width)
+    # And the soft shadow the letter casts, a little below it.
+    shadow = letter(size, (0, 0, 0, 40)).filter(ImageFilter.GaussianBlur(size * 5 / 256))
+    im.alpha_composite(shadow, (0, round(size * 2 / 256)))
+    im.alpha_composite(letter(size, INK))
+    return im
+
+
+big = icon()
 big.resize((256, 256), Image.LANCZOS).save(ASSETS / "AppIcon.png")
-big.resize((256, 256), Image.LANCZOS).save(ASSETS / "PrintPulse.ico",
+big.resize((256, 256), Image.LANCZOS).save(ASSETS / "BetaMonitor.ico",
                                            sizes=[(16, 16), (20, 20), (24, 24), (32, 32), (40, 40), (48, 48), (64, 64), (128, 128), (256, 256)])
-big.save(HERE / "PrintPulse-1024.png")
+big.save(HERE / "BetaMonitor-1024.png")
+white = letter(S, (255, 255, 255, 255))
+white.crop(white.getbbox()).save(HERE / "BetaMonitor-logo.png")
 print("written", ASSETS)

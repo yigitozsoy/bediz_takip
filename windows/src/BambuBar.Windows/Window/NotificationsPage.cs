@@ -36,7 +36,7 @@ internal sealed class NotificationsPage(WindowContext ctx) : Page(ctx)
                 _banner.Host, group,
             },
         };
-        // PrintPulse: sounds, Discord and Telegram, for the same events as the switches above.
+        // Beta Monitor: sounds, Discord and Telegram, for the same events as the switches above.
         if (Ctx.Services.Relay is { } relay)
         {
             if (relay.CanPlaySounds) page.Children.Add(Sounds(relay));
@@ -54,6 +54,8 @@ internal sealed class NotificationsPage(WindowContext ctx) : Page(ctx)
         foreach (var (kind, name) in new[] { (PrintEvent.Finished, Loc.T("Finished", "How a print ended")), (PrintEvent.Failed, Loc.T("Failed", "How a print ended")), (PrintEvent.Paused, Loc.T("Paused")), (PrintEvent.Started, Loc.T("Print started")) })
         {
             var play = W.Button(name, () => relay.PlaySound(kind, evenIfOff: true), small: true, glyph: "\uE768");
+            // Screen readers tell these apart from the switches above ("Listen: Print started").
+            System.Windows.Automation.AutomationProperties.SetName(play, $"{Loc.T("Listen")}: {name}");
             play.Margin = new Thickness(6, 0, 0, 0);
             previews.Children.Add(play);
         }
@@ -83,11 +85,11 @@ internal sealed class NotificationsPage(WindowContext ctx) : Page(ctx)
         {
             if (!Save()) return;
             Say(status, Loc.T("Sending…"));
-            var error = await relay.SendDiscordAsync(PrintEvent.Test, Loc.T("Notifications are on"), Loc.T("This is how PrintPulse tells you a print finished, failed or needs you."));
+            var error = await relay.SendDiscordAsync(PrintEvent.Test, Loc.T("Notifications are on"), Loc.T("This is how Beta Monitor tells you a print finished, failed or needs you."));
             Say(status, error is null ? Loc.T("Sent. Check your Discord channel.") : Loc.F("Couldn't send: %@", error));
         }
         body.Children.Add(W.Row(Loc.T("Webhook URL"), url));
-        body.Children.Add(W.Row("", Buttons(W.Button(Loc.T("Save"), () => Save(), small: true), W.Button(Loc.T("Send Test"), Test, small: true))));
+        body.Children.Add(W.Row("", Buttons("Discord", W.Button(Loc.T("Save"), () => Save(), small: true), W.Button(Loc.T("Send Test"), Test, small: true))));
         body.Children.Add(status);
         body.Children.Add(W.Note(Loc.T("In Discord: Server Settings → Integrations → Webhooks → New Webhook, then Copy Webhook URL. It's kept in Windows Credential Manager.")));
         return group;
@@ -124,14 +126,14 @@ internal sealed class NotificationsPage(WindowContext ctx) : Page(ctx)
         {
             if (!Save()) { if (status.Text == Loc.T("Saved.")) Say(status, Loc.T("Enter both the bot token and the chat ID.")); return; }
             Say(status, Loc.T("Sending…"));
-            var error = await relay.SendTelegramAsync(Loc.T("Notifications are on"), Loc.T("This is how PrintPulse tells you a print finished, failed or needs you."));
+            var error = await relay.SendTelegramAsync(Loc.T("Notifications are on"), Loc.T("This is how Beta Monitor tells you a print finished, failed or needs you."));
             Say(status, error is null ? Loc.T("Sent. Check Telegram.") : Loc.F("Couldn't send: %@", error));
         }
         body.Children.Add(W.Row(Loc.T("Bot token"), token));
         var find = W.Button(Loc.T("Find"), Find, small: true);
         find.Margin = new Thickness(8, 0, 0, 0);
         body.Children.Add(W.Row(Loc.T("Chat ID"), new StackPanel { Orientation = Orientation.Horizontal, Children = { chat, find } }));
-        body.Children.Add(W.Row("", Buttons(W.Button(Loc.T("Save"), () => Save(), small: true), W.Button(Loc.T("Send Test"), Test, small: true))));
+        body.Children.Add(W.Row("", Buttons("Telegram", W.Button(Loc.T("Save"), () => Save(), small: true), W.Button(Loc.T("Send Test"), Test, small: true))));
         body.Children.Add(status);
         body.Children.Add(W.Note(Loc.T("Make a bot with @BotFather and paste its token. Send your bot any message, then press Find to fill in the chat ID.")));
         return group;
@@ -144,11 +146,14 @@ internal sealed class NotificationsPage(WindowContext ctx) : Page(ctx)
         status.Visibility = text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
     }
 
-    private static StackPanel Buttons(params FrameworkElement[] buttons)
+    /// <summary>The group's buttons, named with the channel for screen readers ("Discord: Save").</summary>
+    private static StackPanel Buttons(string channel, params ChromeButton[] buttons)
     {
         var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
         foreach (var b in buttons)
         {
+            var label = System.Windows.Automation.AutomationProperties.GetName(b) is { Length: > 0 } n ? n : b.Content?.ToString();
+            System.Windows.Automation.AutomationProperties.SetName(b, $"{channel}: {label}");
             b.Margin = new Thickness(8, 0, 0, 0);
             row.Children.Add(b);
         }

@@ -1,5 +1,5 @@
-; PrintPulse for Windows: the installer (ledger P5.1, O10). Inno Setup 6.3 or later, per user, no admin: installs to
-; %LOCALAPPDATA%\Programs\PrintPulse. One installer per architecture, built from the install image CI stages in
+; Beta Monitor for Windows: the installer (ledger P5.1, O10). Inno Setup 6.3 or later, per user, no admin: installs to
+; %LOCALAPPDATA%\Programs\Beta Monitor. One installer per architecture, built from the install image CI stages in
 ; build\windows\<rid>\ (dotnet publish + ffmpeg\ + Rainmeter\ + Skins\ + LICENSE.txt + THIRD-PARTY-NOTICES.txt):
 ;
 ;   ISCC /DAppVersion=3.0.0 /DArch=x64 /DSourceDir=<repo>\build\windows\win-x64 /DOutputDir=<repo>\build\installer BambuBar.iss
@@ -7,17 +7,17 @@
 ; AppVersion comes from windows\tools\version.ps1 (project.yml's MARKETING_VERSION, the one version line). Arch is x64
 ; or arm64; both carry the x64 Rainmeter, which runs under emulation on ARM64 (D9).
 ;
-; Silent updates: /VERYSILENT /SUPPRESSMSGBOXES /NORESTART. A running PrintPulse from this folder, and the Rainmeter
+; Silent updates: /VERYSILENT /SUPPRESSMSGBOXES /NORESTART. A running Beta Monitor from this folder, and the Rainmeter
 ; it started from Rainmeter\, are stopped before the files are replaced; after a silent install the app is started
 ; again (with --background when it had been started with it, i.e. at sign-in), after an interactive one the last
 ; page offers to open it.
-; Uninstall stops both, removes the printpulse:// and AppUserModelID keys, the sign-in (Run) entry and the .rmskin
-; association our Rainmeter registers, and keeps the user's data (%APPDATA%\PrintPulse, %LOCALAPPDATA%\PrintPulse,
+; Uninstall stops both, removes the betamonitor:// and AppUserModelID keys, the sign-in (Run) entry and the .rmskin
+; association our Rainmeter registers, and keeps the user's data (%APPDATA%\Beta Monitor, %LOCALAPPDATA%\Beta Monitor,
 ; the access codes and license in Credential Manager) unless the user says so, or /PURGE=1 on a silent uninstall.
 ;
-; Signing (ledger section 9, not yet): sign PrintPulse.exe in the image first, then pass a sign tool named "printpulse" and define
+; Signing (ledger section 9, not yet): sign BetaMonitor.exe in the image first, then pass a sign tool named "betamonitor" and define
 ; SignTool, and Inno signs the installer and its uninstaller:
-;   ISCC "/Sprintpulse=signtool sign /fd SHA256 /f <pfx> /p <password> /tr http://timestamp.digicert.com /td SHA256 $f" /DSignTool=printpulse ...
+;   ISCC "/Sbetamonitor=signtool sign /fd SHA256 /f <pfx> /p <password> /tr http://timestamp.digicert.com /td SHA256 $f" /DSignTool=betamonitor ...
 
 #ifndef AppVersion
   #error Pass /DAppVersion=X.Y.Z (windows\tools\version.ps1)
@@ -42,24 +42,24 @@
 
 ; The same as Notifications\AppIdentity.cs: the Start menu shortcut carries it so Windows ties the shortcut, the
 ; taskbar button and the toasts together (P3.7).
-#define AppUserModelId "PrintPulse.App"
+#define AppUserModelId "BetaMonitor.App"
 
 [Setup]
-; Never change AppId: updates find the installed copy by it. (PrintPulse has its own, so it installs beside Bambu Bar.)
+; Never change AppId: updates find the installed copy by it. (Beta Monitor has its own, so it installs beside Bambu Bar.)
 AppId={{40AB2714-4329-4530-81BD-5ECDC7D268D0}
-AppName=PrintPulse
+AppName=Beta Monitor
 AppVersion={#AppVersion}
-AppVerName=PrintPulse {#AppVersion}
-AppPublisher=PrintPulse
+AppVerName=Beta Monitor {#AppVersion}
+AppPublisher=Beta Monitor
 AppPublisherURL=https://github.com/yigitozsoy/printpulse
 AppSupportURL=https://github.com/yigitozsoy/printpulse/issues
 AppUpdatesURL=https://github.com/yigitozsoy/printpulse/releases
-AppCopyright=PrintPulse, based on Bambu Bar (C) 2026 NINA LABS, LLC. MIT License.
+AppCopyright=Beta Monitor, based on Bambu Bar (C) 2026 NINA LABS, LLC. MIT License.
 VersionInfoVersion={#AppVersion}.0
-VersionInfoProductName=PrintPulse
-VersionInfoDescription=PrintPulse Setup
+VersionInfoProductName=Beta Monitor
+VersionInfoDescription=Beta Monitor Setup
 PrivilegesRequired=lowest
-DefaultDirName={autopf}\PrintPulse
+DefaultDirName={autopf}\BetaMonitor
 DisableDirPage=yes
 DisableProgramGroupPage=yes
 DisableReadyPage=yes
@@ -75,11 +75,11 @@ WizardStyle=modern
 WizardImageFile=art\wizard-*.bmp
 WizardSmallImageFile=art\small-*.bmp
 DisableWelcomePage=no
-SetupIconFile=..\src\BambuBar.Windows\Assets\PrintPulse.ico
-UninstallDisplayIcon={app}\PrintPulse.exe
-UninstallDisplayName=PrintPulse
+SetupIconFile=..\src\BambuBar.Windows\Assets\BetaMonitor.ico
+UninstallDisplayIcon={app}\BetaMonitor.exe
+UninstallDisplayName=Beta Monitor
 OutputDir={#OutputDir}
-OutputBaseFilename=PrintPulse-{#AppVersion}-windows-{#Arch}
+OutputBaseFilename=BetaMonitor-{#AppVersion}-windows-{#Arch}
 Compression=lzma2/max
 SolidCompression=yes
 #ifdef SignTool
@@ -91,14 +91,14 @@ SignedUninstaller=yes
 Name: "en"; MessagesFile: "compiler:Default.isl"
 
 [Messages]
-WelcomeLabel1=Welcome to PrintPulse
-WelcomeLabel2=Your Bambu Lab printers in the Windows tray: the print's progress at a glance, the camera, filament, alerts, and widgets for your desktop.%n%nPrintPulse {#AppVersion} installs just for you; no administrator needed.
-FinishedHeadingLabel=PrintPulse is ready
-FinishedLabel=PrintPulse lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
-FinishedLabelNoIcons=PrintPulse lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
+WelcomeLabel1=Welcome to Beta Monitor
+WelcomeLabel2=Your Bambu Lab printers in the Windows tray: the print's progress at a glance, the camera, filament, alerts, and widgets for your desktop.%n%nBeta Monitor {#AppVersion} installs just for you; no administrator needed.
+FinishedHeadingLabel=Beta Monitor is ready
+FinishedLabel=Beta Monitor lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
+FinishedLabelNoIcons=Beta Monitor lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
 
 [CustomMessages]
-en.RemoveUserData=Also remove your PrintPulse settings, print history and widgets from this PC?%n%nPrinter access codes and the supporter license stay in Windows Credential Manager.
+en.RemoveUserData=Also remove your Beta Monitor settings, print history and widgets from this PC?%n%nPrinter access codes and the supporter license stay in Windows Credential Manager.
 
 [InstallDelete]
 ; Folders the image owns wholesale: an update replaces them instead of leaving old files behind.
@@ -111,22 +111,22 @@ Type: filesandordirs; Name: "{app}\Skins"
 Source: "{#SourceDir}\*"; Excludes: "*.pdb"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{autoprograms}\PrintPulse"; Filename: "{app}\PrintPulse.exe"; AppUserModelID: "{#AppUserModelId}"
+Name: "{autoprograms}\Beta Monitor"; Filename: "{app}\BetaMonitor.exe"; AppUserModelID: "{#AppUserModelId}"
 
 [Registry]
-; printpulse:// links (widget clicks, toasts), as Platform\Registration.cs writes them too.
-Root: HKCU; Subkey: "Software\Classes\printpulse"; ValueType: string; ValueName: ""; ValueData: "URL:PrintPulse"; Flags: uninsdeletekey
-Root: HKCU; Subkey: "Software\Classes\printpulse"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
-Root: HKCU; Subkey: "Software\Classes\printpulse\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: """{app}\PrintPulse.exe"",0"
-Root: HKCU; Subkey: "Software\Classes\printpulse\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\PrintPulse.exe"" ""%1"""
+; betamonitor:// links (widget clicks, toasts), as Platform\Registration.cs writes them too.
+Root: HKCU; Subkey: "Software\Classes\betamonitor"; ValueType: string; ValueName: ""; ValueData: "URL:Beta Monitor"; Flags: uninsdeletekey
+Root: HKCU; Subkey: "Software\Classes\betamonitor"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
+Root: HKCU; Subkey: "Software\Classes\betamonitor\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: """{app}\BetaMonitor.exe"",0"
+Root: HKCU; Subkey: "Software\Classes\betamonitor\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\BetaMonitor.exe"" ""%1"""
 ; The AppUserModelID's name and icon for toasts, as Notifications\AppIdentity.cs writes them too.
-Root: HKCU; Subkey: "Software\Classes\AppUserModelId\{#AppUserModelId}"; ValueType: string; ValueName: "DisplayName"; ValueData: "PrintPulse"; Flags: uninsdeletekey
+Root: HKCU; Subkey: "Software\Classes\AppUserModelId\{#AppUserModelId}"; ValueType: string; ValueName: "DisplayName"; ValueData: "Beta Monitor"; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\Classes\AppUserModelId\{#AppUserModelId}"; ValueType: string; ValueName: "IconUri"; ValueData: "{app}\AppIcon.png"
 
 [Run]
 ; After a silent update: back as it was (the tray only when it had been started that way).
-Filename: "{app}\PrintPulse.exe"; Parameters: "{code:RelaunchParameters}"; Flags: nowait; Check: RelaunchAfterSilentInstall
-Filename: "{app}\PrintPulse.exe"; Description: "{cm:LaunchProgram,PrintPulse}"; Flags: postinstall nowait skipifsilent
+Filename: "{app}\BetaMonitor.exe"; Parameters: "{code:RelaunchParameters}"; Flags: nowait; Check: RelaunchAfterSilentInstall
+Filename: "{app}\BetaMonitor.exe"; Description: "{cm:LaunchProgram,BetaMonitor}"; Flags: postinstall nowait skipifsilent
 
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}"
@@ -136,7 +136,7 @@ var
   WasRunning: Boolean;
   WasInTray: Boolean;
 
-{ Ends every process called Name whose executable is inside Folder (with its trailing backslash), so a PrintPulse or a
+{ Ends every process called Name whose executable is inside Folder (with its trailing backslash), so a Beta Monitor or a
   Rainmeter run from anywhere else is left alone. Returns how many; InTray is set when one was started with
   --background. }
 function StopProcesses(const Name, Folder: String; var InTray: Boolean): Integer;
@@ -174,14 +174,14 @@ begin
   end;
 end;
 
-{ PrintPulse first (it would restart its Rainmeter), then our Rainmeter. }
+{ Beta Monitor first (it would restart its Rainmeter), then our Rainmeter. }
 function StopOurProcesses(var InTray: Boolean): Boolean;
 var
   Folder: String;
   Ignored: Boolean;
 begin
   Folder := AddBackslash(ExpandConstant('{app}'));
-  Result := StopProcesses('PrintPulse.exe', Folder, InTray) > 0;
+  Result := StopProcesses('BetaMonitor.exe', Folder, InTray) > 0;
   if StopProcesses('Rainmeter.exe', Folder + 'Rainmeter\', Ignored) > 0 then Result := True;
   if Result then Sleep(1000);
 end;
@@ -228,8 +228,8 @@ begin
   begin
     StopOurProcesses(Ignored);
     { Opening at sign-in (Platform\Registration.cs) and Task Manager's on/off state for it. }
-    RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'PrintPulse');
-    RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run', 'PrintPulse');
+    RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Beta Monitor');
+    RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run', 'Beta Monitor');
     RemoveRmskinAssociation;
   end;
   if CurUninstallStep = usPostUninstall then
@@ -240,8 +240,8 @@ begin
       Purge := MsgBox(CustomMessage('RemoveUserData'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES;
     if Purge then
     begin
-      DelTree(ExpandConstant('{userappdata}\PrintPulse'), True, True, True);
-      DelTree(ExpandConstant('{localappdata}\PrintPulse'), True, True, True);
+      DelTree(ExpandConstant('{userappdata}\Beta Monitor'), True, True, True);
+      DelTree(ExpandConstant('{localappdata}\Beta Monitor'), True, True, True);
     end;
   end;
 end;

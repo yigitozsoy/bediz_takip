@@ -13,7 +13,7 @@ namespace BambuBar.Tray;
 internal sealed partial class MenuRenderer : Forms.ToolStripRenderer
 {
     private readonly bool _dark;
-    // PrintPulse's Gamma look: the theme's card, text greys and overlays (the classic look keeps Windows 11's).
+    // Beta Monitor's Gamma look: the theme's card, text greys and overlays (the classic look keeps Windows 11's).
     private static Color G(System.Windows.Media.Color c) => Color.FromArgb(c.A, c.R, c.G, c.B);
     private Theme.GammaTheme.Palette? Gamma => Theme.GammaTheme.Active ? Theme.GammaTheme.For(_dark) : null;
     private Color Back => Gamma is { } g ? G(_dark ? g.Card : g.Bg) : _dark ? Color.FromArgb(0x2C, 0x2C, 0x2C) : Color.FromArgb(0xF9, 0xF9, 0xF9);

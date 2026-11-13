@@ -71,7 +71,7 @@ public sealed record WidgetState
     /// <summary>False when Windows' animation effects are off: skins skip every tween.</summary>
     public bool Motion { get; init; } = true;
     public StringsView Strings { get; init; } = new();
-    /// <summary>PrintPulse: the app's theme for the card (accent, card, text), so the widgets match it; null keeps the
+    /// <summary>Beta Monitor: the app's theme for the card (accent, card, text), so the widgets match it; null keeps the
     /// skin's own look.</summary>
     public StyleView? Style { get; init; } = WidgetStyle.Current;
 
@@ -109,13 +109,13 @@ public sealed record WidgetState
     };
 }
 
-/// <summary>PrintPulse: the widgets' look, set by the app from its theme (Gamma variant and accent).</summary>
+/// <summary>Beta Monitor: the widgets' look, set by the app from its theme (Gamma variant and accent).</summary>
 public static class WidgetStyle
 {
     public static WidgetState.StyleView? Current { get; set; }
 }
 
-/// <summary>The Mac's widget palette (Palette in Formatting.swift) as hex; the accent follows PrintPulse's theme.</summary>
+/// <summary>The Mac's widget palette (Palette in Formatting.swift) as hex; the accent follows Beta Monitor's theme.</summary>
 public static class WidgetPalette
 {
     public static string Accent => WidgetStyle.Current is { } style ? "#" + style.Accent : "#21CC6B";

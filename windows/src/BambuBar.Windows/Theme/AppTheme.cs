@@ -37,7 +37,7 @@ public static class AppTheme
         get
         {
             if (SystemParameters.HighContrast) return ThemeVariant.HighContrast;
-            // PrintPulse: a Gamma variant picked in Settings decides light or dark; "system" and "classic" ask Windows.
+            // Beta Monitor: a Gamma variant picked in Settings decides light or dark; "system" and "classic" ask Windows.
             if (GammaTheme.Fixed is { } fixedVariant) return fixedVariant.Dark ? ThemeVariant.Dark : ThemeVariant.Light;
             try
             {
@@ -60,7 +60,7 @@ public static class AppTheme
     /// <summary>Windows 11: rounded corners on request, and Segoe Fluent Icons.</summary>
     public static bool IsWindows11 => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000);
 
-    /// <summary>The PrintPulse theme or accent changed in Settings: restyle what's open (on the UI thread).</summary>
+    /// <summary>The Beta Monitor theme or accent changed in Settings: restyle what's open (on the UI thread).</summary>
     public static void NotifyChanged()
     {
         _last = Current;

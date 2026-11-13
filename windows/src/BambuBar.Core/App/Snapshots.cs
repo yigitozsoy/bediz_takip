@@ -40,8 +40,8 @@ public sealed record FleetSnapshot
 /// "Last: …", finish times and end-of-print notifications, not a print log. Without a path nothing is saved.</summary>
 public sealed class HistoryStore(string? path, int perPrinterLimit = 5)
 {
-    /// <summary>PrintPulse keeps this many per printer for its History page (Bambu Bar keeps 5).</summary>
-    public const int PrintPulseLimit = 500;
+    /// <summary>Beta Monitor keeps this many per printer for its History page (Bambu Bar keeps 5).</summary>
+    public const int BetaMonitorLimit = 500;
 
     private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
 

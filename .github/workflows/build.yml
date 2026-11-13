@@ -1,4 +1,4 @@
-name: PrintPulse
+name: Beta Monitor
 
 on:
   push:
@@ -134,7 +134,7 @@ jobs:
         # A WinExe: PowerShell wouldn't wait for it on its own. camera.png goes through the bundled FFmpeg; a problem
         # there (it didn't load or decode) fails the job.
         run: |
-          $p = Start-Process ../build/windows/win-x64/PrintPulse.exe -ArgumentList '--snapshot', "$PWD/../build/snapshots" -Wait -PassThru
+          $p = Start-Process ../build/windows/win-x64/BetaMonitor.exe -ArgumentList '--snapshot', "$PWD/../build/snapshots" -Wait -PassThru
           if ($p.ExitCode -ne 0) { throw "snapshot exited with $($p.ExitCode)" }
           Get-ChildItem ../build/snapshots
           if (Test-Path ../build/snapshots/camera-errors.txt) { Get-Content ../build/snapshots/camera-errors.txt; throw "The camera snapshot failed" }
@@ -144,9 +144,9 @@ jobs:
       - name: Run the demo and screenshot the desktop
         if: matrix.rid == 'win-x64'
         run: |
-          $p = Start-Process ../build/windows/win-x64/PrintPulse.exe -ArgumentList '--demo', 'printing', '--fleet' -PassThru
+          $p = Start-Process ../build/windows/win-x64/BetaMonitor.exe -ArgumentList '--demo', 'printing', '--fleet' -PassThru
           Start-Sleep -Seconds 10
-          if ($p.HasExited) { throw "PrintPulse.exe exited early with $($p.ExitCode)" }
+          if ($p.HasExited) { throw "BetaMonitor.exe exited early with $($p.ExitCode)" }
           Add-Type -AssemblyName System.Windows.Forms, System.Drawing
           $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
           $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
@@ -176,7 +176,7 @@ jobs:
           }
       - uses: actions/upload-artifact@v7
         with:
-          name: PrintPulse-windows-installer-${{ matrix.rid }}
+          name: BetaMonitor-windows-installer-${{ matrix.rid }}
           path: build/installer/
           if-no-files-found: error
       - uses: actions/upload-artifact@v7
@@ -189,33 +189,33 @@ jobs:
         # Even when a step failed: the errors files and what did render say why.
         if: always() && matrix.rid == 'win-x64'
         with:
-          name: PrintPulse-windows-snapshots
+          name: BetaMonitor-windows-snapshots
           path: build/snapshots/
           if-no-files-found: warn
       - uses: actions/upload-artifact@v7
         with:
-          name: PrintPulse-windows-${{ matrix.rid }}
+          name: BetaMonitor-windows-${{ matrix.rid }}
           path: build/windows/${{ matrix.rid }}/
           if-no-files-found: error
       - name: Accessibility check (UI Automation)
         id: a11y
         if: matrix.rid == 'win-x64'
         timeout-minutes: 12
-        # PrintPulse.exe --a11y-check (src/BambuBar.Windows/A11yCheck.cs, P3.12): the panel, its menus, the stop
+        # BetaMonitor.exe --a11y-check (src/BambuBar.Windows/A11yCheck.cs, P3.12): the panel, its menus, the stop
         # confirmation and every page of the window over the demo fleet, read through UI Automation and walked with Tab.
         # Fails on a control without a name, a meaningless or duplicated name, one Tab never reaches, or Esc and Enter
         # not doing their job; the report (each scene's tree with names, roles and states, and its Tab order) is an
         # artifact either way.
         run: |
           $out = "$PWD/../build/a11y"
-          $p = Start-Process ../build/windows/win-x64/PrintPulse.exe -ArgumentList '--a11y-check', $out -PassThru
+          $p = Start-Process ../build/windows/win-x64/BetaMonitor.exe -ArgumentList '--a11y-check', $out -PassThru
           if (-not $p.WaitForExit(600000)) { Stop-Process $p -Force; throw "The accessibility check didn't end within 10 minutes" }
           if (Test-Path "$out/a11y-problems.txt") { Get-Content "$out/a11y-problems.txt" }
           if ($p.ExitCode -ne 0) { throw "The accessibility check failed (exit $($p.ExitCode)): see a11y-report.txt in the a11y artifact" }
       - uses: actions/upload-artifact@v7
         if: always() && matrix.rid == 'win-x64'
         with:
-          name: PrintPulse-windows-a11y
+          name: BetaMonitor-windows-a11y
           path: build/a11y/
           if-no-files-found: ignore
       # Last, so a failing install test never holds back the artifacts above (the installers people test by hand). It
@@ -226,7 +226,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         if: always() && matrix.rid == 'win-x64'
         with:
-          name: PrintPulse-windows-install-smoke
+          name: BetaMonitor-windows-install-smoke
           path: build/install-smoke/
           if-no-files-found: ignore
 
@@ -245,7 +245,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: PrintPulse-widgets-smoke
+          name: BetaMonitor-widgets-smoke
           path: build/widgets/
 
   # A v* tag (v2.3.0, the version in project.yml) becomes a GitHub release: both installers, their checksums, the
@@ -274,7 +274,7 @@ jobs:
           global-json-file: windows/global.json
       - uses: actions/download-artifact@v8
         with:
-          pattern: PrintPulse-windows-installer-*
+          pattern: BetaMonitor-windows-installer-*
           path: build/installer
           merge-multiple: true
       - uses: actions/download-artifact@v8
@@ -301,4 +301,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $files = @(Get-ChildItem build/installer, build/release -File | ForEach-Object FullName)
-          gh release create '${{ github.ref_name }}' --repo '${{ github.repository }}' --title "PrintPulse $env:VERSION" --generate-notes @files
+          gh release create '${{ github.ref_name }}' --repo '${{ github.repository }}' --title "Beta Monitor $env:VERSION" --generate-notes @files

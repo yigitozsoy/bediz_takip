@@ -56,7 +56,7 @@ public sealed class WidgetStateTests : IDisposable
         Assert.Equal("{0} left", w.Strings.Left);
         Assert.Equal("left", w.Strings.LeftWord);
         Assert.Equal("Last: {0}", w.Strings.Last);
-        Assert.Equal("printpulse://printer/22E00A000000000", w.Url);
+        Assert.Equal("betamonitor://printer/22E00A000000000", w.Url);
         Assert.NotNull(w.Finish);
         Assert.Equal("Offline", w.Offline.Caption);
         Assert.Null(w.Info);
@@ -95,7 +95,7 @@ public sealed class WidgetStateTests : IDisposable
     [Theory]
     [InlineData(PrinterSnapshot.LinkState.Offline, "Offline", "Offline", "Waiting for the printer")]
     [InlineData(PrinterSnapshot.LinkState.Unauthorized, "Access code rejected", "Access code rejected", "Enter the access code again in the app")]
-    [InlineData(PrinterSnapshot.LinkState.Unconfigured, "Set up PrintPulse", "Set up PrintPulse", "Open the app to connect your printer")]
+    [InlineData(PrinterSnapshot.LinkState.Unconfigured, "Set up Beta Monitor", "Set up Beta Monitor", "Open the app to connect your printer")]
     [InlineData(PrinterSnapshot.LinkState.Connecting, "Connecting…", "Connecting…", "Waiting for the printer")]
     public void NotLive(PrinterSnapshot.LinkState link, string caption, string headline, string line)
     {

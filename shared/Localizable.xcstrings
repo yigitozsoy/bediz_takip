@@ -6759,7 +6759,7 @@
       }
     },
     "Accent color": {
-      "comment": "Windows: PrintPulse, Settings → Appearance, the accent swatches",
+      "comment": "Windows: Beta Monitor, Settings → Appearance, the accent swatches",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -8448,7 +8448,7 @@
       }
     },
     "And %@ older prints, counted above.": {
-      "comment": "Windows: PrintPulse, History: more prints than the list shows; %@ is a number",
+      "comment": "Windows: Beta Monitor, History: more prints than the list shows; %@ is a number",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -8460,7 +8460,7 @@
       }
     },
     "Appearance": {
-      "comment": "Windows: PrintPulse, Settings group: theme and accent",
+      "comment": "Windows: Beta Monitor, Settings group: theme and accent",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -8472,7 +8472,7 @@
       }
     },
     "Apply": {
-      "comment": "Windows: PrintPulse, Settings → Appearance, applies the custom color",
+      "comment": "Windows: Beta Monitor, Settings → Appearance, applies the custom color",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -13172,7 +13172,7 @@
       }
     },
     "Bot token": {
-      "comment": "Windows: PrintPulse, Telegram bot token",
+      "comment": "Windows: Beta Monitor, Telegram bot token",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -16170,7 +16170,7 @@
       }
     },
     "Chat ID": {
-      "comment": "Windows: PrintPulse, Telegram chat id",
+      "comment": "Windows: Beta Monitor, Telegram chat id",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -18736,7 +18736,7 @@
       }
     },
     "Classic": {
-      "comment": "Windows: PrintPulse, theme: Bambu Bar's original look (the name follows in parentheses)",
+      "comment": "Windows: Beta Monitor, theme: Bambu Bar's original look (the name follows in parentheses)",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -19704,7 +19704,7 @@
       }
     },
     "Connected. Notifications also go to this channel.": {
-      "comment": "Windows: PrintPulse, Discord status",
+      "comment": "Windows: Beta Monitor, Discord status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -19716,7 +19716,7 @@
       }
     },
     "Connected. Notifications also go to this chat.": {
-      "comment": "Windows: PrintPulse, Telegram status",
+      "comment": "Windows: Beta Monitor, Telegram status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -21004,7 +21004,7 @@
       }
     },
     "Couldn't reach the server.": {
-      "comment": "Windows: PrintPulse, Error",
+      "comment": "Windows: Beta Monitor, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -21016,7 +21016,7 @@
       }
     },
     "Couldn't send: %@": {
-      "comment": "Windows: PrintPulse, Status; %@ is the reason",
+      "comment": "Windows: Beta Monitor, Status; %@ is the reason",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -21346,7 +21346,7 @@
       }
     },
     "Custom color (#RRGGBB)": {
-      "comment": "Windows: PrintPulse, Settings → Appearance, a hex accent",
+      "comment": "Windows: Beta Monitor, Settings → Appearance, a hex accent",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -23912,14 +23912,14 @@
         }
       }
     },
-    "Ended while PrintPulse was closed": {
-      "comment": "Windows: PrintPulse, History: prints whose end wasn't seen",
+    "Ended while Beta Monitor was closed": {
+      "comment": "Windows: Beta Monitor, History: prints whose end wasn't seen",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "PrintPulse kapalıyken bitti"
+            "value": "Beta Monitor kapalıyken bitti"
           }
         }
       }
@@ -24138,7 +24138,7 @@
       }
     },
     "Enter both the bot token and the chat ID.": {
-      "comment": "Windows: PrintPulse, Telegram status",
+      "comment": "Windows: Beta Monitor, Telegram status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -24787,14 +24787,14 @@
         }
       }
     },
-    "Every print PrintPulse saw end, and how it went.": {
-      "comment": "Windows: PrintPulse, History page subtitle",
+    "Every print Beta Monitor saw end, and how it went.": {
+      "comment": "Windows: Beta Monitor, History page subtitle",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "PrintPulse'un gördüğü her baskı ve nasıl bittiği."
+            "value": "Beta Monitor'ün gördüğü her baskı ve nasıl bittiği."
           }
         }
       }
@@ -25757,7 +25757,7 @@
       }
     },
     "Find": {
-      "comment": "Windows: PrintPulse, Button: find the Telegram chat id",
+      "comment": "Windows: Beta Monitor, Button: find the Telegram chat id",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -27491,7 +27491,7 @@
       }
     },
     "Found your chat. Press Save or Send Test.": {
-      "comment": "Windows: PrintPulse, Telegram status",
+      "comment": "Windows: Beta Monitor, Telegram status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -27609,7 +27609,7 @@
       }
     },
     "Free · MIT License": {
-      "comment": "Windows: PrintPulse, About page, the license row",
+      "comment": "Windows: Beta Monitor, About page, the license row",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -29749,7 +29749,7 @@
       }
     },
     "History": {
-      "comment": "Windows: PrintPulse, Sidebar page: print history",
+      "comment": "Windows: Beta Monitor, Sidebar page: print history",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -30826,7 +30826,7 @@
       }
     },
     "In Discord: Server Settings → Integrations → Webhooks → New Webhook, then Copy Webhook URL. It's kept in Windows Credential Manager.": {
-      "comment": "Windows: PrintPulse, Discord help",
+      "comment": "Windows: Beta Monitor, Discord help",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -32540,7 +32540,7 @@
       }
     },
     "Last 7 days": {
-      "comment": "Windows: PrintPulse, History stat: prints in the last week",
+      "comment": "Windows: Beta Monitor, History stat: prints in the last week",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -33940,7 +33940,7 @@
       }
     },
     "Listen": {
-      "comment": "Windows: PrintPulse, Notifications: sound preview buttons",
+      "comment": "Windows: Beta Monitor, Notifications: sound preview buttons",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -34378,7 +34378,7 @@
       }
     },
     "Longest print": {
-      "comment": "Windows: PrintPulse, History row",
+      "comment": "Windows: Beta Monitor, History row",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -34709,7 +34709,7 @@
       }
     },
     "Looking…": {
-      "comment": "Windows: PrintPulse, Status while looking for the chat id",
+      "comment": "Windows: Beta Monitor, Status while looking for the chat id",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -34938,7 +34938,7 @@
       "shouldTranslate": false
     },
     "Make a bot with @BotFather and paste its token. Send your bot any message, then press Find to fill in the chat ID.": {
-      "comment": "Windows: PrintPulse, Telegram help",
+      "comment": "Windows: Beta Monitor, Telegram help",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -35268,7 +35268,7 @@
       }
     },
     "Materials": {
-      "comment": "Windows: PrintPulse, History row: filament materials used",
+      "comment": "Windows: Beta Monitor, History row: filament materials used",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -37199,7 +37199,7 @@
       }
     },
     "No messages yet. Send your bot a message in Telegram, then try again.": {
-      "comment": "Windows: PrintPulse, Telegram status",
+      "comment": "Windows: Beta Monitor, Telegram status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -37635,7 +37635,7 @@
       }
     },
     "No prints yet": {
-      "comment": "Windows: PrintPulse, History page, empty",
+      "comment": "Windows: Beta Monitor, History page, empty",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -45098,7 +45098,7 @@
       }
     },
     "Play a sound with each notification": {
-      "comment": "Windows: PrintPulse, Notifications: sound switch",
+      "comment": "Windows: Beta Monitor, Notifications: sound switch",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -45859,7 +45859,7 @@
       }
     },
     "Print History": {
-      "comment": "Windows: PrintPulse, History page title",
+      "comment": "Windows: Beta Monitor, History page title",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -46825,7 +46825,7 @@
       }
     },
     "Print time": {
-      "comment": "Windows: PrintPulse, History stat: total time spent printing",
+      "comment": "Windows: Beta Monitor, History stat: total time spent printing",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -46836,14 +46836,14 @@
         }
       }
     },
-    "PrintPulse on GitHub": {
-      "comment": "Windows: PrintPulse, About page link to the repository",
+    "Beta Monitor on GitHub": {
+      "comment": "Windows: Beta Monitor, About page link to the repository",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "GitHub'da PrintPulse"
+            "value": "GitHub'da Beta Monitor"
           }
         }
       }
@@ -48125,7 +48125,7 @@
       }
     },
     "Prints": {
-      "comment": "Windows: PrintPulse, History stat: number of prints",
+      "comment": "Windows: Beta Monitor, History stat: number of prints",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -48248,14 +48248,14 @@
         }
       }
     },
-    "Prints show up here once PrintPulse sees one end.": {
-      "comment": "Windows: PrintPulse, History page, empty",
+    "Prints show up here once Beta Monitor sees one end.": {
+      "comment": "Windows: Beta Monitor, History page, empty",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "PrintPulse bir baskının bittiğini gördüğünde burada görünür."
+            "value": "Beta Monitor bir baskının bittiğini gördüğünde burada görünür."
           }
         }
       }
@@ -49219,7 +49219,7 @@
       }
     },
     "Recent prints": {
-      "comment": "Windows: PrintPulse, History group: the list of prints",
+      "comment": "Windows: Beta Monitor, History group: the list of prints",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -49868,7 +49868,7 @@
       }
     },
     "Removed.": {
-      "comment": "Windows: PrintPulse, Status after clearing",
+      "comment": "Windows: Beta Monitor, Status after clearing",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51153,7 +51153,7 @@
       }
     },
     "Same as Windows": {
-      "comment": "Windows: PrintPulse, theme that follows Windows' light/dark",
+      "comment": "Windows: Beta Monitor, theme that follows Windows' light/dark",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51377,7 +51377,7 @@
       }
     },
     "Saved.": {
-      "comment": "Windows: PrintPulse, Status after saving",
+      "comment": "Windows: Beta Monitor, Status after saving",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51708,7 +51708,7 @@
       }
     },
     "Send Test": {
-      "comment": "Windows: PrintPulse, Button: send a test message",
+      "comment": "Windows: Beta Monitor, Button: send a test message",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51826,7 +51826,7 @@
       }
     },
     "Sending…": {
-      "comment": "Windows: PrintPulse, Status while sending",
+      "comment": "Windows: Beta Monitor, Status while sending",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51838,7 +51838,7 @@
       }
     },
     "Sent. Check Telegram.": {
-      "comment": "Windows: PrintPulse, Status",
+      "comment": "Windows: Beta Monitor, Status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -51850,7 +51850,7 @@
       }
     },
     "Sent. Check your Discord channel.": {
-      "comment": "Windows: PrintPulse, Status",
+      "comment": "Windows: Beta Monitor, Status",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -55473,7 +55473,7 @@
       }
     },
     "Sounds": {
-      "comment": "Windows: PrintPulse, Notifications group: sound effects",
+      "comment": "Windows: Beta Monitor, Notifications group: sound effects",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -57508,7 +57508,7 @@
       }
     },
     "Success rate": {
-      "comment": "Windows: PrintPulse, History stat",
+      "comment": "Windows: Beta Monitor, History stat",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -57520,7 +57520,7 @@
       }
     },
     "Summary": {
-      "comment": "Windows: PrintPulse, History group: how prints ended",
+      "comment": "Windows: Beta Monitor, History group: how prints ended",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -58805,7 +58805,7 @@
       }
     },
     "The Discord webhook address isn't valid.": {
-      "comment": "Windows: PrintPulse, Error",
+      "comment": "Windows: Beta Monitor, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -58817,7 +58817,7 @@
       }
     },
     "The Telegram bot token isn't valid.": {
-      "comment": "Windows: PrintPulse, Error",
+      "comment": "Windows: Beta Monitor, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -58829,7 +58829,7 @@
       }
     },
     "The Telegram chat ID isn't valid.": {
-      "comment": "Windows: PrintPulse, Error",
+      "comment": "Windows: Beta Monitor, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -63515,7 +63515,7 @@
       }
     },
     "The server didn't answer in time.": {
-      "comment": "Windows: PrintPulse, Error",
+      "comment": "Windows: Beta Monitor, Error",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -63847,7 +63847,7 @@
       }
     },
     "Theme": {
-      "comment": "Windows: PrintPulse, Settings → Appearance, the theme picker",
+      "comment": "Windows: Beta Monitor, Settings → Appearance, the theme picker",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -63859,7 +63859,7 @@
       }
     },
     "Themes and accent colors come from Gamma Player. The classic look brings back the original glass and green.": {
-      "comment": "Windows: PrintPulse, Settings → Appearance note",
+      "comment": "Windows: Beta Monitor, Settings → Appearance note",
       "extractionState": "manual",
       "localizations": {
         "tr": {
@@ -64402,14 +64402,14 @@
         }
       }
     },
-    "This is how PrintPulse tells you a print finished, failed or needs you.": {
-      "comment": "Windows: PrintPulse, Test message body",
+    "This is how Beta Monitor tells you a print finished, failed or needs you.": {
+      "comment": "Windows: Beta Monitor, Test message body",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "PrintPulse bir baskı bittiğinde, başarısız olduğunda ya da sana ihtiyaç duyduğunda böyle haber verir."
+            "value": "Beta Monitor bir baskı bittiğinde, başarısız olduğunda ya da sana ihtiyaç duyduğunda böyle haber verir."
           }
         }
       }
@@ -66751,14 +66751,14 @@
         }
       }
     },
-    "Update checks read the latest PrintPulse release on GitHub and send no printer data. Updates install only when they carry PrintPulse's signature. Manage automatic updates in Settings → Updates.": {
-      "comment": "Windows: PrintPulse, About page, privacy",
+    "Update checks read the latest Beta Monitor release on GitHub and send no printer data. Updates install only when they carry Beta Monitor's signature. Manage automatic updates in Settings → Updates.": {
+      "comment": "Windows: Beta Monitor, About page, privacy",
       "extractionState": "manual",
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Güncelleme denetimi GitHub'daki en son PrintPulse sürümünü okur ve yazıcı verisi göndermez. Güncellemeler yalnızca PrintPulse imzasını taşıdıklarında kurulur. Otomatik güncellemeleri Ayarlar → Güncellemeler'den yönetebilirsin."
+            "value": "Güncelleme denetimi GitHub'daki en son Beta Monitor sürümünü okur ve yazıcı verisi göndermez. Güncellemeler yalnızca Beta Monitor imzasını taşıdıklarında kurulur. Otomatik güncellemeleri Ayarlar → Güncellemeler'den yönetebilirsin."
           }
         }
       }
@@ -68904,7 +68904,7 @@
       }
     },
     "Webhook URL": {
-      "comment": "Windows: PrintPulse, Discord webhook address",
+      "comment": "Windows: Beta Monitor, Discord webhook address",
       "extractionState": "manual",
       "localizations": {
         "tr": {
