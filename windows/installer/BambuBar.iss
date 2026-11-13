@@ -1,5 +1,5 @@
 ; Beta Monitor for Windows: the installer (ledger P5.1, O10). Inno Setup 6.3 or later, per user, no admin: installs to
-; %LOCALAPPDATA%\Programs\Beta Monitor. One installer per architecture, built from the install image CI stages in
+; %LOCALAPPDATA%\Programs\BetaMonitor. One installer per architecture, built from the install image CI stages in
 ; build\windows\<rid>\ (dotnet publish + ffmpeg\ + Rainmeter\ + Skins\ + LICENSE.txt + THIRD-PARTY-NOTICES.txt):
 ;
 ;   ISCC /DAppVersion=3.0.0 /DArch=x64 /DSourceDir=<repo>\build\windows\win-x64 /DOutputDir=<repo>\build\installer BambuBar.iss
@@ -12,7 +12,7 @@
 ; again (with --background when it had been started with it, i.e. at sign-in), after an interactive one the last
 ; page offers to open it.
 ; Uninstall stops both, removes the betamonitor:// and AppUserModelID keys, the sign-in (Run) entry and the .rmskin
-; association our Rainmeter registers, and keeps the user's data (%APPDATA%\Beta Monitor, %LOCALAPPDATA%\Beta Monitor,
+; association our Rainmeter registers, and keeps the user's data (%APPDATA%\BetaMonitor, %LOCALAPPDATA%\BetaMonitor,
 ; the access codes and license in Credential Manager) unless the user says so, or /PURGE=1 on a silent uninstall.
 ;
 ; Signing (ledger section 9, not yet): sign BetaMonitor.exe in the image first, then pass a sign tool named "betamonitor" and define
@@ -98,7 +98,7 @@ FinishedLabel=Beta Monitor lives in the tray, by the clock. If Windows tucked it
 FinishedLabelNoIcons=Beta Monitor lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
 
 [CustomMessages]
-en.RemoveUserData=Also remove your Beta Monitor settings, print history and widgets from this PC?%n%nPrinter access codes and the supporter license stay in Windows Credential Manager.
+en.RemoveUserData=Also remove your Beta Monitor settings, print history and widgets from this PC?%n%nPrinter access codes stay in Windows Credential Manager.
 
 [InstallDelete]
 ; Folders the image owns wholesale: an update replaces them instead of leaving old files behind.
@@ -240,8 +240,8 @@ begin
       Purge := MsgBox(CustomMessage('RemoveUserData'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES;
     if Purge then
     begin
-      DelTree(ExpandConstant('{userappdata}\Beta Monitor'), True, True, True);
-      DelTree(ExpandConstant('{localappdata}\Beta Monitor'), True, True, True);
+      DelTree(ExpandConstant('{userappdata}\BetaMonitor'), True, True, True);
+      DelTree(ExpandConstant('{localappdata}\BetaMonitor'), True, True, True);
     end;
   end;
 end;

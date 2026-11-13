@@ -6,12 +6,12 @@
 param([Parameter(Mandatory)] [string] $Installer, [Parameter(Mandatory)] [string] $Out)
 $ErrorActionPreference = 'Stop'
 New-Item -ItemType Directory -Force $Out | Out-Null
-$app = Join-Path $env:LOCALAPPDATA 'Programs\Beta Monitor'
+$app = Join-Path $env:LOCALAPPDATA 'Programs\BetaMonitor'
 $classes = 'HKCU:\Software\Classes'
 $run = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
 $uninstallKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\{40AB2714-4329-4530-81BD-5ECDC7D268D0}_is1'
 $shortcut = Join-Path ([Environment]::GetFolderPath('Programs')) 'Beta Monitor.lnk'
-$userData = Join-Path $env:APPDATA 'Beta Monitor'
+$userData = Join-Path $env:APPDATA 'BetaMonitor'
 
 # 1. Install.
 $setup = Start-Process $Installer -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', "/LOG=$(Join-Path $Out 'install.log')" -Wait -PassThru
