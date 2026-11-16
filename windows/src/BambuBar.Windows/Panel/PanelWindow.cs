@@ -131,9 +131,7 @@ public sealed class PanelWindow : Window
         try
         {
             Show();
-            var until = DateTime.UtcNow + TimeSpan.FromSeconds(5);
-            do await Dispatcher.Yield(DispatcherPriority.ContextIdle);
-            while (DateTime.UtcNow < until && !_quitting && IsVisible && !Model3D.Renderer3D.IsOff && !GammaTheme.Active && !ModelsLive(_view));
+            await Dispatcher.Yield(DispatcherPriority.ContextIdle);
         }
         finally
         {
@@ -150,24 +148,6 @@ public sealed class PanelWindow : Window
 
     private bool _priming;
     private bool _shownByClick;
-
-    private static bool ModelsLive(DependencyObject root)
-    {
-        var count = VisualTreeHelper.GetChildrenCount(root);
-        var live = true;
-        var any = false;
-        for (var i = 0; i < count; i++)
-        {
-            var child = VisualTreeHelper.GetChild(root, i);
-            if (child is Model3D.PrinterModelView view)
-            {
-                if (view.IsVisible) { any = true; live &= view.IsLive; }
-                continue;
-            }
-            if (!ModelsLive(child)) return false;
-        }
-        return !any || live;
-    }
 
     /// <summary>Keeps the panel open while a dialog it opened (the stop confirmation) has the focus.</summary>
     public IDisposable HoldOpen()

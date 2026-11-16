@@ -1,13 +1,10 @@
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Signers;
-
 namespace BambuBar.Core.Updates;
 
 /// <summary>
 /// Checks a download against its appcast item's <c>sparkle:edSignature</c>: Ed25519 (RFC 8032, not prehashed) over
 /// the whole file, made on the Mac by Sparkle's <c>sign_update</c> in scripts/appcast.sh. Windows trusts the same key
 /// as the Mac (SUPublicEDKey in Resources/Sparkle-Info.plist); its private half never leaves the Mac's keychain.
-/// .NET has no Ed25519, so BouncyCastle (MIT) verifies.
+/// .NET has no Ed25519; beta's own <see cref="Ed25519"/> verifies (Bambu Bar used BouncyCastle).
 /// </summary>
 public sealed class UpdateSignature
 {
@@ -15,14 +12,14 @@ public sealed class UpdateSignature
     /// PRINTPULSE_UPDATE_KEY GitHub secret; <c>bambubar --update-keygen</c> makes a new pair.</summary>
     public const string SparklePublicKey = "dgsl9WZHvsz9BDAL8/e/rriCGPSRMTsr6GLxbT2W62A=";
 
-    private readonly Ed25519PublicKeyParameters _key;
+    private readonly byte[] _key;
 
     /// <param name="publicKey">A raw 32-byte Ed25519 public key in Base64 (tests pass a throwaway one).</param>
     public UpdateSignature(string publicKey = SparklePublicKey)
     {
         var bytes = Convert.FromBase64String(publicKey);
-        if (bytes.Length != Ed25519PublicKeyParameters.KeySize) throw new ArgumentException("not an Ed25519 public key", nameof(publicKey));
-        _key = new Ed25519PublicKeyParameters(bytes);
+        if (bytes.Length != Ed25519.KeySize) throw new ArgumentException("not an Ed25519 public key", nameof(publicKey));
+        _key = bytes;
     }
 
     /// <summary>True when <paramref name="content"/>, read to its end, carries <paramref name="signature"/> (Base64).
@@ -31,12 +28,7 @@ public sealed class UpdateSignature
     public async Task<bool> VerifyAsync(Stream content, string signature, CancellationToken cancellation = default)
     {
         if (Decode(signature) is not { } expected) return false;
-        var signer = new Ed25519Signer();
-        signer.Init(false, _key);
-        var buffer = new byte[81920];
-        int read;
-        while ((read = await content.ReadAsync(buffer, cancellation).ConfigureAwait(false)) > 0) signer.BlockUpdate(buffer, 0, read);
-        return signer.VerifySignature(expected);
+        return await Ed25519.VerifyAsync(_key, expected, content, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>True when the file at <paramref name="path"/> is exactly <paramref name="length"/> bytes long and

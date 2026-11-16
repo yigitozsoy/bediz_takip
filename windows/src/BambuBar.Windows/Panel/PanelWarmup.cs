@@ -3,7 +3,6 @@ using System.Windows.Threading;
 using BambuBar.Core.App;
 using BambuBar.Core.Imaging;
 using BambuBar.Core.Model;
-using BambuBar.Model3D;
 using BambuBar.Theme;
 
 namespace BambuBar.TrayPanel;
@@ -52,16 +51,13 @@ public static partial class PanelWarmup
             {
                 foreach (var shape in shapes)
                 {
-                    // The drawing's images (decoded once, then cached) and the 3D model (read once).
+                    // The drawing's images (decoded once, then cached).
                     PrinterArt.Render(new PrinterArt.Scene { Shape = shape, State = JobState.Idle, Spools = [] },
                         (int)(Metrics.ArtWidth * 2), (int)(Metrics.ArtHeight * 2));
-                    if (!Renderer3D.IsOff) PrinterScene.Model(shape);
                 }
             });
             // The steps below each hold the UI thread for a moment (0.2–0.6 s on a machine without a graphics card): only
             // while the person isn't typing or moving the mouse, so it never lands in the middle of something they do.
-            await UserIdle();
-            if (!Renderer3D.IsOff) _ = Renderer3D.Effects;
             await UserIdle();
             await preparePanel();
         }
@@ -69,7 +65,7 @@ public static partial class PanelWarmup
                                       or ArgumentException or NotSupportedException)
         {
             // Only a head start: the panel still builds itself on the first click.
-            Renderer3D.Write($"Warm-up stopped: {e.GetType().Name}: {e.Message}");
+            System.Diagnostics.Debug.WriteLine($"Warm-up stopped: {e.GetType().Name}: {e.Message}");
         }
     }
 }

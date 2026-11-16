@@ -84,7 +84,7 @@ public partial class App : Application
             Registration.RegisterUriScheme();
             // Toasts need the app's AppUserModelID registered and taken before the first one (P3.1, P3.7).
             AppIdentity.Register();
-            notifier = _notifier = new ToastNotifier();
+            notifier = _notifier = new ToastNotifier(() => _tray, link => Handle([link]));
         }
         // beta: every notification also plays a chime and goes to Discord / Telegram when they're set up.
         ISecretStore secrets = ephemeral ? new MemorySecretStore() : new CredentialStore();

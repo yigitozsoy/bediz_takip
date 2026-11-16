@@ -15,7 +15,6 @@ using BambuBar.AppWindow;
 using BambuBar.Core;
 using BambuBar.Core.App;
 using BambuBar.Core.Model;
-using BambuBar.Model3D;
 using BambuBar.Theme;
 using BambuBar.TrayPanel;
 using BambuBar.Widgets;
@@ -58,7 +57,6 @@ public static class A11yCheck
     {
         Directory.CreateDirectory(folder);
         GammaTheme.Load(new AppSettings(null));
-        Renderer3D.LogPath = null;
         Strings.Load().Use("en");
         var check = new Checker(folder);
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };

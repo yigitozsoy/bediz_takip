@@ -7,7 +7,6 @@ using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using BambuBar.Core;
 using BambuBar.Core.Model;
-using BambuBar.Model3D;
 using BambuBar.Theme;
 
 namespace BambuBar.TrayPanel;
@@ -15,13 +14,13 @@ namespace BambuBar.TrayPanel;
 /// <summary>
 /// The job card (the Mac's JobHero, compact): the printer beside the state pill, the job's name and subtitle, the big
 /// percentage with layers, the filament-coloured bar and the timing line; or, while idle, "Ready to print" with how
-/// the last print went. The chamber light switch sits in the corner and drives the model's lamp. The printer is the
-/// live 3D model (Model3D/PrinterModelView), with Core's composited art standing in when 3D can't run.
+/// the last print went. The chamber light switch sits in the corner and drives the model's lamp. The printer is its
+/// picture (<see cref="PrinterPicture"/>): the model's badge, or Core's drawing in the classic look.
 /// </summary>
 internal sealed class JobSection : PanelSection
 {
     private readonly Border _root;
-    private readonly PrinterModelView _model;
+    private readonly PrinterPicture _model;
     private readonly Border _pill;
     private readonly Ellipse _pillDot;
     private readonly TextBlock _pillText;
@@ -45,7 +44,7 @@ internal sealed class JobSection : PanelSection
     /// <param name="modelScale">The scale the card is shown at (the Printer page's hero), so the model renders sharp.</param>
     public JobSection(PanelContext ctx, double modelScale = 1) : base(ctx)
     {
-        _model = new PrinterModelView(Metrics.ArtWidth, Metrics.ArtHeight, modelScale) { VerticalAlignment = VerticalAlignment.Center };
+        _model = new PrinterPicture(Metrics.ArtWidth, Metrics.ArtHeight) { VerticalAlignment = VerticalAlignment.Center };
 
         _pill = Ui.Pill(out _pillDot, out _pillText);
         _name = Ui.Text("", Ramp.Title, FontWeights.Bold);
@@ -171,7 +170,7 @@ internal sealed class JobSection : PanelSection
         var session = Store.Current!;
         var s = session.Status!;
         var lightOn = session.ChamberLightOn;
-        _model.Show(ArtImage.Scene(s, session.Config.ModelName, lightOn, dimmed: false, Store.LastJob?.FilamentColor), Ctx.Animate);
+        _model.Show(ArtImage.Scene(s, session.Config.ModelName, lightOn, dimmed: false, Store.LastJob?.FilamentColor));
 
         _light.Visibility = s.ChamberLightOn is null ? Visibility.Collapsed : Visibility.Visible;
         if (s.ChamberLightOn is not null && (_light.Content is null || _lightShown != lightOn || _light.IsChecked != lightOn))

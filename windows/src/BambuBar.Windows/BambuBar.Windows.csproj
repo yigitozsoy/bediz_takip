@@ -2,9 +2,8 @@
   <!-- The Windows app: tray icon, panel, window, widgets host. Windows 10 1903+ and 11, x64 and ARM64 (ledger D9). -->
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <!-- 19041 gives the WinRT APIs (toasts); the app still runs from 1903 (18362). -->
-    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
-    <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+    <!-- beta: no Windows SDK projection (53 MB): notifications go through the tray icon. Windows 10 1903+ and 11. -->
+    <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <!-- NotifyIcon for the tray (WPF has none). -->
     <UseWindowsForms>true</UseWindowsForms>
@@ -36,14 +35,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BambuBar.Core\BambuBar.Core.csproj" />
-  </ItemGroup>
-
-  <!-- The live 3D printer (Model3D/, P3.10): HelixToolkit over Direct3D 11. Roslyn comes along as a dependency of a
-       node type the app doesn't use; nothing of it is copied (Directory.Packages.props). -->
-  <ItemGroup>
-    <PackageReference Include="HelixToolkit.Wpf.SharpDX" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" ExcludeAssets="all" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" ExcludeAssets="all" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- The app icon toasts show (registered with the AppUserModelID, Notifications/AppIdentity.cs). -->

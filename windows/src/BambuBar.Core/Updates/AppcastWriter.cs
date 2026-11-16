@@ -1,8 +1,6 @@
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Xml.Linq;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Signers;
 
 namespace BambuBar.Core.Updates;
 
@@ -19,23 +17,19 @@ public static class AppcastWriter
     /// <summary>A new key pair: the private 32-byte seed and the public key, both Base64.</summary>
     public static (string PrivateKey, string PublicKey) NewKey()
     {
-        var seed = RandomNumberGenerator.GetBytes(Ed25519PrivateKeyParameters.KeySize);
-        var key = new Ed25519PrivateKeyParameters(seed);
-        return (Convert.ToBase64String(seed), Convert.ToBase64String(key.GeneratePublicKey().GetEncoded()));
+        var seed = RandomNumberGenerator.GetBytes(Ed25519.KeySize);
+        return (Convert.ToBase64String(seed), Convert.ToBase64String(Ed25519.PublicKey(seed)));
     }
 
     /// <summary>The public key that belongs to <paramref name="privateKey"/> (Base64 seed).</summary>
     public static string PublicKeyOf(string privateKey) =>
-        Convert.ToBase64String(Key(privateKey).GeneratePublicKey().GetEncoded());
+        Convert.ToBase64String(Ed25519.PublicKey(Key(privateKey)));
 
     /// <summary>Ed25519 over the whole file, Base64: what <see cref="UpdateSignature.VerifyAsync"/> checks.</summary>
     public static string Sign(string path, string privateKey)
     {
-        var signer = new Ed25519Signer();
-        signer.Init(true, Key(privateKey));
-        var bytes = File.ReadAllBytes(path);
-        signer.BlockUpdate(bytes, 0, bytes.Length);
-        return Convert.ToBase64String(signer.GenerateSignature());
+        using var file = File.OpenRead(path);
+        return Convert.ToBase64String(Ed25519.Sign(Key(privateKey), file));
     }
 
     /// <summary>
@@ -74,10 +68,10 @@ public static class AppcastWriter
                 new XElement("channel", new XElement("title", Brand.Name), items)));
     }
 
-    private static Ed25519PrivateKeyParameters Key(string privateKey)
+    private static byte[] Key(string privateKey)
     {
         var seed = Convert.FromBase64String(privateKey.Trim());
-        if (seed.Length != Ed25519PrivateKeyParameters.KeySize) throw new ArgumentException("not an Ed25519 private key (32 bytes, Base64)");
-        return new Ed25519PrivateKeyParameters(seed);
+        if (seed.Length != Ed25519.KeySize) throw new ArgumentException("not an Ed25519 private key (32 bytes, Base64)");
+        return seed;
     }
 }

@@ -32,6 +32,20 @@ public sealed partial class TrayIcon : IDisposable
     /// <summary>Set while the updater can check (supporter license active).</summary>
     public Action? CheckForUpdates { get; set; }
 
+    private Action? _balloonClicked;
+
+    /// <summary>beta: a notification from the tray icon (Windows files it with the app's other notifications);
+    /// <paramref name="clicked"/> runs when the person clicks it.</summary>
+    public void Notify(string title, string body, Action clicked)
+    {
+        if (_disposed) return;
+        _balloonClicked = clicked;
+        _icon.BalloonTipIcon = Forms.ToolTipIcon.None;
+        _icon.BalloonTipTitle = title.Length <= 63 ? title : title[..63];
+        _icon.BalloonTipText = body.Length == 0 ? " " : body.Length <= 255 ? body : body[..255];
+        _icon.ShowBalloonTip(6000);
+    }
+
     /// <summary>Draw the percentage instead of the printer while printing (Tray page, P3.5).</summary>
     public bool ShowPercent { get; set; }
 
@@ -43,6 +57,8 @@ public sealed partial class TrayIcon : IDisposable
         {
             if (e.Button == Forms.MouseButtons.Left) OpenPanel?.Invoke();
         };
+        _icon.BalloonTipClicked += (_, _) => _balloonClicked?.Invoke();
+        _icon.BalloonTipClosed += (_, _) => _balloonClicked = null;
         // The menu (WinForms' first ContextMenuStrip: 200 ms on a slow machine) right after launch, not before the icon.
         System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, () =>
         {
