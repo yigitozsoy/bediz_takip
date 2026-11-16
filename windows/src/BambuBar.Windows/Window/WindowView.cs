@@ -131,6 +131,53 @@ public sealed class WindowView : Border, IDisposable
         set { _showsAppName = value; _appName.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
     }
 
+    private CaptionClose _close = null!;
+
+    /// <summary>beta: the title strip's own close button, the window's only caption button (no minimize or maximize).</summary>
+    public bool ShowsCloseButton
+    {
+        get => _close.Visibility == Visibility.Visible;
+        set => _close.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    /// <summary>beta: a flat close button as Windows draws it: an ✕ that turns white on red under the pointer.</summary>
+    private sealed class CaptionClose : Button
+    {
+        private readonly TextBlock _glyph;
+
+        public CaptionClose()
+        {
+            _glyph = Icons.Glyph(Icons.Close, 10, ThemeKeys.TextPrimary);
+            var border = new FrameworkElementFactory(typeof(Border));
+            border.SetValue(Border.BackgroundProperty, new TemplateBindingExtension(BackgroundProperty));
+            var content = new FrameworkElementFactory(typeof(ContentPresenter));
+            content.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            content.SetValue(VerticalAlignmentProperty, VerticalAlignment.Center);
+            border.AppendChild(content);
+            Template = new ControlTemplate(typeof(Button)) { VisualTree = border };
+            Content = _glyph;
+            Width = 46;
+            Background = Brushes.Transparent;
+            FocusVisualStyle = Chrome.FocusVisual(new CornerRadius(0));
+            AutomationProperties.SetName(this, Loc.T("Close"));
+            Ui.Tip(this, Loc.T("Close"));
+            MouseEnter += (_, _) => Paint();
+            MouseLeave += (_, _) => Paint();
+            IsPressedChanged();
+        }
+
+        private void IsPressedChanged() =>
+            DependencyPropertyDescriptor.FromProperty(IsPressedProperty, typeof(Button)).AddValueChanged(this, (_, _) => Paint());
+
+        private void Paint()
+        {
+            var hot = IsMouseOver;
+            Background = !hot ? Brushes.Transparent : Palette.Brush(IsPressed ? Color.FromRgb(0xC4, 0x2B, 0x1C) : Color.FromRgb(0xE8, 0x11, 0x23));
+            if (hot) _glyph.Foreground = Brushes.White;
+            else _glyph.SetResourceReference(TextBlock.ForegroundProperty, ThemeKeys.TextPrimary);
+        }
+    }
+
     /// <summary>Room kept free at the right of the title strip for Windows' caption buttons.</summary>
     public double CaptionReserve
     {
@@ -228,7 +275,7 @@ public sealed class WindowView : Border, IDisposable
     /// bar too); the rest is the window's caption.</summary>
     private Grid TitleStrip()
     {
-        var grid = Ui.Columns("Auto", "*", "Auto");
+        var grid = Ui.Columns("Auto", "*", "Auto", "Auto");
         // beta: as Gamma Player's title bar, the logo's letter alone (Georgia's Β) in the theme's text colour;
         // the classic look keeps the icon as the taskbar and Start show it.
         FrameworkElement mark;
@@ -254,6 +301,10 @@ public sealed class WindowView : Border, IDisposable
         var right = new Border { Child = _supporter.Host, Margin = new Thickness(0, 0, _captionReserve + 12, 0), VerticalAlignment = VerticalAlignment.Center };
         WindowChrome.SetIsHitTestVisibleInChrome(_supporter.Host, true);
         grid.Children.Add(Ui.At(right, 2));
+        _close = new CaptionClose { Visibility = Visibility.Collapsed };
+        _close.Click += (_, _) => CloseRequested?.Invoke();
+        WindowChrome.SetIsHitTestVisibleInChrome(_close, true);
+        grid.Children.Add(Ui.At(_close, 3));
         return grid;
     }
 

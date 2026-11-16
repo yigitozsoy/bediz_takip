@@ -44,7 +44,20 @@ public sealed class MainWindow : Window
         // Windows 11 22H2+: the content runs up under the title bar on Mica, with Windows' own caption buttons; the
         // strip at the top of the view is the caption.
         _chrome = AppTheme.HasSystemBackdrop;
-        if (_chrome)
+        // beta: under the Gamma theme the window draws its own title bar with a close button only (Gamma's flat
+        // background hid Windows' caption buttons, and minimize / maximize aren't wanted in a monitor).
+        if (GammaTheme.Active)
+        {
+            _chrome = false;
+            WindowChrome.SetWindowChrome(this, new WindowChrome
+            {
+                CaptionHeight = WindowView.DefaultTitleHeight, GlassFrameThickness = new Thickness(0), UseAeroCaptionButtons = false,
+                ResizeBorderThickness = SystemParameters.WindowResizeBorderThickness, CornerRadius = new CornerRadius(0),
+            });
+            _view.CaptionReserve = 0;
+            _view.ShowsCloseButton = true;
+        }
+        else if (_chrome)
         {
             WindowChrome.SetWindowChrome(this, new WindowChrome
             {

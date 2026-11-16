@@ -1,39 +1,46 @@
 #!/usr/bin/env python3
-"""The installer's pictures (BambuBar.iss: WizardImageFile, WizardSmallImageFile), one per Windows scale.
+"""The installer's pictures (BambuBar.iss: WizardImageFile, WizardSmallImageFile and their dark twins).
 
-    python windows/installer/art/make-art.py      # needs Pillow and windows/src/BambuBar.Windows/Assets/AppIcon.png
+    python windows/installer/art/make-art.py      # needs Pillow and Windows' Georgia font
 
-beta keeps them plain, as Gamma Player's look: the welcome and finish pages' column is the wizard's own white with the
-app icon (the Georgia beta on its gray square) in the middle; the other pages' header shows the icon alone. 24-bit
-BMPs, which every Inno Setup 6 reads.
+beta's setup looks like Gamma Player's: the Windows 11 wizard on plain white (or YouTube black when Windows is dark),
+with the logo's letter alone, Georgia's capital beta, drawn dark on light and white on dark. Transparent PNGs at
+100-200 % scale; Inno Setup 6.7 picks the size for the screen.
 """
 import os
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REPO = os.path.normpath(os.path.join(HERE, "..", "..", ".."))
-ICON = os.path.join(REPO, "windows", "src", "BambuBar.Windows", "Assets", "AppIcon.png")
-
-# Inno Setup's sizes for 100, 125, 150, 175, 200, 225 and 250 % (WizardImageFile / WizardSmallImageFile).
-TALL = [(164, 314), (192, 386), (246, 459), (273, 556), (328, 628), (355, 700), (410, 797)]
-SMALL = [(55, 55), (64, 68), (83, 80), (92, 97), (110, 106), (119, 123), (138, 140)]
-PAGE = (255, 255, 255)    # the modern wizard's page colour
+FONT = os.path.join(os.environ.get("WINDIR", r"C:\Windows"), "Fonts", "georgia.ttf")
+SCALES = (100, 125, 150, 175, 200)
+# (kind, size at 100 %, letter height / short side, letter's centre from the top (None = middle))
+KINDS = (("small", (58, 58), 0.62, None), ("large", (202, 386), 0.36, 0.30))
+MODES = (("light", (15, 15, 15)), ("dark", (255, 255, 255)))
 
 
-def on_page(icon, w, h, side):
-    canvas = Image.new("RGB", (w, h), PAGE)
-    art = icon.resize((side, side), Image.LANCZOS)
-    canvas.paste(art, ((w - side) // 2, (h - side) // 2), art)
-    return canvas
+def letter(color):
+    font = ImageFont.truetype(FONT, 600)
+    canvas = Image.new("RGBA", (900, 900), color + (0,))
+    ImageDraw.Draw(canvas).text((150, 50), "\u0392", font=font, fill=color + (255,))
+    return canvas.crop(canvas.getbbox())
 
 
 def main():
-    icon = Image.open(ICON).convert("RGBA")
-    for w, h in TALL:
-        on_page(icon, w, h, round(w * 0.42)).save(os.path.join(HERE, f"wizard-{w}x{h}.bmp"))
-    for w, h in SMALL:
-        on_page(icon, w, h, round(min(w, h) * 0.78)).save(os.path.join(HERE, f"small-{w}x{h}.bmp"))
+    for old in os.listdir(HERE):
+        if old.endswith((".bmp", ".png")):
+            os.remove(os.path.join(HERE, old))
+    for mode, color in MODES:
+        glyph = letter(color)
+        for kind, (W, H), frac, top in KINDS:
+            for scale in SCALES:
+                w, h = W * scale // 100, H * scale // 100
+                lh = int(min(w, h) * frac)
+                lw = int(glyph.width * lh / glyph.height)
+                image = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+                y = (h - lh) // 2 if top is None else int(h * top - lh / 2)
+                image.alpha_composite(glyph.resize((lw, lh), Image.LANCZOS), ((w - lw) // 2, y))
+                image.save(os.path.join(HERE, f"{kind}-{mode}-{scale}.png"))
     print("written", HERE)
 
 

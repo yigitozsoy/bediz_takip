@@ -1,4 +1,4 @@
-; beta for Windows: the installer (ledger P5.1, O10). Inno Setup 6.3 or later, per user, no admin: installs to
+﻿; beta for Windows: the installer (ledger P5.1, O10). Inno Setup 6.3 or later, per user, no admin: installs to
 ; %LOCALAPPDATA%\Programs\BetaMonitor. One installer per architecture, built from the install image CI stages in
 ; build\windows\<rid>\ (dotnet publish + ffmpeg\ + Rainmeter\ + Skins\ + LICENSE.txt + THIRD-PARTY-NOTICES.txt):
 ;
@@ -69,12 +69,22 @@ MinVersion=10.0.18362
 ; We stop our own processes (PrepareToInstall); Restart Manager would only ask about others.
 CloseApplications=no
 RestartIfNeededByRun=no
-WizardStyle=modern
-; Plain, as Gamma Player: the welcome and finish pages show the app icon on white (installer\art\make-art.py), the
-; other pages the icon alone; Inno picks the size for the screen's scale.
-WizardImageFile=art\wizard-*.bmp
-WizardSmallImageFile=art\small-*.bmp
+WizardStyle=modern dynamic windows11 hidebevels
+; Plain, as Gamma Player: white, or YouTube black when Windows is dark, with the logo's letter alone
+; (installerrt\make-art.py); Inno picks the size for the screen's scale.
+WizardBackColor=#ffffff
+WizardBackColorDynamicDark=#0f0f0f
+WizardImageBackColor=#ffffff
+WizardImageBackColorDynamicDark=#0f0f0f
+WizardSmallImageBackColor=#ffffff
+WizardSmallImageBackColorDynamicDark=#0f0f0f
+WizardImageFile=art\large-light-*.png
+WizardImageFileDynamicDark=art\large-dark-*.png
+WizardSmallImageFile=art\small-light-*.png
+WizardSmallImageFileDynamicDark=art\small-dark-*.png
 DisableWelcomePage=no
+; Windows' own language, Turkish or English, without asking.
+ShowLanguageDialog=auto
 SetupIconFile=..\src\BambuBar.Windows\Assets\BetaMonitor.ico
 UninstallDisplayIcon={app}\beta.exe
 UninstallDisplayName=beta
@@ -89,15 +99,28 @@ SignedUninstaller=yes
 
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
+Name: "tr"; MessagesFile: "compiler:Languages\Turkish.isl"
 
 [Messages]
-WelcomeLabel1=Welcome to beta
-WelcomeLabel2=Your Bambu Lab printers in the Windows tray: the print's progress at a glance, the camera, filament, alerts, and widgets for your desktop.%n%nbeta {#AppVersion} installs just for you; no administrator needed.
-FinishedHeadingLabel=beta is ready
-FinishedLabel=beta lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
-FinishedLabelNoIcons=beta lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
+tr.WelcomeLabel1=beta
+tr.WelcomeLabel2=Bambu Lab yazıcıların Windows tepsisinde: baskının ilerlemesi, kamera, filament ve uyarılar.%n%nSürüm {#AppVersion}. Yalnızca senin için kurulur, yönetici izni gerekmez.
+tr.FinishedHeadingLabel=beta hazır
+tr.FinishedLabel=beta saatin yanındaki tepside durur. Simgesi gizlendiyse oradaki ^ işaretine tıklayıp görev çubuğuna sürükle.
+tr.FinishedLabelNoIcons=beta saatin yanındaki tepside durur. Simgesi gizlendiyse oradaki ^ işaretine tıklayıp görev çubuğuna sürükle.
+; The welcome page is the only one before the files go in: its button installs, without a "click Next" line.
+tr.ButtonNext=&Kur
+tr.ClickNext=
+en.WelcomeLabel1=beta
+en.WelcomeLabel2=Your Bambu Lab printers in the Windows tray: the print's progress, the camera, filament and alerts.%n%nVersion {#AppVersion}. Installs just for you; no administrator needed.
+en.FinishedHeadingLabel=beta is ready
+en.FinishedLabel=beta lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
+en.FinishedLabelNoIcons=beta lives in the tray, by the clock. If Windows tucked its icon away, click ^ there and drag it onto the taskbar.
+; The welcome page is the only one before the files go in: its button installs, without a "click Next" line.
+en.ButtonNext=&Install
+en.ClickNext=
 
 [CustomMessages]
+tr.RemoveUserData=beta ayarları, baskı geçmişi ve widget'lar da bu bilgisayardan silinsin mi?%n%nYazıcı erişim kodları Windows Kimlik Bilgisi Yöneticisi'nde kalır.
 en.RemoveUserData=Also remove your beta settings, print history and widgets from this PC?%n%nPrinter access codes stay in Windows Credential Manager.
 
 [InstallDelete]

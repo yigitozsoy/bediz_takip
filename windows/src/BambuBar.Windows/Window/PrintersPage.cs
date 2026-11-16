@@ -166,7 +166,7 @@ internal sealed class PrintersPage(WindowContext ctx) : Page(ctx)
             _ctx = ctx;
             _serial = session.Id;
             var config = session.Config;
-            var group = W.Group("", AppPage.Printer.Glyph(), out _body);
+            var group = W.Group("", Icons.Printer3D(16, ThemeKeys.TextPrimary), out _body);
             _groupTitle = (TextBlock)((StackPanel)group.Children[0]).Children[1];
             Root = group;
 

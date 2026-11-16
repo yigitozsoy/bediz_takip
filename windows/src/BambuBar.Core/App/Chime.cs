@@ -1,8 +1,10 @@
 namespace BambuBar.Core.App;
 
 /// <summary>
-/// beta's sounds, made in code (no sound files to license): short soft bell tones, a sine with a quiet octave
-/// and an exponential fade. A finished print rises, a failed one falls, a pause asks twice. 16-bit mono WAV.
+/// beta's sounds, made in code (no sound files to copy or license), in the manner of a Bambu Lab printer's buzzer:
+/// short clean beeps of a softened square wave (odd harmonics, rounded edges) in quick little figures. A finished print
+/// runs up a major arpeggio, a start is two rising beeps, a pause two equal ones, a cancel two falling, a failure
+/// three low ones, an alert alternates. 16-bit mono WAV.
 /// </summary>
 public static class Chime
 {
@@ -11,12 +13,12 @@ public static class Chime
     /// <summary>The notes of each sound: frequency (Hz), start (s) and length (s).</summary>
     public static IReadOnlyList<(double Hz, double At, double Length)> Notes(PrintEvent kind) => kind switch
     {
-        PrintEvent.Finished or PrintEvent.Test => [(523.25, 0, 0.5), (659.25, 0.11, 0.5), (783.99, 0.22, 0.5), (1046.5, 0.33, 0.9)],
-        PrintEvent.Started => [(523.25, 0, 0.35), (783.99, 0.1, 0.6)],
-        PrintEvent.Paused => [(880, 0, 0.3), (880, 0.22, 0.45)],
-        PrintEvent.Canceled => [(659.25, 0, 0.4), (523.25, 0.14, 0.7)],
-        PrintEvent.Failed => [(783.99, 0, 0.4), (659.25, 0.16, 0.4), (523.25, 0.32, 0.4), (392, 0.48, 0.9)],
-        _ => [(987.77, 0, 0.3), (698.46, 0.16, 0.3), (987.77, 0.32, 0.3), (698.46, 0.48, 0.6)],
+        PrintEvent.Finished or PrintEvent.Test => [(1046.5, 0, 0.09), (1318.5, 0.11, 0.09), (1568, 0.22, 0.09), (2093, 0.33, 0.26)],
+        PrintEvent.Started => [(1318.5, 0, 0.09), (1760, 0.13, 0.3)],
+        PrintEvent.Paused => [(1568, 0, 0.12), (1568, 0.2, 0.22)],
+        PrintEvent.Canceled => [(1568, 0, 0.12), (1046.5, 0.18, 0.3)],
+        PrintEvent.Failed => [(784, 0, 0.16), (784, 0.24, 0.16), (784, 0.48, 0.3)],
+        _ => [(1760, 0, 0.1), (1318.5, 0.14, 0.1), (1760, 0.28, 0.1), (1318.5, 0.42, 0.2)],
     };
 
     /// <summary>The sound as a complete WAV file.</summary>
@@ -33,9 +35,11 @@ public static class Chime
             for (var i = 0; i < samples && start + i < count; i++)
             {
                 var t = (double)i / SampleRate;
-                // 6 ms in, then a bell's fade over the note's length.
-                var envelope = Math.Min(1, t / 0.006) * Math.Exp(-5.5 * t / length);
-                mix[start + i] += envelope * (Math.Sin(2 * Math.PI * hz * t) + 0.25 * Math.Sin(4 * Math.PI * hz * t));
+                // A buzzer's beep: 3 ms in, held with a slight sag, 15 ms out (no clicks).
+                var envelope = Math.Min(1, t / 0.003) * Math.Min(1, (length - t) / 0.015) * (1 - 0.25 * t / length);
+                // A square wave's first odd harmonics, softened: bright like a buzzer, not harsh.
+                var phase = 2 * Math.PI * hz * t;
+                mix[start + i] += envelope * (Math.Sin(phase) + 0.22 * Math.Sin(3 * phase) + 0.08 * Math.Sin(5 * phase));
             }
         }
         var peak = Math.Max(1e-9, mix.Max(Math.Abs));

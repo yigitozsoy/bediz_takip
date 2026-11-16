@@ -297,7 +297,9 @@ public sealed class Spinner : FrameworkElement
 
     private void Spin(bool on)
     {
-        if (!_animate || (on && !AppTheme.AnimationsEnabled)) return;
+        // beta: a spinner says "working", so it turns even with Windows' animation effects off (as Windows' own
+        // progress ring does); a still quarter arc looked broken.
+        if (!_animate) return;
         _rotation.BeginAnimation(RotateTransform.AngleProperty, on && IsVisible
             ? new DoubleAnimation(0, 360, TimeSpan.FromSeconds(1)) { RepeatBehavior = RepeatBehavior.Forever }
             : null);

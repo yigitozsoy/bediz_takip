@@ -18960,6 +18960,18 @@
         }
       }
     },
+    "Close": {
+      "comment": "Windows: beta, the window's close button in the title bar",
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapat"
+          }
+        }
+      }
+    },
     "Closed": {
       "comment": "Door",
       "localizations": {

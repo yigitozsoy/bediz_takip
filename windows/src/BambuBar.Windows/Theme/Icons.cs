@@ -115,10 +115,19 @@ public static class Icons
                 Fill(new EllipseGeometry(new Point(8, 8), 1.5, 1.5));
                 break;
             case Vector.Bulb or Vector.BulbLit:
-                var bulb = Geometry.Parse("M5.8,10.6 C4.4,9.6 3.6,8.2 3.6,6.6 A4.4,4.4 0 0 1 12.4,6.6 C12.4,8.2 11.6,9.6 10.2,10.6 L10.2,11.8 L5.8,11.8 Z");
-                if (icon == Vector.BulbLit) Fill(bulb);
-                Stroke(bulb, 1.3);
-                Stroke(Geometry.Parse("M6.2,13.6 L9.8,13.6 M6.9,15.2 L9.1,15.2"), 1.3);
+                // beta: a pendant lamp (cord, shade) rather than a cartoon bulb; lit, the shade fills and casts rays.
+                var shade = Geometry.Parse("M8,4.2 C5.2,4.2 3,6.4 2.6,9.2 L13.4,9.2 C13,6.4 10.8,4.2 8,4.2 Z");
+                Stroke(Geometry.Parse("M8,0.8 L8,4.2"), 1.3);
+                if (icon == Vector.BulbLit)
+                {
+                    Fill(shade);
+                    Stroke(Geometry.Parse("M8,11.4 L8,14.8 M5.2,11 L3.8,13.6 M10.8,11 L12.2,13.6"), 1.3);
+                }
+                else
+                {
+                    Stroke(shade, 1.3);
+                    Stroke(Geometry.Parse("M6.6,9.2 A1.4,1.4 0 0 0 9.4,9.2"), 1.3);
+                }
                 break;
         }
         return Boxed(canvas, size);
