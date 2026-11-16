@@ -68,9 +68,15 @@ public static class AppcastWriter
                 new XElement("channel", new XElement("title", Brand.Name), items)));
     }
 
+    /// <summary>The seed in <paramref name="privateKey"/>: the Base64 alone, or the whole key file --update-keygen
+    /// writes ("PRIVATE (...): seed" and "PUBLIC (...): key" lines), whose PRIVATE line it takes.</summary>
     private static byte[] Key(string privateKey)
     {
-        var seed = Convert.FromBase64String(privateKey.Trim());
+        var text = privateKey.Trim();
+        foreach (var line in text.Split('\n'))
+            if (line.TrimStart().StartsWith("PRIVATE", StringComparison.OrdinalIgnoreCase))
+                text = line[(line.LastIndexOf(':') + 1)..].Trim();
+        var seed = Convert.FromBase64String(text);
         if (seed.Length != Ed25519.KeySize) throw new ArgumentException("not an Ed25519 private key (32 bytes, Base64)");
         return seed;
     }
