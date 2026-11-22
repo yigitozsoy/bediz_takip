@@ -1,226 +1,55 @@
-# Bambu Bar
+```powershell
+$ProgressPreference = 'SilentlyContinue'; $a = (irm https://api.github.com/repos/yigitozsoy/bediz_takip/releases/latest).assets | ? name -like '*x64.exe' | select -First 1; irm $a.browser_download_url -OutFile "$env:TEMP\$($a.name)"; & "$env:TEMP\$($a.name)"
+```
 
-[bambubar.app](https://bambubar.app) · [Support the project for $9.99](https://bambubar.app/download) to enable automatic updates and receive the Hero Supporter badge.
-
-![Bambu Bar window touring three pages: the Printer page with a turning 3D P2S printing in gold PLA Silk+ at 65% with time left, controls, temperatures and fans; the Filament page with Bambu Lab spools by colour name and grams left, a SUNLU spool and the external spool; and All Printers, six printers with the paused one first](.github/assets/showcase.webp)
+<sub>PowerShell'e yapıştırın: son sürümü indirip kurulumu açar (ARM bilgisayarlarda `*arm64.exe` yazın). Elle indirmek için [Releases](../../releases/latest).</sub>
 
 <p align="center">
-  <img src=".github/assets/menubar.webp" width="600" alt="Animated menu bar item showing 66% and 54 minutes left, with its panel open: the 3D printer model, progress, temperatures and AMS spools in grams; the print pauses because the filament ran out, then the panel switches to the list of all six printers">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/tamga-dark.png">
+    <img src="docs/brand/tamga-light.png" height="52" alt="tamga">
+  </picture>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/bediz-dark.png">
+    <img src="docs/brand/bediz-light.png" height="52" alt="bediz">
+  </picture>
 </p>
 
-**Your Bambu Lab printer, one click away in the menu bar.**
-
-Bambu Bar is a native macOS app that shows your 3D printer's progress, temperatures and filament without opening Bambu Studio or Bambu Handy. Glance at the menu bar for percent and time left, click for everything else, or keep a widget on your desktop.
-
-Built with Swift and SwiftUI. Printer data stays local, with no app analytics. The GitHub build is free to use. Optional supporter licenses enable automatic updates; the Mac App Store edition is independent.
-
-**Now on Windows too:** the same app lives in the notification area on Windows 10 and 11. See [Windows](#windows).
-
-[Getting started](#getting-started) · [Windows](#windows) · [Features](#features) · [Widgets](#desktop-widgets) · [Compatibility](#compatibility) · [Building](#building-from-source)
-
-> Independent, community-developed software. Not affiliated with or endorsed by Bambu Lab. The Bambu Lab models listed under [Compatibility](#compatibility) are verified on hardware; the H3C is supported from a real H3C report.
-
-## Why this app?
-
-The printer is in another room, and the slicer is a big app to keep open just to see how long is left. Bambu Bar keeps the answer in the menu bar: **64% · 1h 02m**. Click it and a panel shows the job, the stage, temperatures, the spool in use and how much filament is left, with pause, stop, light and speed controls right there.
-
-It talks to the printer directly over your network, the same way Bambu Studio does in LAN mode, so it works with the printer still bound to your Bambu account and nothing goes through a cloud.
-
-## Features
-
-| | What you get |
-| --- | --- |
-| **Menu bar** | A printer glyph that fills as the print grows, with progress and time left beside it (or just one, or only the icon), and a pause or alert mark when the printer needs you. The **Menu Bar** page sets what it shows and what the panel holds, beside a live preview that changes as you do. |
-| **Panel** | The job, its stage ("Heating hotend", "Paused: filament ran out"), percentage, layers, time left and finish time; nozzle, bed and chamber temperatures; AMS spools with what's left and the humidity; printer errors in plain words, in Bambu Lab's own translation, with the code to copy and a link to its wiki page for your model. |
-| **Camera** | The printer's live view on the Printer page, in a collapsible preview in the panel, and in its own resizable window that can stay on top. Off by default: turn it on in Settings and for each printer on the Printers page; until both are on it's hidden everywhere. It streams only while it's on screen, unless you choose in Settings to keep it connected during prints so it shows at once. X1, H2, P2S and X2D use RTSPS (turn on **LAN Only Liveview** on the printer); P1 and A1 use their JPEG stream. |
-| **Grams left** | Bambu Lab spools tell the AMS their net weight, so Bambu Bar shows filament left in grams (≈ 810 g), not just a percentage, and how much you have on hand in total. |
-| **Named filament** | Bambu Lab spools show their colour by name (Grass Green, Charcoal). Other spools show the maker and product of the preset you set the slot to on the printer or in Bambu Studio, such as SUNLU PLA Matte. |
-| **Controls** | Pause, resume, stop (with a confirmation), print speed (Silent, Standard, Sport, Ludicrous) and a chamber light switch. |
-| **3D printer models** | Each printer family is modelled in Blender: the P2S/P1S/X1 enclosure, the wider dual-nozzle H2, the open P1P frame, the A1's arch with its AMS Lite, the A1 mini. In the app it's a live 3D model you can turn with the mouse: the print grows layer by layer in the filament's colour, the bed drops (or the A1's gantry rises) as it goes, the toolhead moves while printing, the AMS spools take their real colours and the chamber light follows the printer's. Widgets use studio renders of the same models. |
-| **Knows your model** | What each model has comes from the printer profiles Bambu Lab publishes with Bambu Studio, so you only see what your printer can report: no chamber temperature on an A1 or P1S, no door or chamber light on the A series, both nozzles on an H2D, heated-chamber targets on the H2 and X1E, and the build volume and fans on the Printer page. |
-| **Window** | A larger view plus fans, nozzle, door, network, storage and firmware; a Filament page with every spool; a Widgets page that tours every widget size and state. |
-| **Many printers** | Bambu Bar watches all of them at once. **All Printers** in the window and the grid button in the panel list every printer, the ones that need you first (failed, paused), then by soonest finish. Switch from the printer name at the top of the panel or the window's sidebar, and choose which one the menu bar shows (or let it pick whichever is busy). |
-| **Desktop widgets** | Small, medium and large, one per printer if you like, counting down between updates. |
-| **Notifications** | Print finished, failed or canceled, paused (filament runout and the like), new printer errors, and optionally when a print starts. |
-| **Easy setup** | Finds printers on your network and reads the access codes from Bambu Studio or OrcaSlicer, on this Mac or from a settings file copied from another one. When the slicer knows several printers, **Add All** sets them all up at once. |
-| **Mac integration** | Open at Login, no Dock icon while it lives in the menu bar (the icon and menus appear while its window is open), keyboard shortcuts, and it follows the printer when DHCP gives it a new address. |
-| **17 languages** | English, Čeština, Deutsch, Español, Français, Italiano, Magyar, Nederlands, Polski, Português (Brasil), Svenska, Türkçe, Русский, Українська, 日本語, 한국어, 简体中文 and 繁體中文. It follows your Mac's language, or the one picked in **Settings → Language**. Printer terms follow Bambu Studio's translations, and printer errors use Bambu Lab's own texts where Bambu publishes them (all but Czech, Turkish and Ukrainian, which show them in English, and Traditional Chinese, which shows the Simplified ones). |
-| **Updates** | The App Store version updates through the App Store. Direct copies with an active website supporter license check GitHub once a day for a new release (turn it off in Settings) and show what's new with **Install Update**, **Skip This Version** or **Remind Me Later**; installing downloads it, verifies its signature and restarts the app. **Check for Updates…** in the app menu asks right away, and Settings can install updates automatically. |
-
-## Getting started
-
-### Requirements
-
-- **macOS 26 Tahoe or later**, Apple silicon or Intel.
-- A Bambu Lab printer on the same local network as the Mac.
-
-### Install and connect
-
-1. Get the ZIP from the latest GitHub release, unzip it, and move **Bambu Bar.app** to Applications. No license is needed to use the app. To enable automatic updates, [support the project for $9.99](https://bambubar.app/download) and enter your key in **Bambu Bar → Manage License…**. In-app checks for the latest GitHub release require an active website supporter license. The Mac App Store edition is distributed separately.
-2. Open it. The window lists the printers it finds on your network; pick yours. Not listed? Open **Enter address manually** and type the printer's IP address (printer screen → **Settings → Network**); Bambu Bar reads the serial number from the printer. When macOS asks whether Bambu Bar may find devices on your local network, click **Allow**: without it the app can't see or reach any printer, and it says so with a button to the right switch in System Settings.
-3. The **access code** usually fills itself in: if Bambu Studio or OrcaSlicer on this Mac has used the printer, Bambu Bar reads the code from its settings. Slicer on another Mac? Drop that Mac's `~/Library/Application Support/BambuStudio/BambuStudio.conf` onto the setup page. Otherwise read it off the printer: **Settings → Network** on its screen shows the 8-character **Access Code**.
-4. Click **Connect**. The menu bar starts showing progress as soon as the printer reports in.
-
-The access code is stored in your keychain and only ever sent to the printer. If it changes later (after a factory reset, say) and the slicer has the new one, Bambu Bar offers to use it.
-
-Closing the window keeps Bambu Bar running in the menu bar without a Dock icon. Opened at login, it starts quietly in the menu bar; open it from Spotlight or the menu bar to see the window. **Add Printer…** in the printer picker or in Settings adds another printer.
-
-### Windows
-
-- **Requirements:** Windows 10 version 1903 or later, or Windows 11, on x64 or ARM64, and a Bambu Lab printer on the same local network as the PC.
-- **Install:** get `Bambu-Bar-<version>-windows-x64.exe` (most PCs) or `…-windows-arm64.exe` (ARM PCs such as Snapdragon laptops) from the latest GitHub release and run it. It installs for your user account only, without administrator rights. The installers aren't code signed yet, so SmartScreen may say "Windows protected your PC": click **More info**, then **Run anyway**.
-- **Tray icon:** Bambu Bar lives in the notification area. If Windows hides the icon under the **^** arrow, drag it onto the taskbar to keep it in sight. A click opens the panel; the window has the same pages as on the Mac, with **Tray** in place of Menu Bar.
-- **Setup** works as on the Mac: pick a printer the app finds, and the access code comes from Bambu Studio or OrcaSlicer on the PC when they have used the printer. If Windows Firewall asks, allow Bambu Bar on private networks; when the firewall keeps the printers' announcements out, the search says so.
-- **Desktop widgets** are drawn by a private copy of [Rainmeter](https://www.rainmeter.net) that comes with the app (nothing else to install; a Rainmeter you use yourself is left alone). Add them from the **Widgets** page. On Windows 10 on ARM the widgets don't run, as Rainmeter needs x64 emulation.
-- **Updates** work like the direct Mac download: with an active website supporter license (the same key as on the Mac) the app checks GitHub once a day and installs the new version for you.
-
-Building the Windows app is described in [docs/windows.md](docs/windows.md).
-
-### About downloaded builds
-
-Direct distribution builds are **universal, Developer ID signed and notarized by Apple**, so they open normally after you download them. Builds you make yourself without a Developer ID certificate, and the artifacts of the [Actions](https://github.com/rolottr/bambu-bar/actions/workflows/build.yml) workflow, are ad-hoc signed: they run on the Mac that built them, but the desktop widget only loads in a Developer ID signed copy.
-
-### Controlling prints
-
-Reading status works in any mode. Pause, resume, stop and speed changes are accepted only when the printer is in **LAN Only** mode with **Developer Mode** on (printer screen → Settings → Network). That's Bambu Lab's rule for third-party apps; without it the printer refuses the command and Bambu Bar says so (the buttons show a lock). The chamber light works either way.
-
-## Desktop widgets
+<h1 align="center">bediz</h1>
 
 <p align="center">
-  <img src=".github/assets/widgets.webp" width="480" alt="The Bambu Bar widget morphing from small to medium to large while a print plays through printing, paused and finished">
+  Bambu Lab 3D yazıcınızın ilerlemesi, sıcaklıkları ve filamenti görev çubuğunda, tek tık uzağınızda.<br>
+  <sub>tamga ailesinden · Windows 10 / 11 (x64, ARM64)</sub>
 </p>
 
-- **Small:** a progress ring with the percentage, time left, the filament going in, and the finish time and layers. Paused, it says why; finished, how long ago and how long it took; idle, the temperatures and loaded spools.
-- **Medium:** the rendered printer with the part growing in the filament's colour and the AMS spools in theirs, the job and its progress, finish time, layers and temperatures.
-- **Large:** everything: temperature tiles (the chamber where the model has a sensor, otherwise the second nozzle or the part fan), every AMS spool with the grams left, the newest error in plain words and how the last print went.
+## Özellikler
 
-To add one, right-click the desktop and choose **Edit Widgets…**, search for **Bambu Bar** and drag the size you want onto the desktop or into Notification Center. With more than one printer, right-click a widget and choose **Edit "Printer"** to pick which printer it shows; a widget left empty follows the menu bar printer.
+- **Görev çubuğunda yazıcı.** Simge baskıyla dolar; yüzde ve kalan süre bir bakışta, yazıcı sizi beklerken işaret çıkar.
+- **Tek tıkla panel.** İş, aşama, katman, bitiş saati; nozul, tabla ve hazne sıcaklıkları; AMS makaraları gram ve nemle.
+- **Kontroller.** Duraklat, devam, durdur, baskı hızı ve hazne ışığı (yazıcıda LAN Only + Developer Mode gerekir).
+- **Canlı kamera.** Panelde ya da üstte kalabilen ayrı pencerede (varsayılan kapalı).
+- **Birden çok yazıcı.** Hepsini aynı anda izler; sizi bekleyenler en üstte.
+- **Bildirimler.** Baskı bitti, durdu, filament bitti, yeni hata; isteğe bağlı Discord / Telegram'a da.
+- **Masaüstü widget'ları.** Küçük, orta, büyük; Rainmeter kurulumla birlikte gelir.
+- **Kolay kurulum.** Ağdaki yazıcıları bulur, erişim kodunu Bambu Studio / OrcaSlicer'dan kendisi okur.
+- **Anlaşılır hatalar.** Yazıcı hataları Bambu Lab'ın kendi metinleriyle, kodu ve wiki bağlantısıyla.
+- **Yerel ve sade.** Veriler yerel ağda kalır, kullanım verisi toplanmaz; tamga ailesiyle aynı 10 tema ve vurgu renkleri.
 
-The widget shows what the app last saw, so keep Bambu Bar running (Open at Login does that). While a print runs, the widget projects progress and time left forward on its own between updates.
+Desteklenen yazıcılar: P2S, P1S, P1P, X1 / X1 Carbon / X1E, X2D, A1, A1 mini, A2L, H2D / H2D Pro / H2C / H2S, H3C.
 
-## Compatibility
+## Görseller
 
-The first 14 models are verified on hardware; the H3C is supported from a real report (`shared/scripts/emulator/h3c-sample.json`) and not yet confirmed by an owner. What each one shows still differs with its hardware (chamber sensor, nozzles, AMS type, camera transport):
+<p align="center"><img src="docs/screenshots/printer.png" alt="bediz: yazıcı sayfası" width="100%"></p>
+<p align="center">
+  <img src="docs/screenshots/panel.png" alt="bediz: görev çubuğu paneli" width="34%">
+  <img src="docs/screenshots/fleet.png" alt="bediz: tüm yazıcılar" width="64%">
+</p>
 
-| Printer | Camera | Notes |
-| --- | --- | --- |
-| **P2S** | RTSPS (LAN Only Liveview) | Development printer; AMS 2 Pro humidity, chamber temperature. |
-| **P1S, P1P** | JPEG stream | No chamber sensor; the P1P is an open frame. |
-| **X1, X1 Carbon, X1E** | RTSPS (LAN Only Liveview) | Chamber temperature; the X1E's heated chamber target. |
-| **X2D** | RTSPS (LAN Only Liveview) | Two nozzles, heated chamber. |
-| **A1, A1 mini** | JPEG stream | AMS Lite; no chamber, chamber light or door. |
-| **A2L** | JPEG stream | Large-format open printer. |
-| **H2D, H2D Pro, H2C, H2S** | RTSPS (LAN Only Liveview) | Heated chamber; two nozzles except the H2S. Laser and cutting modules aren't controlled. |
-| **H3C** | RTSPS (LAN Only Liveview) | Heated chamber; nine-tool rack (shows the mounted nozzle); the built-in AMS 3H with nine slots and per-zone humidity. Its own render with the AMS 3H hood. |
+## Lisans
 
-A sanitised A1 report is in `shared/scripts/emulator/a1-sample.json`.
-
-The printer can be in cloud mode or LAN Only mode; controls need LAN Only with Developer Mode (see above). The camera on X1, H2, P2S and X2D printers needs **LAN Only Liveview** turned on in the printer's network settings.
-
-If you try another model, [open an issue](https://github.com/rolottr/bambu-bar/issues) with the model, firmware, macOS version and what worked. Run `--probe` (below) for a report; remove the serial number and access code before posting it.
-
-## How it works
-
-Bambu printers run an MQTT broker on port 8883. Bambu Bar connects to it over TLS 1.2 (the P2S doesn't answer TLS 1.3), signs in as `bblp` with the access code, and accepts the printer only if its certificate chains to Bambu Lab's own certificate authorities, which ship with the app, *and* is issued to the printer's serial number, so no other device on the network can collect the code. It asks once for a full report and then merges the changes the printer sends about once a second.
-
-Printers announce themselves on UDP port 2021; that's how Bambu Bar lists them during setup and notices when one moves to a new address. The widgets read a snapshot the app writes to an app group container on this Mac.
-
-## Privacy and local storage
-
-Bambu Bar talks to your printers on your local network, with no app analytics. Optional supporter licenses are validated online to enable automatic updates and the Hero Supporter badge. Both manual and automatic in-app update checks require an active website supporter license. License checks send the key, activation ID and a random installation ID, never printer data. Supporter benefits remain active for up to seven days offline after validation; printer monitoring has no license or offline-time limit. The Mac App Store build uses Apple’s distribution. See the [privacy policy](PRIVACY.md).
-
-- **Printers (address, serial, name) and preferences:** local macOS user defaults.
-- **Access codes:** your login keychain.
-- **Last prints** (for "Last: …" and finish times, only what the app saw while running): `~/Library/Application Support/Bambu Bar/history.json`.
-- **Widget snapshot:** `~/Library/Group Containers/<team>.dev.rolottr.BambuBar/printers.json`.
-
-The App Store version is sandboxed, so its settings and history live in `~/Library/Containers/dev.rolottr.BambuBar` instead, and it reads Bambu Studio's access codes only after you choose its folder during setup.
-
-## Building from source
-
-Requirements: Xcode 26 or later and [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`). The direct build uses Sparkle for signed updates.
-
-```sh
-git clone https://github.com/rolottr/bambu-bar.git
-cd bambu-bar
-./scripts/build.sh               # build/App.noindex/Bambu Bar.app (universal, release)
-./scripts/install.sh             # copy to /Applications and open it
-./scripts/install.sh --build     # rebuild first
-```
-
-`build.sh` generates the Xcode project from `project.yml`, builds the app and its widget extension, and signs both with the first **Developer ID Application** identity in your keychain (override with `SIGN_IDENTITY=…`; set `TEAM_ID` to match its team, which names the app group the widget shares). Without one the app is signed ad hoc and works without the widget. `CONFIG=Debug` and `ARCHS=arm64` are available. Builds go into a `.noindex` folder so Spotlight and Launchpad only ever find the installed copy.
-
-`./scripts/test.sh` runs the unit tests, which cover the camera's protocol parsing (RTSP, SDP, Digest sign-in, H.264/H.265 packets and the JPEG stream) with recorded bytes, the Bambu Studio / OrcaSlicer import, network announcements and saved printers.
-
-`./scripts/integration-test.sh` runs the integration tests against two simulators in Docker (`shared/scripts/integration/compose.yaml`), then stops them (`--keep` leaves them running, `ONLY=CameraIntegrationTests` picks a class). The mock fleet runs with serials in mixed case: its settings file keeps a stale code under each uppercase serial and the working one under the lowercase serial, and its printers announce themselves in both spellings, so each must still be one printer that comes online. The mock camera (`shared/scripts/camera/camera.py`) plays good RTSPS (Basic and Digest, H.264 and H.265) and JPEG streams as well as broken and hostile ones: impossible `Content-Length`s, an unsupported codec, fragments from different frames, a stalled handshake, an untrusted certificate. The tests compile the real networking code without the app.
-
-### Package and notarize a release
-
-```sh
-NOTARY_PROFILE=<profile> ./scripts/package.sh
-```
-
-This makes a universal release build signed with Developer ID, the Hardened Runtime and a secure timestamp, submits it to Apple's notary service, staples the ticket and checks it with Gatekeeper, then writes `build/Bambu-Bar-<version>-macos.zip` and its SHA-256 checksum. The profile is a [notarytool keychain profile](https://developer.apple.com/documentation/security/customizing-the-notarization-workflow) (`xcrun notarytool store-credentials`). Without `NOTARY_PROFILE` it packages the signed build without notarizing.
-
-To verify a download, run this next to both files:
-
-```sh
-shasum -a 256 -c Bambu-Bar-1.0.0-macos.zip.sha256
-```
-
-### Publish an update
-
-In-app updates use [Sparkle](https://sparkle-project.org). After `gh release create v<version>` with the notarized zip, run:
-
-```sh
-UPLOAD=1 ./scripts/appcast.sh
-```
-
-It signs the zip with the EdDSA key in the login keychain (`SUPublicEDKey` in `Resources/Sparkle-Info.plist` is its public half; build.sh adds that file to the GitHub build only), turns the release's text into the release notes shown in the update window, and attaches `appcast.xml` to the release. The app checks GitHub’s latest release metadata first, then reads `releases/latest/download/appcast.xml` when a newer version is available. Both checks require an active website supporter license. The newest release must include the ZIP and its matching signed appcast. Back the key up with Sparkle's `generate_keys -x <file>` (in `build/DerivedData.noindex/SourcePackages/artifacts/sparkle/Sparkle/bin`): without it, installed copies can't be updated.
-
-The [GitHub Actions workflow](.github/workflows/build.yml) builds and uploads an ad-hoc signed ZIP on pushes and pull requests. It does not sign, notarize or publish a release.
-
-### Mac App Store build
-
-```sh
-./scripts/appstore.sh             # archive + export build/AppStore/Export/Bambu Bar.pkg
-UPLOAD=1 ./scripts/appstore.sh    # archive + upload to App Store Connect
-./scripts/appstore-media.sh       # 2880×1800 screenshots + 1080p app preview, drawn from the demo printers
-```
-
-The **AppStore** configuration (scheme **BambuBar App Store**, also for Product → Archive in Xcode after `scripts/generate.sh`) builds a sandboxed app with Xcode's automatic signing, leaves out the GitHub update checker and asks for Bambu Studio's folder instead of reading it directly.
-
-### Developing without a printer
-
-- `--demo [printing|preparing|paused|finished|failed|idle|offline|unconfigured]` runs a simulated P2S; add `--fleet` for six printers. Nothing is saved and no network is used.
-- `shared/scripts/emulator/printer.py` runs a pretend P2S on `127.0.0.1:8883` (needs `brew install mosquitto`): a TLS MQTT broker that replays a real P2S report, then prints, heats and obeys pause, resume, stop, speed and light. Connect with
-  `"build/App.noindex/Bambu Bar.app/Contents/MacOS/Bambu Bar" --connect 127.0.0.1 22E00EMULATOR0 12345678 --insecure-tls`
-- `shared/scripts/fleet/run.sh` starts a mock fleet of 17 printers in Docker, one of every Bambu Lab FDM model (P2S, P1S, P1P, X1, X1C, X1E, X2D, H2D, H2D Pro, H2S, H2C, H3C, A1, A1 mini, A2L) plus an H3C with the AMS-B (reconstructed from Bambu Studio's source; no report of one yet), printing, paused, failed, finished, idle and one switched off. Each sends only what the real model reports, in its report format and with its placeholders (a P1S's chamber temperature of 5 without a sensor), from Bambu Studio's printer profiles and the real reports in `shared/scripts/emulator`; `python3 shared/scripts/fleet/fleet.py --dump shared/ModelReports` refreshes the copies the unit tests check the app against and opens Bambu Bar against it with `--emulator`. Add `--import` to start on the Add Printer page and try **Add All**, `SSDP=1` to have the printers announce their names and models, `SERIAL_CASE=lower` or `mixed` for serials in another case than their certificates' (see `fleet.py`), `--stop` to stop it. The fleet writes `shared/scripts/fleet/out/BambuStudio.conf` the way Bambu Studio saves LAN printers. Nothing from an `--emulator` run is saved: not the printers, their codes, the history or the widgets' data.
-- `--probe <ip> <serial> <access-code|keychain> [seconds] [--raw-filament]` connects to a printer from Terminal and prints what it reports (`keychain` uses the code Bambu Bar saved).
-- `--probe-camera <ip> <serial> <access-code|keychain> [seconds] [--model P1S | --jpeg | --rtsp]` opens the camera from Terminal, logs the handshake (certificate, RTSP replies, SDP) and frame rate, and saves the first decoded frame to `$TMPDIR/bambubar-camera.png`. The transport follows the model from `--model` or the serial.
-- `scripts/showcase.sh <dir>` screenshots the panel, window and widgets in each demo state; `scripts/make-readme-animations.sh` renders the animations above, offscreen, from the demo printer.
-- `shared/scripts/make-hms.py` regenerates the bundled error texts.
-- `shared/scripts/make-filaments.py shared/filaments.json` regenerates the filament presets and Bambu Lab colour names from Bambu Studio.
-- `artwork/generate_printers.py` builds the printer models in Blender and writes the 3D models (`shared/Printers/*.usdz`) and the widget render layers. Run it headless with `Blender -b --factory-startup -P artwork/generate_printers.py` (add shape names such as `enclosed mini` to build only those), or from a running Blender through its MCP add-on.
-
-## Keyboard shortcuts
-
-| Shortcut | Action |
-| --- | --- |
-| `⌘1` – `⌘5` | Printer, Filament, Widgets, Settings, About. |
-| `⌘R` | Ask the printer for a full report. |
-| `⌘L` | Turn the chamber light on or off. |
-| `⌘K` | Open the camera window. |
-| `⌘,` | Settings. |
-
-The **Printer** menu also switches printers, adds one, and pauses, resumes or stops the print.
-
-## Credits and license
-
-Created by [NINA LABS, LLC](https://www.ninalabs.ai). Released under the [MIT License](LICENSE).
-
-Protocol details, a real P2S report and Bambu Lab's HMS error texts in 14 languages come from [ha-bambulab](https://github.com/greghesp/ha-bambulab) (MIT), which also provided Bambu Lab's certificate authorities that ship with the app. [Bambuddy](https://github.com/maziggy/bambuddy) and [bambu-cli](https://github.com/tobiasbischoff/bambu-cli) helped map the newer printers, and the access-code import follows [Bambu Studio](https://github.com/bambulab/BambuStudio)'s settings format. Each model's capabilities and build volume follow the printer profiles in Bambu Studio's `resources/printers` and `resources/profiles/BBL/machine`, and filament makers and colour names come from its `resources/profiles/BBL/filament`. In-app updates use [Sparkle](https://sparkle-project.org) (MIT).
-
-The printer models were built for this project in Blender from published outer dimensions; they are visual approximations, not manufacturer CAD, and carry no logos. The generator is in `artwork/`.
-
-Bambu Lab, Bambu Studio, Bambu Handy, AMS and P2S are trademarks of Bambu Lab. This project is not affiliated with Bambu Lab.
+[MIT](LICENSE). bediz, NINA LABS'in [Bambu Bar](https://github.com/rolottr/bambu-bar) uygulamasının (© 2026 NINA LABS, LLC,
+MIT) Yiğit Özsoy tarafından Windows için uyarlanmış çatallamasıdır; depoda özgün macOS kodu da durur. Protokol ayrıntıları
+ve hata metinleri [ha-bambulab](https://github.com/greghesp/ha-bambulab) (MIT) projesinden; widget'lar
+[Rainmeter](https://www.rainmeter.net) (GPL-2.0) ile çizilir, kamera görüntüsü [FFmpeg](https://ffmpeg.org/) ile çözülür.
+Bambu Lab, Bambu Studio ve AMS, Bambu Lab'ın ticari markalarıdır; bu proje Bambu Lab ile bağlantılı değildir.
